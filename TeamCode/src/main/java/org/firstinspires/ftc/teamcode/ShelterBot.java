@@ -115,7 +115,6 @@ public class ShelterBot extends LinearOpMode
         // Start the logging of measured acceleration
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
 
-
             // Loop and update the dashboard
             while (opModeIsActive()) {
                 telemetry.update();
@@ -123,15 +122,7 @@ public class ShelterBot extends LinearOpMode
                 Thread.sleep(2000);
                 gyroDrive(false, 1);
                 Thread.sleep(2000);
-
-
-
-
-
-
             }
-
-
 
     }
         public void gyroDrive(boolean backOrNot,double power)throws InterruptedException{
