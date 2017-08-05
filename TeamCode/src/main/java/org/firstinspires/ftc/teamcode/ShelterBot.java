@@ -147,8 +147,6 @@ public class ShelterBot extends LinearOpMode
                     rightMotor.setPower(rightSpeed);
                 }
 
-
-
                 double currentPower = leftMotor.getPower();
                 Thread.sleep(100);
                 telemetry.addData("Power:",leftMotor.getPower());
@@ -158,21 +156,10 @@ public class ShelterBot extends LinearOpMode
                 }
 
                 Thread.sleep(500);
-
-
-
-
-
-
-
-
             }
 
             leftMotor.setPower(0);
-           rightMotor.setPower(0);
-
-
-
+            rightMotor.setPower(0);
         }
 
         public void foward(int distance, double power){
