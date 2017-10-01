@@ -62,7 +62,7 @@ public class threeWheels extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     DcMotor leftMotor = null;
     DcMotor rightMotor = null;
-    DcMotor turnTable = null;
+
 
 
 
@@ -75,22 +75,12 @@ public class threeWheels extends LinearOpMode {
          * to 'get' must correspond to the names assigned during the robot configuration
          * step (using the FTC Robot Controller app on the phone).
          */
-        leftMotor  = hardwareMap.dcMotor.get("left_drive");
-
-        rightMotor = hardwareMap.dcMotor.get("right_drive");
-
-        turnTable = hardwareMap.dcMotor.get("turn_table");
-
-
-
-
-
+        leftMotor  = hardwareMap.dcMotor.get("left");
+        rightMotor = hardwareMap.dcMotor.get("right");
         // eg: Set the drive motor directions:
         // "Reverse" the motor that runs backwards when connected directly to the battery
         rightMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         // Set to FORWARD if using AndyMark motors
-
-
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
@@ -104,13 +94,6 @@ public class threeWheels extends LinearOpMode {
             rightMotor.setPower(gamepad1.left_stick_y);
 
             leftMotor.setPower(-gamepad1.right_stick_y);
-
-            turnTable.setPower(gamepad1.right_trigger);
-
-
-
-
-
 
 
         }
