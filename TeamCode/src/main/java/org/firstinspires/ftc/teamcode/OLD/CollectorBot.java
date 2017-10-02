@@ -37,6 +37,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
 /**
  * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
@@ -60,6 +61,7 @@ public class CollectorBot extends LinearOpMode {
     DcMotor leftMotor = null;
     DcMotor rightMotor = null;
     DcMotor collection = null;
+    DcMotor agitator = null;
     boolean alignMode = false;
     int mode = 0;
     Float left;
@@ -81,6 +83,7 @@ public class CollectorBot extends LinearOpMode {
         rightMotor = hardwareMap.dcMotor.get("right_drive");
         collection = hardwareMap.dcMotor.get("collection");
         double maxRange = 0.8;
+        //agitator = hardwareMap.dcMotor.get("motor");
         double minRange = 0.0;
         boolean isSensitive = true;
         double thefactor = 1;
@@ -110,11 +113,10 @@ public class CollectorBot extends LinearOpMode {
             }else if (gamepad1.b) {
                 alignMode = false;
             }
-            if(gamepad1.left_bumper){
-                isSensitive = !isSensitive;
-            }
+
 
             switch (mode) {
+
                 case 0:
                     if(isSensitive){
                         thefactor = 1;
@@ -122,9 +124,14 @@ public class CollectorBot extends LinearOpMode {
                         thefactor = 0.3;
                     }
                     //normal tank drive
-                    leftMotor.setPower(gamepad1.left_stick_y * thefactor);
+                    if(gamepad1.left_bumper){
+                        isSensitive = !isSensitive;
+                    }
+                    double triggerVal2 = gamepad1.left_trigger;
+                    triggerVal2 = Range.clip(triggerVal2, 0 , 0.75);
+                    leftMotor.setPower(gamepad1.left_stick_y * Math.abs(triggerVal2- 1));
 
-                    rightMotor.setPower(gamepad1.right_stick_y * thefactor);
+                    rightMotor.setPower(gamepad1.right_stick_y* Math.abs(triggerVal2 - 1));
 
 
                     break;
@@ -144,14 +151,21 @@ public class CollectorBot extends LinearOpMode {
                     }else{
                         thefactor = 0.3;
                     }
-                    leftMotor.setPower(-left * thefactor);
+                    if(gamepad1.left_bumper){
+                        isSensitive = !isSensitive;
+                    }
+                    double triggerVal = gamepad1.left_trigger;
+                    triggerVal = Range.clip(triggerVal, 0 , 0.75);
+                    leftMotor.setPower(-left * Math.abs(triggerVal- 1));
 
-                    rightMotor.setPower(-right * thefactor);
+                    rightMotor.setPower(-right * Math.abs(triggerVal - 1));
 
 
                     break;
             }
-            collection.setPower(gamepad2.right_stick_y);
+            collection.setPower(gamepad2.right_stick_y / 3);
+            //agitator.setPower(gamepad2.right_stick_y);
+
 
 
         }
