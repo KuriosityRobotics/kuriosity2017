@@ -30,14 +30,12 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
 TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.OLD;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Func;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
@@ -51,16 +49,16 @@ import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 import java.util.Locale;
 
 /**
- * {@link ShelterBot} gives a short demo on how to use the BNO055 Inertial Motion Unit (IMU) from AdaFruit.
+ * {@link IMUTEST} gives a short demo on how to use the BNO055 Inertial Motion Unit (IMU) from AdaFruit.
  *
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  *
  * @see <a href="http://www.adafruit.com/products/2472">Adafruit IMU</a>
  */
-@Autonomous(name = "ShelterBot", group = "Sensor")
+@Autonomous(name = "Sensor: BNO055 IMU", group = "Sensor")
 //@Disabled                            // Comment this out to add to the opmode list
-public class ShelterBot extends LinearOpMode
+public class IMUTEST extends LinearOpMode
     {
     //----------------------------------------------------------------------------------------------
     // State
@@ -68,10 +66,6 @@ public class ShelterBot extends LinearOpMode
 
     // The IMU sensor object
     BNO055IMU imu;
-    DcMotor leftMotor = null;
-    DcMotor rightMotor = null;
-    DcMotor turntable = null;
-
 
     // State used for updating telemetry
     Orientation angles;
@@ -81,7 +75,7 @@ public class ShelterBot extends LinearOpMode
     // Main logic
     //----------------------------------------------------------------------------------------------
 
-    @Override public void runOpMode() throws InterruptedException{
+    @Override public void runOpMode() {
 
         // Set up the parameters with which we will use our IMU. Note that integration
         // algorithm here just reports accelerations to the logcat log; it doesn't actually
@@ -98,12 +92,6 @@ public class ShelterBot extends LinearOpMode
         // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
         // and named "imu".
         imu = hardwareMap.get(BNO055IMU.class, "imu");
-
-        leftMotor  = hardwareMap.dcMotor.get("left_drive");
-
-        turntable = hardwareMap.dcMotor.get("arm_turn");
-
-        rightMotor = hardwareMap.dcMotor.get("right_drive");
         imu.initialize(parameters);
 
         // Set up our telemetry dashboard
@@ -115,63 +103,11 @@ public class ShelterBot extends LinearOpMode
         // Start the logging of measured acceleration
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
 
-            // Loop and update the dashboard
-            while (opModeIsActive()) {
-                telemetry.update();
-                gyroDrive(true, 1);
-                Thread.sleep(2000);
-                gyroDrive(false, 1);
-                Thread.sleep(2000);
-            }
-
+        // Loop and update the dashboard
+        while (opModeIsActive()) {
+            telemetry.update();
+        }
     }
-        public void gyroDrive(boolean backOrNot,double power)throws InterruptedException{
-            double leftSpeed;
-            double rightSpeed;
-            double startPosition = leftMotor.getCurrentPosition();
-
-            while(true){
-                double angle = angles.firstAngle;
-                leftSpeed = power + (angle/100);
-                rightSpeed = -1*(power - (angle/100));
-
-
-                leftSpeed = Range.clip(leftSpeed,-1,1);
-                rightSpeed = Range.clip(rightSpeed,-1,1);
-
-                if(!backOrNot){
-                    leftMotor.setPower(-leftSpeed);
-                    rightMotor.setPower(-rightSpeed);
-                }else{
-                    leftMotor.setPower(leftSpeed);
-                    rightMotor.setPower(rightSpeed);
-                }
-
-                double currentPower = leftMotor.getPower();
-                Thread.sleep(100);
-                telemetry.addData("Power:",leftMotor.getPower());
-                telemetry.update();
-                if(Math.abs(power)>Math.abs(currentPower)){
-                    break;
-                }
-
-                Thread.sleep(500);
-            }
-
-            leftMotor.setPower(0);
-            rightMotor.setPower(0);
-        }
-
-        public void foward(int distance, double power){
-            rightMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
-            rightMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
-            leftMotor.setTargetPosition(distance);
-            rightMotor.setTargetPosition(distance);
-            leftMotor.setPower(power);
-            rightMotor.setPower(power);
-            leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        }
 
     //----------------------------------------------------------------------------------------------
     // Telemetry Configuration

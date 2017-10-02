@@ -30,15 +30,13 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
 TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.OLD;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -60,12 +58,12 @@ public class mecanumRobot extends LinearOpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
-    DcMotor leftMotor = null;
-    DcMotor rightMotor = null;
-    DcMotor leftBack = null;
-    DcMotor rightBack = null;
-    Servo armServo = null;
-    Servo armServo2 = null;
+    DcMotor fLeft = null;
+    DcMotor fRight = null;
+    DcMotor bLeft = null;
+    DcMotor bRight = null;
+//    Servo armServo = null;
+//    Servo armServo2 = null;
 
     BNO055IMU gyro = null;
 
@@ -79,13 +77,13 @@ public class mecanumRobot extends LinearOpMode {
          * to 'get' must correspond to the names assigned during the robot configuration
          * step (using the FTC Robot Controller app on the phone).
          */
-        leftMotor  = hardwareMap.dcMotor.get("left_drive");
-        leftBack = hardwareMap.dcMotor.get("left_back_drive");
-        rightMotor = hardwareMap.dcMotor.get("right_drive");
-        rightBack = hardwareMap.dcMotor.get("right_back_drive");
-        armServo = hardwareMap.servo.get("arm_servo");
-        armServo2 = hardwareMap.servo.get("arm_servo2");
-        gyro = hardwareMap.get(BNO055IMU.class, "imu");
+        fLeft = hardwareMap.dcMotor.get("left_drive");
+        bLeft = hardwareMap.dcMotor.get("left_back_drive");
+        fRight = hardwareMap.dcMotor.get("right_drive");
+        bRight = hardwareMap.dcMotor.get("right_back_drive");
+//        armServo = hardwareMap.servo.get("arm_servo");
+//        armServo2 = hardwareMap.servo.get("arm_servo2");
+//        gyro = hardwareMap.get(BNO055IMU.class, "imu");
         double maxRange = 0.8;
         double minRange = 0.1;
         double minRange2 = 0.1;
@@ -98,15 +96,12 @@ public class mecanumRobot extends LinearOpMode {
 
         int mode = 0;
 
-
-
-
         // eg: Set the drive motor directions:
         // "Reverse" the motor that runs backwards when connected directly to the battery
-        leftMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE
-        rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD
-        leftBack.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE
-        rightBack.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD
+        fLeft.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE
+        fRight.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD
+        bLeft.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE
+        bRight.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -116,8 +111,6 @@ public class mecanumRobot extends LinearOpMode {
         while (opModeIsActive()) {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.update();
-
-
 
             if (gamepad1.dpad_left) {
                 mode = 0;
@@ -142,10 +135,10 @@ public class mecanumRobot extends LinearOpMode {
                       factor = 1.0;
                     }
 
-                    leftMotor.setPower(-gamepad1.left_stick_y * 2);
-                    leftBack.setPower(gamepad1.left_stick_y * 2);
-                    rightMotor.setPower(-gamepad1.right_stick_y * 2);
-                    rightBack.setPower(-gamepad1.right_stick_y * 2 );
+                    fLeft.setPower(-gamepad1.left_stick_y * 2);
+                    bLeft.setPower(gamepad1.left_stick_y * 2);
+                    fRight.setPower(-gamepad1.right_stick_y * 2);
+                    bRight.setPower(-gamepad1.right_stick_y * 2 );
 
                     break;
                 case 1:
@@ -159,52 +152,51 @@ public class mecanumRobot extends LinearOpMode {
                         right /= max;
                     }
 
-                    leftMotor.setPower(left);
-                    leftBack.setPower(-left);
-                    rightMotor.setPower(right);
-                    rightBack.setPower(right);
+                    fLeft.setPower(left);
+                    bLeft.setPower(-left);
+                    fRight.setPower(right);
+                    bRight.setPower(right);
 
                     break;
             }
 
             if (!alignMode) {
                 //Translate Left
-                leftMotor.setPower(-gamepad1.left_trigger);
-                leftBack.setPower(-gamepad1.left_trigger);
-                rightMotor.setPower(gamepad1.left_trigger);
-                rightBack.setPower(-gamepad1.left_trigger);
+                fLeft.setPower(-gamepad1.left_trigger);
+                bLeft.setPower(-gamepad1.left_trigger);
+                fRight.setPower(gamepad1.left_trigger);
+                bRight.setPower(-gamepad1.left_trigger);
 
                 //Translate Right
-                rightMotor.setPower(-gamepad1.right_trigger);
-                rightBack.setPower(gamepad1.right_trigger);
-                leftMotor.setPower(gamepad1.right_trigger);
-                leftBack.setPower(gamepad1.right_trigger);
+                fRight.setPower(-gamepad1.right_trigger);
+                bRight.setPower(gamepad1.right_trigger);
+                fLeft.setPower(gamepad1.right_trigger);
+                bLeft.setPower(gamepad1.right_trigger);
             } else {
                 //Translate Left
-                leftMotor.setPower(-gamepad2.left_trigger);
-                leftBack.setPower(-gamepad2.left_trigger);
-                rightMotor.setPower(gamepad2.left_trigger);
-                rightBack.setPower(-gamepad2.left_trigger);
+                fLeft.setPower(-gamepad2.left_trigger);
+                bLeft.setPower(-gamepad2.left_trigger);
+                fRight.setPower(gamepad2.left_trigger);
+                bRight.setPower(-gamepad2.left_trigger);
 
                 //Translate Right
-                rightMotor.setPower(-gamepad2.right_trigger);
-                rightBack.setPower(gamepad2.right_trigger);
-                leftMotor.setPower(gamepad2.right_trigger);
-                leftBack.setPower(gamepad2.right_trigger);
+                fRight.setPower(-gamepad2.right_trigger);
+                bRight.setPower(gamepad2.right_trigger);
+                fLeft.setPower(gamepad2.right_trigger);
+                bLeft.setPower(gamepad2.right_trigger);
             }
 
 
 
 
-            if(gamepad2.a){
-                armServo.setPosition(minRange);
-                armServo2.setPosition(minRange2);
-            }
-            if(gamepad2.b){
-                armServo.setPosition(maxRange);
-                armServo2.setPosition(maxRange2);
-            }
-
+//            if(gamepad2.a){
+//                armServo.setPosition(minRange);
+//                armServo2.setPosition(minRange2);
+//            }
+//            if(gamepad2.b){
+//                armServo.setPosition(maxRange);
+//                armServo2.setPosition(maxRange2);
+//            }
         }
     }
 }

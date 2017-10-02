@@ -30,14 +30,11 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
 TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.OLD;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -54,15 +51,19 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="3 Wheels", group="Linear Opmode")  // @Autonomous(...) is the other common choice
+@TeleOp(name="CollectorBot", group="Linear Opmode")  // @Autonomous(...) is the other common choice
 //@Disabled
-public class threeWheels extends LinearOpMode {
+public class CollectorBot extends LinearOpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
     DcMotor leftMotor = null;
     DcMotor rightMotor = null;
-    DcMotor turnTable = null;
+    DcMotor collection = null;
+    boolean alignMode = false;
+    int mode = 0;
+    Float left;
+    Float right;
 
 
 
@@ -78,18 +79,16 @@ public class threeWheels extends LinearOpMode {
         leftMotor  = hardwareMap.dcMotor.get("left_drive");
 
         rightMotor = hardwareMap.dcMotor.get("right_drive");
-
-        turnTable = hardwareMap.dcMotor.get("turn_table");
-
-
-
-
+        collection = hardwareMap.dcMotor.get("collection");
+        double maxRange = 0.8;
+        double minRange = 0.0;
+        boolean isSensitive = true;
+        double thefactor = 1;
 
         // eg: Set the drive motor directions:
         // "Reverse" the motor that runs backwards when connected directly to the battery
-        rightMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        // Set to FORWARD if using AndyMark motors
-
+        leftMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
+        rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -100,17 +99,59 @@ public class threeWheels extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.update();
 
-            // eg: Run wheels in tank mode (note: The joystick goes negative when pushed forwards)
-            rightMotor.setPower(gamepad1.left_stick_y);
+            if (gamepad1.dpad_left) {
+                mode = 0;
+            }else if (gamepad1.dpad_right) {
+                mode = 1;
+            }
 
-            leftMotor.setPower(-gamepad1.right_stick_y);
+            if (gamepad1.a) {
+                alignMode = true;
+            }else if (gamepad1.b) {
+                alignMode = false;
+            }
+            if(gamepad1.left_bumper){
+                isSensitive = !isSensitive;
+            }
 
-            turnTable.setPower(gamepad1.right_trigger);
+            switch (mode) {
+                case 0:
+                    if(isSensitive){
+                        thefactor = 1;
+                    }else{
+                        thefactor = 0.3;
+                    }
+                    //normal tank drive
+                    leftMotor.setPower(gamepad1.left_stick_y * thefactor);
+
+                    rightMotor.setPower(gamepad1.right_stick_y * thefactor);
 
 
+                    break;
+                case 1:
+                    //not normal tank drive
+                    left = -gamepad1.left_stick_y + 3 * (gamepad1.right_stick_x);
+                    right = -gamepad1.left_stick_y - 3 * (gamepad1.right_stick_x);
+
+                    float max = Math.max(left, right);
+
+                    if (max > 1.00) {
+                        left /= max;
+                        right /= max;
+                    }
+                    if(isSensitive){
+                        thefactor = 1;
+                    }else{
+                        thefactor = 0.3;
+                    }
+                    leftMotor.setPower(-left * thefactor);
+
+                    rightMotor.setPower(-right * thefactor);
 
 
-
+                    break;
+            }
+            collection.setPower(gamepad2.right_stick_y);
 
 
         }
