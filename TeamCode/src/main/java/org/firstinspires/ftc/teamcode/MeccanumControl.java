@@ -62,6 +62,12 @@ public class MeccanumControl extends LinearOpMode {
     private DcMotor fRight;
     private DcMotor bLeft;
     private DcMotor bRight;
+    private DcMotor intakeLeft;
+    private DcMotor intakeRight;
+    private Servo collectFront;
+    private Servo collectBack;
+    private Servo collect;
+
 
 //    private Servo collectorHinge;
 //    private Servo leftArm;
@@ -77,17 +83,25 @@ public class MeccanumControl extends LinearOpMode {
         fRight = hardwareMap.dcMotor.get("fRight");
         bLeft = hardwareMap.dcMotor.get("bLeft");
         bRight = hardwareMap.dcMotor.get("bRight");
+        intakeLeft = hardwareMap.dcMotor.get("intakeLeft");
+        intakeRight = hardwareMap.dcMotor.get("intakeRight");
+        collectBack = hardwareMap.servo.get("collectBack");
+        collectFront = hardwareMap.servo.get("collectFront");
+        collect = hardwareMap.servo.get("collect");
 
         //Set direction of motors
         fLeft.setDirection(DcMotor.Direction.REVERSE);
         fRight.setDirection(DcMotor.Direction.FORWARD);
         bLeft.setDirection(DcMotor.Direction.FORWARD);
         bRight.setDirection(DcMotor.Direction.REVERSE);
+        intakeRight.setDirection(DcMotor.Direction.FORWARD);
+        intakeLeft.setDirection(DcMotor.Direction.REVERSE);
 
         double fLPower = 0.0;
         double fRPower = 0.0;
         double bLPower = 0.0;
         double bRPower = 0.0;
+        double inputPower = 0.0;
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -95,6 +109,10 @@ public class MeccanumControl extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
+
+            boolean buttonA = gamepad1.a;
+
+
             if(gamepad1.left_stick_y != 0 || gamepad1.right_stick_y != 0){
                 fLPower = -gamepad1.left_stick_y;
                 bLPower = -gamepad1.left_stick_y;
@@ -120,12 +138,26 @@ public class MeccanumControl extends LinearOpMode {
                     fRPower = -gamepad1.right_trigger;
                     bRPower = gamepad1.right_trigger;
                 }
+
             }
+            inputPower = gamepad2.right_stick_y;
+
+            if (buttonA){
+                collectBack.setPosition(0.2);
+                collectFront.setPosition(0.6);
+                sleep(500);
+                collect.setPosition(0.5);
+                buttonA =! buttonA;
+            }
+
+
 
             fLeft.setPower(fLPower);
             fRight.setPower(fRPower);
             bLeft.setPower(bLPower);
             bRight.setPower(bRPower);
+            intakeLeft.setPower(inputPower);
+            intakeRight.setPower(inputPower);
         }
     }
 }
