@@ -110,7 +110,7 @@ public class MeccanumControl extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            boolean buttonA = gamepad1.a;
+
 
 
             if(gamepad1.left_stick_y != 0 || gamepad1.right_stick_y != 0){
@@ -142,12 +142,12 @@ public class MeccanumControl extends LinearOpMode {
             }
             inputPower = gamepad2.right_stick_y;
 
-            if (buttonA){
+            if(gamepad1.a){
                 collectBack.setPosition(0.2);
                 collectFront.setPosition(0.6);
                 sleep(500);
                 collect.setPosition(0.5);
-                buttonA =! buttonA;
+
             }
 
 
