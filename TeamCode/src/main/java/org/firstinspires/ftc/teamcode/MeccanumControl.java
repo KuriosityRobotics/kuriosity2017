@@ -64,9 +64,9 @@ public class MeccanumControl extends LinearOpMode {
     private DcMotor bRight;
     private DcMotor intakeLeft;
     private DcMotor intakeRight;
-    private Servo collectFront;
-    private Servo collectBack;
-    private Servo collect;
+//    private Servo collectFront;
+//    private Servo collectBack;
+//    private Servo collect;
 
 
 //    private Servo collectorHinge;
@@ -83,11 +83,11 @@ public class MeccanumControl extends LinearOpMode {
         fRight = hardwareMap.dcMotor.get("fRight");
         bLeft = hardwareMap.dcMotor.get("bLeft");
         bRight = hardwareMap.dcMotor.get("bRight");
-        intakeLeft = hardwareMap.dcMotor.get("intakeLeft");
-        intakeRight = hardwareMap.dcMotor.get("intakeRight");
-        collectBack = hardwareMap.servo.get("collectBack");
-        collectFront = hardwareMap.servo.get("collectFront");
-        collect = hardwareMap.servo.get("collect");
+        intakeLeft = hardwareMap.dcMotor.get("lIntake");
+        intakeRight = hardwareMap.dcMotor.get("rIntake");
+//        collectBack = hardwareMap.servo.get("collectBack");
+//        collectFront = hardwareMap.servo.get("collectFront");
+//        collect = hardwareMap.servo.get("collect");
 
         //Set direction of motors
         fLeft.setDirection(DcMotor.Direction.REVERSE);
@@ -96,6 +96,12 @@ public class MeccanumControl extends LinearOpMode {
         bRight.setDirection(DcMotor.Direction.REVERSE);
         intakeRight.setDirection(DcMotor.Direction.FORWARD);
         intakeLeft.setDirection(DcMotor.Direction.REVERSE);
+
+        //Enable encoders
+        fLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        fRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        bLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        bRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         double fLPower = 0.0;
         double fRPower = 0.0;
@@ -141,16 +147,6 @@ public class MeccanumControl extends LinearOpMode {
 
             }
             inputPower = gamepad2.right_stick_y;
-
-            if(gamepad1.a){
-                collectBack.setPosition(0.2);
-                collectFront.setPosition(0.6);
-                sleep(500);
-                collect.setPosition(0.5);
-
-            }
-
-
 
             fLeft.setPower(fLPower);
             fRight.setPower(fRPower);
