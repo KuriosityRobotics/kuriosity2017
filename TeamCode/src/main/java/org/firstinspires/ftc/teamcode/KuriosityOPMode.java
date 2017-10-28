@@ -116,7 +116,7 @@ public class KuriosityOPMode extends OpMode
      * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
      */
     @Override
-    public void loop() {
+    public void loop(){
 
                 // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
@@ -127,5 +127,11 @@ public class KuriosityOPMode extends OpMode
      */
     @Override
     public void stop() {
+    }
+
+    public void delay(int time){
+        try{
+            Thread.sleep(time);
+        }catch (Exception e){}
     }
 }

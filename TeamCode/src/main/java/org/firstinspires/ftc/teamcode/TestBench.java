@@ -29,12 +29,11 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 /**
  * This file contains an example of an iterative (Non-Linear) "OpMode".
@@ -50,32 +49,62 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Motor Test IT.", group="Iterative Opmode")
-//@Disabled
-public class MotorTest extends KuriosityOPMode
+@TeleOp(name="Basic: Iterative OpMode", group="Iterative Opmode")
+@Disabled
+public class TestBench extends OpMode
 {
     // Declare OpMode members.
-    private ElapsedTime runtime = new ElapsedTime();
+    protected ElapsedTime runtime = new ElapsedTime();
+    
+    protected DcMotor fLeft;
+    protected DcMotor fRight;
+    protected DcMotor bLeft;
+    protected DcMotor bRight;
+    protected DcMotor intakeLeft;
+    protected DcMotor intakeRight;
 
-
-
+    /*
+     * Code to run ONCE when the driver hits INIT
+     */
     @Override
     public void init() {
-        super.init();
         telemetry.addData("Status", "Initialized");
+
+        fLeft = hardwareMap.dcMotor.get("fLeft");
+        fRight = hardwareMap.dcMotor.get("fRight");
+        bLeft = hardwareMap.dcMotor.get("bLeft");
+        bRight = hardwareMap.dcMotor.get("bRight");
+        intakeLeft = hardwareMap.dcMotor.get("lIntake");
+        intakeRight = hardwareMap.dcMotor.get("rIntake");
+
+        //Set direction of motors
+        fLeft.setDirection(DcMotor.Direction.REVERSE);
+        fRight.setDirection(DcMotor.Direction.FORWARD);
+        bLeft.setDirection(DcMotor.Direction.FORWARD);
+        bRight.setDirection(DcMotor.Direction.REVERSE);
+        intakeRight.setDirection(DcMotor.Direction.FORWARD);
+        intakeLeft.setDirection(DcMotor.Direction.REVERSE);
+
+        //Enable encoders
+        fLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        fRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        bLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        bRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
     }
 
-
-
+    /*
+     * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
+     */
     @Override
     public void init_loop() {
     }
 
-
-
+    /*
+     * Code to run ONCE when the driver hits PLAY
+     */
     @Override
     public void start() {
         runtime.reset();
@@ -86,28 +115,25 @@ public class MotorTest extends KuriosityOPMode
      */
     @Override
     public void loop(){
-        DcMotor[] arrayOfMotor = {fLeft,fRight,bLeft,bRight};
 
-        for(DcMotor motor : arrayOfMotor){
-            //Brake all
-            for(DcMotor toBrake : arrayOfMotor){
-                toBrake.setPower(0);
-            }
+        /*
+         *Test code here
+         */
 
-            //Tell what motor should e running
-            telemetry.addData("Motor", motor.getPortNumber());
-            motor.setPower(1);
-
-
-            telemetry.update();
-            delay(1000);
-        }
+        // Show the elapsed game time and wheel power.
+        telemetry.addData("Status", "Run Time: " + runtime.toString());
     }
 
-
-
+    /*
+     * Code to run ONCE after the driver hits STOP
+     */
     @Override
     public void stop() {
     }
 
+    public void delay(int time){
+        try{
+            Thread.sleep(time);
+        }catch (Exception e){}
+    }
 }
