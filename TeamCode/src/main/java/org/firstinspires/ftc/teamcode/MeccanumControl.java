@@ -115,10 +115,6 @@ public class MeccanumControl extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-
-
-
-
             if(gamepad1.left_stick_y != 0 || gamepad1.right_stick_y != 0){
                 fLPower = -gamepad1.left_stick_y;
                 bLPower = -gamepad1.left_stick_y;
