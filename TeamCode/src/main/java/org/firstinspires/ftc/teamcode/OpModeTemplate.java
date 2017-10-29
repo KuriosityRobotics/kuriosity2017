@@ -33,58 +33,21 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 
 
-@TeleOp(name="Basic: Iterative OpMode", group="Iterative Opmode")
+
+@TeleOp(name="NAME HERE", group="Iterative Opmode")
 @Disabled
-public class KuriosityOPMode extends OpMode
+public class OpModeTemplate extends KuriosityOPMode
 {
-    // Declare OpMode members.
-    protected ElapsedTime runtime = new ElapsedTime();
-    
-    protected DcMotor fLeft;
-    protected DcMotor fRight;
-    protected DcMotor bLeft;
-    protected DcMotor bRight;
-    protected DcMotor intakeLeft;
-    protected DcMotor intakeRight;
-
-    protected DcMotor arm;
-    protected Servo leftClaw;
-    protected Servo rightClaw;
-
-
-
     @Override
     public void init() {
-        telemetry.addData("Status", "Initialized");
+        //This runs the init of KuriosityOPMode
+        super.init();   //DO NOT DELETE
 
-        fLeft = hardwareMap.dcMotor.get("fLeft");
-        fRight = hardwareMap.dcMotor.get("fRight");
-        bLeft = hardwareMap.dcMotor.get("bLeft");
-        bRight = hardwareMap.dcMotor.get("bRight");
-        intakeLeft = hardwareMap.dcMotor.get("lIntake");
-        intakeRight = hardwareMap.dcMotor.get("rIntake");
-
-        //Set direction of motors
-        fLeft.setDirection(DcMotor.Direction.REVERSE);
-        fRight.setDirection(DcMotor.Direction.FORWARD);
-        bLeft.setDirection(DcMotor.Direction.FORWARD);
-        bRight.setDirection(DcMotor.Direction.REVERSE);
-        intakeRight.setDirection(DcMotor.Direction.FORWARD);
-        intakeLeft.setDirection(DcMotor.Direction.REVERSE);
-
-        //Enable encoders
-        fLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        fRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        bLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        bRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
     }
 
@@ -104,21 +67,16 @@ public class KuriosityOPMode extends OpMode
 
 
     @Override
-    public void stop() {
+    public void loop() {
+        //Code here
+
+        // Elapsed Time
+        telemetry.addData("Status", "Run Time: " + runtime.toString());
     }
 
 
 
     @Override
-    public void loop(){
-
-        // Show the elapsed game time and wheel power.
-        telemetry.addData("Status", "Run Time: " + runtime.toString());
-    }
-
-    public void delay(int time){
-        try{
-            Thread.sleep(time);
-        }catch (Exception e){}
+    public void stop() {
     }
 }

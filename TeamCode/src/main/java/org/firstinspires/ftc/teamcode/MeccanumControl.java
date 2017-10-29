@@ -30,126 +30,123 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 
-/**
- * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
- * the autonomous or the teleop period of an FTC match. The names of OpModes appear on the menu
- * of the FTC Driver Station. When an selection is made from the menu, the corresponding OpMode
- * class is instantiated on the Robot Controller and executed.
- *
- * This particular OpMode just executes a basic Tank Drive Teleop for a two wheeled robot
- * It includes all the skeletal structure that all linear OpModes contain.
- *
- * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
- */
 
-@TeleOp(name="Meccanum Drive", group="Linear Opmode")
+@TeleOp(name="Maccanum Control", group="Iterative Opmode")
 //@Disabled
-public class MeccanumControl extends LinearOpMode {
+public class MeccanumControl extends KuriosityOPMode
+{
+    double fLPower;
+    double fRPower;
+    double bLPower;
+    double bRPower;
+    double inputPower;
 
-    // Declare OpMode members.
-    private ElapsedTime runtime = new ElapsedTime();
-
-    private DcMotor fLeft;
-    private DcMotor fRight;
-    private DcMotor bLeft;
-    private DcMotor bRight;
-    private DcMotor intakeLeft;
-    private DcMotor intakeRight;
-//    private Servo collectFront;
-//    private Servo collectBack;
-//    private Servo collect;
-
-
-//    private Servo collectorHinge;
-//    private Servo leftArm;
-//    private Servo rihgtArm;
+    int controlMode;
 
     @Override
-    public void runOpMode() {
+    public void init() {
+        //This runs the init of KuriosityOPMode
+        super.init();   //DO NOT DELETE
+        
+        fLPower = 0.0;
+        fRPower = 0.0;
+        bLPower = 0.0;
+        bRPower = 0.0;
+        inputPower = 0.0;
+
+        controlMode = 0;
+
         telemetry.addData("Status", "Initialized");
         telemetry.update();
+    }
 
-        //Map the Motors
-        fLeft = hardwareMap.dcMotor.get("fLeft");
-        fRight = hardwareMap.dcMotor.get("fRight");
-        bLeft = hardwareMap.dcMotor.get("bLeft");
-        bRight = hardwareMap.dcMotor.get("bRight");
-        intakeLeft = hardwareMap.dcMotor.get("lIntake");
-        intakeRight = hardwareMap.dcMotor.get("rIntake");
-//        collectBack = hardwareMap.servo.get("collectBack");
-//        collectFront = hardwareMap.servo.get("collectFront");
-//        collect = hardwareMap.servo.get("collect");
 
-        //Set direction of motors
-        fLeft.setDirection(DcMotor.Direction.REVERSE);
-        fRight.setDirection(DcMotor.Direction.FORWARD);
-        bLeft.setDirection(DcMotor.Direction.FORWARD);
-        bRight.setDirection(DcMotor.Direction.REVERSE);
-        intakeRight.setDirection(DcMotor.Direction.FORWARD);
-        intakeLeft.setDirection(DcMotor.Direction.REVERSE);
 
-        //Enable encoders
-        fLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        fRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        bLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        bRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    @Override
+    public void init_loop() {
+    }
 
-        double fLPower = 0.0;
-        double fRPower = 0.0;
-        double bLPower = 0.0;
-        double bRPower = 0.0;
-        double inputPower = 0.0;
 
-        // Wait for the game to start (driver presses PLAY)
-        waitForStart();
+
+    @Override
+    public void start() {
         runtime.reset();
+    }
 
-        // run until the end of the match (driver presses STOP)
-        while (opModeIsActive()) {
-            if(gamepad1.left_stick_y != 0 || gamepad1.right_stick_y != 0){
-                fLPower = -gamepad1.left_stick_y;
-                bLPower = -gamepad1.left_stick_y;
 
-                fRPower = -gamepad1.right_stick_y;
-                bRPower = -gamepad1.right_stick_y;
-            }else{
-                fLPower = 0;
-                fRPower = 0;
-                bLPower = 0;
-                bRPower = 0;
-            }
 
-            if(!(gamepad1.left_trigger != 0 && gamepad1.right_trigger != 0)){
-                if(gamepad1.left_trigger != 0){
-                    fLPower = -gamepad1.left_trigger;
-                    bLPower = gamepad1.left_trigger;
-                    fRPower = gamepad1.left_trigger;
-                    bRPower = -gamepad1.left_trigger;
-                }else if(gamepad1.right_trigger != 0){
-                    fLPower = gamepad1.right_trigger;
-                    bLPower = -gamepad1.right_trigger;
-                    fRPower = -gamepad1.right_trigger;
-                    bRPower = gamepad1.right_trigger;
-                }
+    @Override
+    public void loop() {
+        //Calculate Power for motors (Non-meccanum drive)
+        if(gamepad1.left_stick_y != 0 || gamepad1.right_stick_y != 0){
+            //When Sticks are not in resting position
+            fLPower = -gamepad1.left_stick_y;
+            bLPower = -gamepad1.left_stick_y;
 
-            }
-            inputPower = gamepad2.right_stick_y;
-
-            fLeft.setPower(fLPower);
-            fRight.setPower(fRPower);
-            bLeft.setPower(bLPower);
-            bRight.setPower(bRPower);
-            intakeLeft.setPower(inputPower);
-            intakeRight.setPower(inputPower);
+            fRPower = -gamepad1.right_stick_y;
+            bRPower = -gamepad1.right_stick_y;
+        }else{
+            //When Sticks are in resting position, brake motors
+            fLPower = 0;
+            fRPower = 0;
+            bLPower = 0;
+            bRPower = 0;
         }
+
+        //Calculate power for motors in Meccanum Drive
+        if(!(gamepad1.left_trigger != 0 && gamepad1.right_trigger != 0)){
+            if(gamepad1.left_trigger != 0){
+                fLPower = -gamepad1.left_trigger;
+                bLPower = gamepad1.left_trigger;
+                fRPower = gamepad1.left_trigger;
+                bRPower = -gamepad1.left_trigger;
+            }else if(gamepad1.right_trigger != 0){
+                fLPower = gamepad1.right_trigger;
+                bLPower = -gamepad1.right_trigger;
+                fRPower = -gamepad1.right_trigger;
+                bRPower = gamepad1.right_trigger;
+            }
+        }
+
+        //Set Power to the drive motors
+        fLeft.setPower(fLPower);
+        fRight.setPower(fRPower);
+        bLeft.setPower(bLPower);
+        bRight.setPower(bRPower);
+
+        inputPower = gamepad2.right_stick_y;
+
+        //Set power to intake motors
+        intakeLeft.setPower(inputPower);
+        intakeRight.setPower(inputPower);
+
+        arm.setPower((gamepad2.right_stick_y/3));
+
+        if(gamepad2.a){
+            leftClaw.setPosition(0.4);
+            rightClaw.setPosition(0.7);
+        }else if(gamepad2.b){
+            leftClaw.setPosition(0.7);
+            rightClaw.setPosition(0.4);
+        }
+
+        // Elapsed Time
+        telemetry.addData("Status", "Run Time: " + runtime.toString());
+
+//        telemetry.addLine();
+//        telemetry.addLine("Drive Motor Powers:");
+//        telemetry.addData("Front Left", fLPower);
+//        telemetry.addData("Front Right", fRPower);
+//        telemetry.addData("Back Left", bLPower);
+//        telemetry.addData("Back Right", bRPower);
+    }
+
+
+
+    @Override
+    public void stop() {
     }
 }
