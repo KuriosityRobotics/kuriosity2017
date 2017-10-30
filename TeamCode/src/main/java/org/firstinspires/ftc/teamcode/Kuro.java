@@ -40,6 +40,7 @@ public class Kuro {
         intakeRight.setDirection(DcMotor.Direction.FORWARD);
         intakeLeft.setDirection(DcMotor.Direction.REVERSE);
         arm.setDirection(DcMotor.Direction.FORWARD);
+        arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //Enable encoders
         fLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

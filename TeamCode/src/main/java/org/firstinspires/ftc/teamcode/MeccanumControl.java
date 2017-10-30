@@ -109,7 +109,7 @@ public class MeccanumControl extends OpMode
         robot.intakeLeft.setPower(inputPower);
         robot.intakeRight.setPower(inputPower);
 
-        robot.arm.setPower((gamepad2.right_stick_y/3));
+        robot.arm.setPower((gamepad2.left_stick_y/3));
 
         //Takes input for claw position
         if(gamepad2.a){
@@ -137,9 +137,9 @@ public class MeccanumControl extends OpMode
         //Moves grabber to correct position
         if(grabberActivated){
             robot.leftGrabber.setPosition(1);
-            robot.rightGrabber.setPosition(0.02);
+            robot.rightGrabber.setPosition(0);
         }else{
-            robot.leftGrabber.setPosition(0.02);
+            robot.leftGrabber.setPosition(0);
             robot.rightGrabber.setPosition(1);
         }
 
