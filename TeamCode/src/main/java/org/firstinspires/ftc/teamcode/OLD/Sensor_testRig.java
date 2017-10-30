@@ -34,7 +34,7 @@ public class Sensor_testRig extends LinearOpMode{
 
         /* eg: Initialize the hardware variables. Note that the strings used here as parameters
          * to 'get' must correspond to the names assigned during the robot configuration
-         * step (using the FTC Robot Controller app on the phone).
+         * step (using the FTC Kuro Controller app on the phone).
          */
         leftMotor  = hardwareMap.dcMotor.get("left_drive");
         rightMotor = hardwareMap.dcMotor.get("right_drive");
