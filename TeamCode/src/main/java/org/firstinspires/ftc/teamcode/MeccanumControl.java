@@ -14,7 +14,8 @@ public class MeccanumControl extends OpMode
     double bLPower;
     double bRPower;
     double inputPower;
-
+    boolean up = true;
+    boolean down = true;
     int controlMode;
 
     boolean clawActivated;
@@ -97,12 +98,38 @@ public class MeccanumControl extends OpMode
             }
         }
 
+        robot.left.setPower(gamepad2.right_stick_y/3);
+        robot.right.setPower(gamepad2.right_stick_y/3);
         //Set Power to the drive motors
         robot.fLeft.setPower(fLPower);
         robot.fRight.setPower(fRPower);
         robot.bLeft.setPower(bLPower);
         robot.bRight.setPower(bRPower);
 
+
+        if(gamepad2.x){
+            robot.upRight.setPosition(0.45);
+            robot.upLeft.setPosition(0.45);
+        }else if(gamepad2.y){
+            robot.upRight.setPosition(0);
+            robot.upLeft.setPosition(1);
+        }
+        if(gamepad2.a) {
+            robot.downRight.setPosition(1);
+            robot.downLeft.setPosition(0);
+        }else if(gamepad2.b){
+            robot.downRight.setPosition(0.2);
+            robot.downLeft.setPosition(0.8);
+        }
+        if(gamepad2.left_bumper){
+            robot.upRight.setPosition(0.1);
+            robot.upLeft.setPosition(0.9);
+        }
+        if(gamepad2.right_bumper){
+            robot.downRight.setPosition(1);
+            robot.downLeft.setPosition(0);
+        }
+        /*
         inputPower = gamepad2.right_stick_y;
 
         //Set power to intake motors
@@ -142,6 +169,7 @@ public class MeccanumControl extends OpMode
             robot.leftGrabber.setPosition(0);
             robot.rightGrabber.setPosition(1);
         }
+        */
 
         // Elapsed Time
         telemetry.addData("Status", "Run Time: " + runtime.toString());
