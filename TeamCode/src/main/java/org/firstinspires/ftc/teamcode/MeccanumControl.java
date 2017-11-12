@@ -98,8 +98,8 @@ public class MeccanumControl extends OpMode
             }
         }
 
-        robot.left.setPower(gamepad2.right_stick_y/3);
-        robot.right.setPower(gamepad2.right_stick_y/3);
+        robot.left.setPower(-gamepad2.right_stick_y/3);
+        robot.right.setPower(-gamepad2.right_stick_y/3);
         //Set Power to the drive motors
         robot.fLeft.setPower(fLPower);
         robot.fRight.setPower(fRPower);
