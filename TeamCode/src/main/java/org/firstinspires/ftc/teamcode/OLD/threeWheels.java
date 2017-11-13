@@ -73,8 +73,8 @@ public class threeWheels extends LinearOpMode {
          * to 'get' must correspond to the names assigned during the robot configuration
          * step (using the FTC Kuro Controller app on the phone).
          */
-        leftMotor  = hardwareMap.dcMotor.get("left");
-        rightMotor = hardwareMap.dcMotor.get("right");
+        leftMotor  = hardwareMap.dcMotor.get("forkliftLeft");
+        rightMotor = hardwareMap.dcMotor.get("forkliftRight");
         // eg: Set the drive motor directions:
         // "Reverse" the motor that runs backwards when connected directly to the battery
         rightMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors

@@ -70,7 +70,7 @@ public class Sensor_testRig extends LinearOpMode{
             telemetry.update();
 
             // Run wheels in POV mode (note: The joystick goes negative when pushed forwards, so negate it)
-            // In this mode the Left stick moves the robot fwd and back, the Right stick turns left and right.
+            // In this mode the Left stick moves the robot fwd and back, the Right stick turns forkliftLeft and forkliftRight.
             left  = -gamepad1.left_stick_y + turnMultiplier * (-gamepad1.left_stick_y * gamepad1.right_stick_x);
             right = -gamepad1.left_stick_y + turnMultiplier * (gamepad1.left_stick_y * gamepad1.right_stick_x);
 

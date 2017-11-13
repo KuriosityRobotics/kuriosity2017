@@ -90,8 +90,8 @@ public class VuforiaPictograph extends LinearOpMode {
         Servo left = null;
         Servo right = null;
         Servo center = null;
-        left = hardwareMap.servo.get("left");
-        right = hardwareMap.servo.get("right");
+        left = hardwareMap.servo.get("forkliftLeft");
+        right = hardwareMap.servo.get("forkliftRight");
         center = hardwareMap.servo.get("center");
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);

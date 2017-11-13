@@ -98,78 +98,43 @@ public class MeccanumControl extends OpMode
             }
         }
 
-        robot.left.setPower(-gamepad2.right_stick_y/3);
-        robot.right.setPower(-gamepad2.right_stick_y/3);
+        robot.forkliftLeft.setPower(-gamepad2.right_stick_y/3);
+        robot.forkliftRight.setPower(-gamepad2.right_stick_y/3);
+
         //Set Power to the drive motors
         robot.fLeft.setPower(fLPower);
         robot.fRight.setPower(fRPower);
         robot.bLeft.setPower(bLPower);
         robot.bRight.setPower(bRPower);
 
-
+        //Moves Claws
         if(gamepad2.x){
             robot.upRight.setPosition(0.45);
             robot.upLeft.setPosition(0.45);
+
         }else if(gamepad2.y){
             robot.upRight.setPosition(0);
             robot.upLeft.setPosition(1);
+
         }
         if(gamepad2.a) {
             robot.downRight.setPosition(1);
             robot.downLeft.setPosition(0);
+
         }else if(gamepad2.b){
             robot.downRight.setPosition(0.2);
             robot.downLeft.setPosition(0.8);
+
         }
         if(gamepad2.left_bumper){
             robot.upRight.setPosition(0.1);
             robot.upLeft.setPosition(0.9);
+
         }
         if(gamepad2.right_bumper){
             robot.downRight.setPosition(1);
             robot.downLeft.setPosition(0);
         }
-        /*
-        inputPower = gamepad2.right_stick_y;
-
-        //Set power to intake motors
-        robot.intakeLeft.setPower(inputPower);
-        robot.intakeRight.setPower(inputPower);
-
-        robot.arm.setPower((gamepad2.left_stick_y/3));
-
-        //Takes input for claw position
-        if(gamepad2.a){
-            clawActivated = true;
-        }else if(gamepad2.b){
-            clawActivated = false;
-        }
-
-        //takes input for grabber position
-        if(gamepad2.x){
-            grabberActivated = true;
-        }else if(gamepad2.y){
-            grabberActivated = false;
-        }
-
-        //Moves claw to correct position
-        if(clawActivated){
-            robot.leftClaw.setPosition(0.7);
-            robot.rightClaw.setPosition(0.4);
-        }else{
-            robot.leftClaw.setPosition(0.4);
-            robot.rightClaw.setPosition(0.7);
-        }
-
-        //Moves grabber to correct position
-        if(grabberActivated){
-            robot.leftGrabber.setPosition(1);
-            robot.rightGrabber.setPosition(0);
-        }else{
-            robot.leftGrabber.setPosition(0);
-            robot.rightGrabber.setPosition(1);
-        }
-        */
 
         // Elapsed Time
         telemetry.addData("Status", "Run Time: " + runtime.toString());
