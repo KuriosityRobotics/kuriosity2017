@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.Range;
 
 /**
  * Created by Bid on 10/29/2017.
@@ -13,8 +14,8 @@ public class Kuro {
     public DcMotor fRight;
     public DcMotor bLeft;
     public DcMotor bRight;
-    public DcMotor forkliftRight;
-    public DcMotor forkliftLeft;
+    public DcMotor right;
+    public DcMotor left;
 
     public Servo upLeft;
     public Servo upRight;
@@ -27,20 +28,20 @@ public class Kuro {
         fRight = hardwareMap.dcMotor.get("fRight");
         bLeft = hardwareMap.dcMotor.get("bLeft");
         bRight = hardwareMap.dcMotor.get("bRight");
-        forkliftRight = hardwareMap.dcMotor.get("forkliftRight");
-        forkliftLeft = hardwareMap.dcMotor.get("forkliftLeft");
+        right = hardwareMap.dcMotor.get("right");
+        left = hardwareMap.dcMotor.get("left");
 
         //Set direction of motors
         fLeft.setDirection(DcMotor.Direction.REVERSE);
         fRight.setDirection(DcMotor.Direction.FORWARD);
         bLeft.setDirection(DcMotor.Direction.FORWARD);
         bRight.setDirection(DcMotor.Direction.FORWARD);
-        forkliftLeft.setDirection(DcMotor.Direction.FORWARD);
-        forkliftRight.setDirection(DcMotor.Direction.REVERSE);
+        left.setDirection(DcMotor.Direction.FORWARD);
+        right.setDirection(DcMotor.Direction.REVERSE);
 
         //Sets zero power behavior
-        forkliftLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        forkliftRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //Enable encoders
         fLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
