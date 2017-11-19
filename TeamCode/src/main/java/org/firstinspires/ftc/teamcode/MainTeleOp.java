@@ -5,9 +5,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@TeleOp(name="Maccanum Control", group="Iterative Opmode")
+@TeleOp(name="Main TeleOp", group="Iterative Opmode")
 //@Disabled
-public class MeccanumControl extends OpMode
+public class MainTeleOp extends OpMode
 {
     double fLPower;
     double fRPower;
