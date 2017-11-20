@@ -23,8 +23,8 @@ public class KhuesJewelArm2 extends LinearOpMode {
     ColorSensor sensorColor;
 
     public void runOpMode() throws InterruptedException {
-        DownMotor = hardwareMap.servo.get("DownMotor");
-        PivotMotor = hardwareMap.servo.get("PivotMotor");
+        DownMotor = hardwareMap.servo.get("downMotor");
+        PivotMotor = hardwareMap.servo.get("pivotMotor");
         sensorColor = hardwareMap.colorSensor.get("sensorColor");
 
         telemetry.addData("Alpha", sensorColor.alpha());
@@ -36,7 +36,7 @@ public class KhuesJewelArm2 extends LinearOpMode {
         waitForStart();
 
         // Lower Arm between jewels
-        PivotMotor.setPosition(0.5);
+        PivotMotor.setPosition(0.9);
         sleep(1000);
         DownMotor.setPosition(1);
         sleep(500);

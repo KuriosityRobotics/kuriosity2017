@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Kuro;
 
 
-@Autonomous(name="Motor Test IT.", group="Iterative Opmode")
+@Autonomous(name="Motor Test IT2.", group="Iterative Opmode")
 //@Disabled
 public class MotorTestDED extends OpMode
 {

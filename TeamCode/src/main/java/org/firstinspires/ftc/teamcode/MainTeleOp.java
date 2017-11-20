@@ -149,7 +149,7 @@ public class MainTeleOp extends OpMode
 
         }
          */
-        if(gamepad1.dpad_up){
+        if(gamepad1.dpad_down){
             float left;
             float right;
             left = -gamepad1.left_stick_y + 3;
@@ -170,7 +170,7 @@ public class MainTeleOp extends OpMode
             }
 
 
-        }else if(gamepad1.dpad_down){
+        }else if(gamepad1.dpad_up){
             float left;
             float right;
             left = -gamepad1.left_stick_y + 3;
@@ -190,7 +190,7 @@ public class MainTeleOp extends OpMode
                 robot.bRight.setPower(-right / 5);
             }
 
-        }else if(gamepad1.dpad_left){
+        }else if(gamepad1.dpad_right){
             float left;
             float right;
             left = -gamepad1.left_stick_y + 3;
@@ -209,7 +209,7 @@ public class MainTeleOp extends OpMode
                 robot.bLeft.setPower(-right / 5);
                 robot.bRight.setPower(right / 5);
             }
-        }else if(gamepad1.dpad_right){
+        }else if(gamepad1.dpad_left){
             float left;
             float right;
             left = -gamepad1.left_stick_y + 3;

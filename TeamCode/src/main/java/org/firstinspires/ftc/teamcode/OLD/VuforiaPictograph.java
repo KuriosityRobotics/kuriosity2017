@@ -38,7 +38,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  * is explained in {@link .ConceptVuforiaNavigation}.
  */
 
-@Autonomous(name="Concept: VuMark Id", group ="Concept")
+@Autonomous(name="Auto", group ="Concept")
 //@Disabled
 public class VuforiaPictograph extends LinearOpMode {
 
