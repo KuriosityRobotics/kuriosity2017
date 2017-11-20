@@ -104,17 +104,146 @@ public class MainTeleOp extends OpMode
         double triggerVal2 = gamepad1.left_trigger;
         triggerVal2 = Range.clip(triggerVal2, 0 , 0.75);
         //Set Power to the drive motors
-        if(gamepad1.left_bumper) {
-            robot.fLeft.setPower(fLPower / 3);
-            robot.fRight.setPower(fRPower / 3);
-            robot.bLeft.setPower(bLPower / 3);
-            robot.bRight.setPower(bRPower / 3);
-        }else{
-            robot.fLeft.setPower(fLPower);
-            robot.fRight.setPower(fRPower);
-            robot.bLeft.setPower(bLPower);
-            robot.bRight.setPower(bRPower);
+        /**int mode = 0;
+        if (gamepad1.dpad_left) {
+            mode = 0;
+        }else if (gamepad1.dpad_right) {
+            mode = 1;
         }
+        switch (mode){
+            case 0:
+                if(gamepad1.left_bumper) {
+                    robot.fLeft.setPower(fLPower / 3);
+                    robot.fRight.setPower(fRPower / 3);
+                    robot.bLeft.setPower(bLPower / 3);
+                    robot.bRight.setPower(bRPower / 3);
+                }else{
+                    robot.fLeft.setPower(fLPower);
+                    robot.fRight.setPower(fRPower);
+                    robot.bLeft.setPower(bLPower);
+                    robot.bRight.setPower(bRPower);
+                }
+            case 1:
+                float left;
+                float right;
+                left = -gamepad1.left_stick_y + 3 * (gamepad1.right_stick_x);
+                right = -gamepad1.left_stick_y - 3 * (gamepad1.right_stick_x);
+
+                float max = Math.max(left, right);
+
+                if (max > 1.00) {
+                    left /= max;
+                    right /= max;
+                }
+                if(gamepad1.left_bumper){
+                    robot.fLeft.setPower(-left/3);
+                    robot.fRight.setPower(left/3);
+                    robot.bLeft.setPower(right/3);
+                    robot.bRight.setPower(-right/3);
+                }else {
+                    robot.fLeft.setPower(left);
+                    robot.fRight.setPower(-left);
+                    robot.bLeft.setPower(-right);
+                    robot.bRight.setPower(right);
+                }
+
+        }
+         */
+        if(gamepad1.dpad_up){
+            float left;
+            float right;
+            left = -gamepad1.left_stick_y + 3;
+            right = -gamepad1.left_stick_y - 3 ;
+
+            float max = Math.max(left, right);
+
+            if(gamepad1.left_bumper) {
+                robot.fLeft.setPower(-left/12);
+                robot.fRight.setPower(-left/12);
+                robot.bLeft.setPower(right/12);
+                robot.bRight.setPower(right/12);
+            }else{
+                robot.fLeft.setPower(-left/5);
+                robot.fRight.setPower(-left/5);
+                robot.bLeft.setPower(right/5);
+                robot.bRight.setPower(right/5);
+            }
+
+
+        }else if(gamepad1.dpad_down){
+            float left;
+            float right;
+            left = -gamepad1.left_stick_y + 3;
+            right = -gamepad1.left_stick_y - 3 ;
+
+            float max = Math.max(left, right);
+
+            if(gamepad1.left_bumper) {
+                robot.fLeft.setPower(left/12);
+                robot.fRight.setPower(left/12);
+                robot.bLeft.setPower(-right/12);
+                robot.bRight.setPower(-right/12);
+            }else {
+                robot.fLeft.setPower(left / 5);
+                robot.fRight.setPower(left / 5);
+                robot.bLeft.setPower(-right / 5);
+                robot.bRight.setPower(-right / 5);
+            }
+
+        }else if(gamepad1.dpad_left){
+            float left;
+            float right;
+            left = -gamepad1.left_stick_y + 3;
+            right = -gamepad1.left_stick_y - 3 ;
+
+            float max = Math.max(left, right);
+
+            if(gamepad1.left_bumper) {
+                robot.fLeft.setPower(left/12);
+                robot.fRight.setPower(-left/12);
+                robot.bLeft.setPower(-right/12);
+                robot.bRight.setPower(right/12);
+            }else {
+                robot.fLeft.setPower(left / 5);
+                robot.fRight.setPower(-left / 5);
+                robot.bLeft.setPower(-right / 5);
+                robot.bRight.setPower(right / 5);
+            }
+        }else if(gamepad1.dpad_right){
+            float left;
+            float right;
+            left = -gamepad1.left_stick_y + 3;
+            right = -gamepad1.left_stick_y - 3 ;
+
+            float max = Math.max(left, right);
+
+            if(gamepad1.left_bumper) {
+                robot.fLeft.setPower(-left/12);
+                robot.fRight.setPower(left/12);
+                robot.bLeft.setPower(right/12);
+                robot.bRight.setPower(-right/12);
+            }else{
+                robot.fLeft.setPower(-left/5);
+                robot.fRight.setPower(left/5);
+                robot.bLeft.setPower(right/5);
+                robot.bRight.setPower(-right/5);
+            }
+        }
+        else {
+            if (gamepad1.left_bumper) {
+                robot.fLeft.setPower(fLPower / 3);
+                robot.fRight.setPower(fRPower / 3);
+                robot.bLeft.setPower(bLPower / 3);
+                robot.bRight.setPower(bRPower / 3);
+            } else {
+                robot.fLeft.setPower(fLPower);
+                robot.fRight.setPower(fRPower);
+                robot.bLeft.setPower(bLPower);
+                robot.bRight.setPower(bRPower);
+            }
+        }
+
+        //claws
 
         if(gamepad2.x){
             robot.upRight.setPosition(0.80);
