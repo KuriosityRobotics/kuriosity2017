@@ -52,8 +52,8 @@ public class KhuesJewelArm2 extends LinearOpMode {
 
     public void runArmMissionWithColorParameter(boolean goodColorIsBlue) {
         //Checks which color ball is then moves the arm to knock of jewel that is matching opposing team color
-        if ( (goodColorIsBlue && (sensorColor.blue() > sensorColor.red())
-                || (!goodColorIsBlue) && (sensorColor.red() > sensorColor.blue())) ) {
+        if ( (goodColorIsBlue && (sensorColor.blue() > sensorColor.red()))
+                || (!goodColorIsBlue && (sensorColor.red() > sensorColor.blue())) ) {
             PivotMotor.setPosition(1);
             sleep(1000);
             DownMotor.setPosition(0.5);
@@ -76,8 +76,4 @@ public class KhuesJewelArm2 extends LinearOpMode {
             PivotMotor.setPosition(0.5);
         }
     }
-
-
-
 }
-
