@@ -45,8 +45,8 @@ public class JewelArm extends LinearOpMode {
 
     public void jewelArm() {
         //Checks which color ball is then moves the arm to knock of jewel that is matching opposing team color
-        PivotMotor.setPosition(0.5);
-        sleep(1000);
+        PivotMotor.setPosition(0.45);
+        sleep(100);
         DownMotor.setPosition(0.675);
         sleep(500);
         if(getColor(ballColor).equals(getColor(stoneColor))){
@@ -58,8 +58,8 @@ public class JewelArm extends LinearOpMode {
             sleep(1000);
 
         }
-            DownMotor.setPosition(0.1);
-            sleep(5000);
+        DownMotor.setPosition(0.1);
+        sleep(5000);
 
     }
 }
