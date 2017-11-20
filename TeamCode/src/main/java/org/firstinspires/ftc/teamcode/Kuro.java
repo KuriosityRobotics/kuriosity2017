@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -15,6 +16,7 @@ public class Kuro {
     public DcMotor fRight;
     public DcMotor bLeft;
     public DcMotor bRight;
+
     public DcMotor right;
     public DcMotor left;
 
@@ -22,6 +24,9 @@ public class Kuro {
     public Servo upRight;
     public Servo downLeft;
     public Servo downRight;
+
+    public ColorSensor ballColor;
+    public ColorSensor stoneColor;
 
     public Kuro(HardwareMap hardwareMap){
         //Map motors
@@ -55,5 +60,9 @@ public class Kuro {
         downRight = hardwareMap.servo.get("downR");
         upLeft = hardwareMap.servo.get("upL");
         upRight = hardwareMap.servo.get("upR");
+
+        //Map Sensors
+        ballColor = hardwareMap.colorSensor.get("ballColor");
+        stoneColor = hardwareMap.colorSensor.get("stoneColor");
     }
 }
