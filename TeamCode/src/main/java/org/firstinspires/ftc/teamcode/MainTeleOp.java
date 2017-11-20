@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
 
 @TeleOp(name="Main TeleOp", group="Iterative Opmode")
@@ -100,13 +101,20 @@ public class MainTeleOp extends OpMode
 
         robot.left.setPower(-gamepad2.right_stick_y/2);
         robot.right.setPower(-gamepad2.right_stick_y/2);
-
+        double triggerVal2 = gamepad1.left_trigger;
+        triggerVal2 = Range.clip(triggerVal2, 0 , 0.75);
         //Set Power to the drive motors
-        robot.fLeft.setPower(fLPower);
-        robot.fRight.setPower(fRPower);
-        robot.bLeft.setPower(bLPower);
-        robot.bRight.setPower(bRPower);
-
+        if(gamepad1.left_bumper) {
+            robot.fLeft.setPower(fLPower / 3);
+            robot.fRight.setPower(fRPower / 3);
+            robot.bLeft.setPower(bLPower / 3);
+            robot.bRight.setPower(bRPower / 3);
+        }else{
+            robot.fLeft.setPower(fLPower);
+            robot.fRight.setPower(fRPower);
+            robot.bLeft.setPower(bLPower);
+            robot.bRight.setPower(bRPower);
+        }
 
         if(gamepad2.x){
             robot.upRight.setPosition(0.80);

@@ -123,7 +123,7 @@ public class VuforiaPictograph extends LinearOpMode {
                  * we illustrate it nevertheless, for completeness. */
                 OpenGLMatrix pose = ((VuforiaTrackableDefaultListener)relicTemplate.getListener()).getPose();
                 telemetry.addData("Pose", format(pose));
-
+                
                 /* We further illustrate how to decompose the pose into useful rotational and
                  * translational components */
                 if (pose != null) {
