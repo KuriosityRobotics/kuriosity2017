@@ -67,10 +67,10 @@ public class RedFacing extends LinearOpMode {
             robot.bLeft.setPower(0.5);
             robot.bRight.setPower(0.5);
 
-            robot.fLeft.setTargetPosition(-1000);
-            robot.fRight.setTargetPosition(-1000);
-            robot.bLeft.setTargetPosition(-1000);
-            robot.bRight.setTargetPosition(-1000);
+            robot.fLeft.setTargetPosition(-1200);
+            robot.fRight.setTargetPosition(-1200);
+            robot.bLeft.setTargetPosition(-1200);
+            robot.bRight.setTargetPosition(-1200);
 
             robot.fLeft.setPower(0.25);
             robot.fRight.setPower(0.25);
@@ -84,7 +84,7 @@ public class RedFacing extends LinearOpMode {
 
             Thread.sleep(2500);
 
-            resetEncoders(robot);
+            robot.resetEncoders();
 
             robot.fLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             robot.fRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -112,7 +112,6 @@ public class RedFacing extends LinearOpMode {
                 robot.bRight.setPower(0.25);
                 telemetry.addLine("Turning Under 90");
                 telemetry.update();
-
             }
 
             robot.fLeft.setPower(0);
@@ -120,36 +119,18 @@ public class RedFacing extends LinearOpMode {
             robot.bLeft.setPower(0);
             robot.bRight.setPower(0);
 
-
-
             Thread.sleep(500);
 
+            robot.resetEncoders();
+
+            robot.fLeft.setTargetPosition(800);
+            robot.fRight.setTargetPosition(800);
+            robot.bLeft.setTargetPosition(800);
+            robot.bRight.setTargetPosition(800);
+
+            robot.setDrivePower(0.1);
 
             Thread.sleep(1000000);
         }
-    }
-
-    public void turnOff(Kuro robot){
-        robot.fLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        robot.fRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        robot.bLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        robot.bRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        robot.fLeft.setPower(0);
-        robot.fRight.setPower(0);
-        robot.bLeft.setPower(0);
-        robot.bRight.setPower(0);
-    }
-
-    public void resetEncoders(Kuro robot){
-        robot.fLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.fRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.bLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.bRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        robot.fLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.fRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.bLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.bRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 }

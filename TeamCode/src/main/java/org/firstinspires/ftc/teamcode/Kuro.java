@@ -96,4 +96,23 @@ public class Kuro {
         ballColor = hardwareMap.colorSensor.get("ballColor");
         stoneColor = hardwareMap.colorSensor.get("stoneColor");
     }
+
+    public void setDrivePower(double power){
+        fLeft.setPower(power);
+        fRight.setPower(power);
+        bLeft.setPower(power);
+        bRight.setPower(power);
+    }
+
+    public void resetEncoders(){
+        fLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        fRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        fLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        fRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        bLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        bRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
 }
