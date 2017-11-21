@@ -1,11 +1,21 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
+
+import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
+import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 /**
  * Created by Bid on 10/29/2017.
@@ -24,11 +34,30 @@ public class Kuro {
     public Servo upRight;
     public Servo downLeft;
     public Servo downRight;
+    public Servo armServo;
+    public Servo pivotServo;
 
     public ColorSensor ballColor;
     public ColorSensor stoneColor;
 
+    public BNO055IMU imu;
+    public Orientation angles;
+
     public Kuro(HardwareMap hardwareMap){
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+        parameters.loggingEnabled      = true;
+        parameters.loggingTag          = "IMU";
+        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+
+        imu = hardwareMap.get(BNO055IMU.class, "imu 1");
+        imu.initialize(parameters);
+        imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
+
+        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
         //Map motors
         fLeft = hardwareMap.dcMotor.get("fLeft");
         fRight = hardwareMap.dcMotor.get("fRight");
@@ -37,7 +66,7 @@ public class Kuro {
         right = hardwareMap.dcMotor.get("right");
         left = hardwareMap.dcMotor.get("left");
 
-        //Set direction of motors
+        //Set direction of Smotors
         fLeft.setDirection(DcMotor.Direction.REVERSE);
         fRight.setDirection(DcMotor.Direction.FORWARD);
         bLeft.setDirection(DcMotor.Direction.FORWARD);
@@ -60,6 +89,8 @@ public class Kuro {
         downRight = hardwareMap.servo.get("downR");
         upLeft = hardwareMap.servo.get("upL");
         upRight = hardwareMap.servo.get("upR");
+        armServo = hardwareMap.servo.get("armServo");
+        pivotServo = hardwareMap.servo.get("pivotServo");
 
         //Map Sensors
         ballColor = hardwareMap.colorSensor.get("ballColor");

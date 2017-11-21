@@ -9,6 +9,10 @@ import com.qualcomm.robotcore.robot.Robot;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+
 
 /**
  * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
@@ -30,8 +34,6 @@ public class RedFacing extends LinearOpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
 
-    int step = 1;
-
     @Override
     public void runOpMode() throws InterruptedException{
         telemetry.addData("Status", "Initialized");
@@ -49,10 +51,7 @@ public class RedFacing extends LinearOpMode {
         robot.bLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.bRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        robot.fLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        robot.fRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        robot.bLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        robot.bRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        robot.armServo.setPosition(0.1);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -63,10 +62,20 @@ public class RedFacing extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            robot.fLeft.setPower(0.75);
-            robot.fRight.setPower(0.75);
-            robot.bLeft.setPower(0.75);
-            robot.bRight.setPower(0.75);
+            robot.fLeft.setPower(0.5);
+            robot.fRight.setPower(0.5);
+            robot.bLeft.setPower(0.5);
+            robot.bRight.setPower(0.5);
+
+            robot.fLeft.setTargetPosition(-1000);
+            robot.fRight.setTargetPosition(-1000);
+            robot.bLeft.setTargetPosition(-1000);
+            robot.bRight.setTargetPosition(-1000);
+
+            robot.fLeft.setPower(0.25);
+            robot.fRight.setPower(0.25);
+            robot.bLeft.setPower(0.25);
+            robot.bRight.setPower(0.25);;
 
             robot.fLeft.setTargetPosition(-1475);
             robot.fRight.setTargetPosition(-1475);
@@ -77,18 +86,59 @@ public class RedFacing extends LinearOpMode {
 
             resetEncoders(robot);
 
-            robot.fLeft.setPower(0.5);
-            robot.fRight.setPower(0.5);
-            robot.bLeft.setPower(0.5);
-            robot.bRight.setPower(0.5);
+            robot.fLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.fRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.bLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.bRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            robot.fLeft.setTargetPosition(-1475);
-            robot.fRight.setTargetPosition(1475);
-            robot.bLeft.setTargetPosition(-1475);
-            robot.bRight.setTargetPosition(1475);
+            double currentAngle = 0;
+
+            while(robot.angles.firstAngle < 60){
+                robot.angles   = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+                robot.fLeft.setPower(-0.5);
+                robot.fRight.setPower(0.5);
+                robot.bLeft.setPower(-0.5);
+                robot.bRight.setPower(0.5);
+                telemetry.addLine(robot.angles.firstAngle + "");
+                telemetry.addLine("Turning Under 60");
+                telemetry.update();
+            }
+
+            while (robot.angles.firstAngle < 90){
+                robot.angles   = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+                robot.fLeft.setPower(-0.25);
+                robot.fRight.setPower(0.25);
+                robot.bLeft.setPower(-0.25);
+                robot.bRight.setPower(0.25);
+                telemetry.addLine("Turning Under 90");
+                telemetry.update();
+
+            }
+
+            robot.fLeft.setPower(0);
+            robot.fRight.setPower(0);
+            robot.bLeft.setPower(0);
+            robot.bRight.setPower(0);
+
+
+
+            Thread.sleep(500);
+
 
             Thread.sleep(1000000);
         }
+    }
+
+    public void turnOff(Kuro robot){
+        robot.fLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        robot.fRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        robot.bLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        robot.bRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        robot.fLeft.setPower(0);
+        robot.fRight.setPower(0);
+        robot.bLeft.setPower(0);
+        robot.bRight.setPower(0);
     }
 
     public void resetEncoders(Kuro robot){
