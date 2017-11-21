@@ -1,18 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.robot.Robot;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Hardware;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
 
 /**
@@ -41,13 +37,15 @@ public class RedFacing extends LinearOpMode {
         telemetry.update();
 
         Kuro robot = new Kuro(hardwareMap);
+        KuroVuforiaPictograph pictograph = new KuroVuforiaPictograph();
+
+        RelicRecoveryVuMark vuMark = pictograph.startInit(hardwareMap, 5000);
 
         resetEncoders(robot);
 
         //causing problem below
-        //JewelArm.jewelArm(hardwareMap);
-        //closeClaws(robot);
-        //moveSlide(robot);
+
+
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -57,87 +55,61 @@ public class RedFacing extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            int moveFoward = -1500;
-            double power = 0.5;
-            robot.fLeft.setPower(power);
-            robot.fRight.setPower(power);
-            robot.bLeft.setPower(power);
-            robot.bRight.setPower(power);
+            JewelArm.jewelArm(hardwareMap);
+            closeClaws(robot);
+            moveSlide(0.25,500, robot);
+            sleep(1000);
 
-
-            robot.fLeft.setTargetPosition(moveFoward);
-            robot.fRight.setTargetPosition(moveFoward);
-            robot.bLeft.setTargetPosition(moveFoward);
-            robot.bRight.setTargetPosition(moveFoward);
-
-            power = 0.25;
-            robot.fLeft.setPower(power);
-            robot.fRight.setPower(power);
-            robot.bLeft.setPower(power);
-            robot.bRight.setPower(power);;
-            moveFoward = -1600;
-
-            robot.fLeft.setTargetPosition(moveFoward);
-            robot.fRight.setTargetPosition(moveFoward);
-            robot.bLeft.setTargetPosition(moveFoward);
-            robot.bRight.setTargetPosition(moveFoward);
-            Thread.sleep(3000);
-            if(robot.bLeft.getCurrentPosition() <= moveFoward){
-                turn(robot);
+            if(vuMark == RelicRecoveryVuMark.CENTER){
+                moveRobot(0.5,-1000,robot);
+                moveRobot(0.25,-600,robot);
+            }else if(vuMark == RelicRecoveryVuMark.RIGHT){
+                moveRobot(0.5,-1000,robot);
+                moveRobot(0.25,-300,robot);
+            }else if(vuMark == RelicRecoveryVuMark.LEFT){
+                moveRobot(0.5,-1000,robot);
+                moveRobot(0.25,-900,robot);
             }
-
-
-            robot.fLeft.setPower(0);
-            robot.fRight.setPower(0);
-            robot.bLeft.setPower(0);
-            robot.bRight.setPower(0);
-
-            Thread.sleep(500);
-
+            turn(90,robot);
             robot.resetEncoders();
-
-            robot.fLeft.setTargetPosition(800);
-            robot.fRight.setTargetPosition(800);
-            robot.bLeft.setTargetPosition(800);
-            robot.bRight.setTargetPosition(800);
-
+            moveRobot(0.25,800,robot);
             robot.setDrivePower(0.1);
-
+            sleep(2000);
+            openClaws(robot);
             Thread.sleep(1000000);
+
         }
     }
 
-    public void turn(Kuro robot){
+    public void turn(double degrees, Kuro robot){
         robot.resetEncoders();
 
-        robot.fLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.fRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.bLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.bRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        changeRunModeToUsingEncoder(robot);
 
-        double currentAngle = 0;
-
-        while(robot.angles.firstAngle < 60){
+        while (Math.abs(robot.angles.firstAngle) <= Math.abs(degrees)){
             robot.angles   = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-            robot.fLeft.setPower(-0.5);
-            robot.fRight.setPower(0.5);
-            robot.bLeft.setPower(-0.5);
-            robot.bRight.setPower(0.5);
-            telemetry.addLine(robot.angles.firstAngle + "");
-            telemetry.addLine("Turning Under 60");
-            telemetry.update();
+            double deltatAngle = Math.abs(degrees) - Math.abs(robot.angles.firstAngle);
+            double power = 1 - (Math.abs(robot.angles.firstAngle) / Math.abs(degrees));
+            if(Math.abs(robot.angles.firstAngle) >= Math.abs(degrees)){
+                break;
+            }
+            robot.fLeft.setPower(-power);
+            robot.fRight.setPower(power);
+            robot.bLeft.setPower(-power);
+            robot.bRight.setPower(power);
         }
 
-        while (robot.angles.firstAngle < 74){
-            robot.angles   = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-            robot.fLeft.setPower(-0.25);
-            robot.fRight.setPower(0.25);
-            robot.bLeft.setPower(-0.25);
-            robot.bRight.setPower(0.25);
-            telemetry.addLine("Angle is  " + robot.angles.firstAngle);
-            telemetry.update();
+        robot.fLeft.setPower(0);
+        robot.fRight.setPower(0);
+        robot.bLeft.setPower(0);
+        robot.bRight.setPower(0);
 
-        }
+        robot.angles   = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+        telemetry.addLine("Angle is  " + robot.angles.firstAngle);
+        telemetry.update();
+
+        resumeEncoders(robot);
     }
 
     public void resetEncoders(Kuro robot){
@@ -145,15 +117,8 @@ public class RedFacing extends LinearOpMode {
         robot.fRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.bLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.bRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        robot.fLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.fRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.bLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.bRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
         robot.armServo.setPosition(0.1);
     }
 
@@ -161,19 +126,39 @@ public class RedFacing extends LinearOpMode {
         robot.upRight.setPosition(0.02);
         robot.upLeft.setPosition(0.9);
         sleep(500);
-    }
-
-    public void moveSlide(Kuro robot){
-        robot.left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.left.setPower(0.2);
-        robot.right.setPower(0.2);
-        robot.right.setTargetPosition(1);
-        sleep(100000);
 
     }
 
-    public void moveRobot(double speed, int targetPostition,Kuro robot){
+    public void moveSlide(double power, int targetPosition, Kuro robot){
+        robot.left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        robot.left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        robot.left.setPower(power);
+        robot.right.setPower(power);
+
+        robot.right.setTargetPosition(targetPosition);
+        robot.left.setTargetPosition(targetPosition);
+
+        while(robot.left.isBusy() && robot.right.isBusy() ){
+            sleep(10);
+        }
+        robot.left.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+
+    }
+
+    public void moveRobot(double speed, int targetPostition, Kuro robot){
+
+        robot.fLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.fRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.bLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.bRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         robot.fLeft.setPower(speed);
         robot.fRight.setPower(speed);
@@ -186,10 +171,34 @@ public class RedFacing extends LinearOpMode {
         robot.bRight.setTargetPosition(targetPostition);
 
 
-
-        while(Math.abs(robot.fLeft.getCurrentPosition()) < Math.abs(targetPostition)) {
-            sleep(100);
+//        if(Math.abs(robot.fLeft.getCurrentPosition()) >= Math.abs(targetPostition)) {
+//            return;
+//        }
+//
+        while(robot.fLeft.isBusy() && robot.fRight.isBusy() && robot.bLeft.isBusy() && robot.bRight.isBusy()){
+            sleep(10);
         }
-         
+
+        resetEncoders(robot);
+
+}
+
+    public void resumeEncoders(Kuro robot){
+        robot.fLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.fRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.bLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.bRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
+    public void changeRunModeToUsingEncoder(Kuro robot){
+        robot.fLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.fRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.bLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.bRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+    public void openClaws(Kuro robot){
+        robot.upRight.setPosition(0.80);
+        robot.upLeft.setPosition(0.15);
     }
 }

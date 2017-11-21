@@ -45,7 +45,7 @@ public class JewelArm extends LinearOpMode {
         robot.pivotServo.setPosition(0.45);
         kuroSleep(100);
         robot.armServo.setPosition(0.675);
-        kuroSleep(500);
+        kuroSleep(1000);
         if(getColor(robot.ballColor).equals(getColor(robot.stoneColor))){
             robot.pivotServo.setPosition(0);
             kuroSleep(1000);
@@ -55,7 +55,7 @@ public class JewelArm extends LinearOpMode {
             kuroSleep(1000);
 
         }
-        robot.armServo.setPosition(0.1);
+        robot.armServo.setPosition(0.2);
         kuroSleep(5000);
     }
     public static void kuroSleep(long milliseconds) {

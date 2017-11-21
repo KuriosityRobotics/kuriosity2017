@@ -5,6 +5,10 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+
 
 @TeleOp(name="Main TeleOp", group="Iterative Opmode")
 //@Disabled
@@ -273,7 +277,7 @@ public class MainTeleOp extends OpMode
                 robot.right.setPower(0.22);
             }
         }
-
+        robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         // Elapsed Time
         telemetry.addData("Status", "Run Time: " + runtime.toString());
 
@@ -283,6 +287,7 @@ public class MainTeleOp extends OpMode
         telemetry.addData("Front Right", fRPower);
         telemetry.addData("Back Left", bLPower);
         telemetry.addData("Back Right", bRPower);
+        telemetry.addData("Angle", robot.angles.firstAngle);
     }
 
 
