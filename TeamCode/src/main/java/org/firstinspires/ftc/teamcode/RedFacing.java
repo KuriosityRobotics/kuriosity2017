@@ -173,37 +173,23 @@ public class RedFacing extends LinearOpMode {
 
     }
 
-    public moveRobot(double speed, int targetPostition,Kuro robot){
-        if(targetPostition > 0) {
+    public void moveRobot(double speed, int targetPostition,Kuro robot){
 
-                robot.fLeft.setPower(speed);
-                robot.fRight.setPower(speed);
-                robot.bLeft.setPower(speed);
-                robot.bRight.setPower(speed);
+        robot.fLeft.setPower(speed);
+        robot.fRight.setPower(speed);
+        robot.bLeft.setPower(speed);
+        robot.bRight.setPower(speed);
 
-                robot.fLeft.setTargetPosition(targetPostition);
-                robot.fRight.setTargetPosition(targetPostition);
-                robot.bLeft.setTargetPosition(targetPostition);
-                robot.bRight.setTargetPosition(targetPostition);
-                sleep(500);
-                if(robot.fLeft.getCurrentPosition() < targetPostition) {
-                    return;
-                }
-        }else{
+        robot.fLeft.setTargetPosition(targetPostition);
+        robot.fRight.setTargetPosition(targetPostition);
+        robot.bLeft.setTargetPosition(targetPostition);
+        robot.bRight.setTargetPosition(targetPostition);
 
-                robot.fLeft.setPower(speed);
-                robot.fRight.setPower(speed);
-                robot.bLeft.setPower(speed);
-                robot.bRight.setPower(speed);
 
-                robot.fLeft.setTargetPosition(targetPostition);
-                robot.fRight.setTargetPosition(targetPostition);
-                robot.bLeft.setTargetPosition(targetPostition);
-                robot.bRight.setTargetPosition(targetPostition);
 
-                if(robot.fLeft.getCurrentPosition() > targetPostition) {
-                    return;
-                }
+        while(Math.abs(robot.fLeft.getCurrentPosition()) < Math.abs(targetPostition)) {
+            sleep(100);
         }
+         
     }
 }
