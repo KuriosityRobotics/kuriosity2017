@@ -31,7 +31,7 @@ public class JewelArm extends LinearOpMode {
         jewelArm(hardwareMap);
     }
 
-    public String getColor(ColorSensor colorSensor){
+    public static String getColor(ColorSensor colorSensor){
         if(colorSensor.blue() > colorSensor.red()){
             return "red";
         }else{
@@ -39,24 +39,30 @@ public class JewelArm extends LinearOpMode {
         }
     }
 
-    public void jewelArm(HardwareMap hardwareMap) {
+    public static void jewelArm(HardwareMap hardwareMap) {
         Kuro robot = new Kuro(hardwareMap);
         //Checks which color ball is then moves the arm to knock of jewel that is matching opposing team color
         robot.pivotServo.setPosition(0.45);
-        sleep(100);
+        kuroSleep(100);
         robot.armServo.setPosition(0.675);
-        sleep(500);
+        kuroSleep(500);
         if(getColor(robot.ballColor).equals(getColor(robot.stoneColor))){
             robot.pivotServo.setPosition(0);
-            sleep(1000);
+            kuroSleep(1000);
 
         }else{
             robot.pivotServo.setPosition(1);
-            sleep(1000);
+            kuroSleep(1000);
 
         }
         robot.armServo.setPosition(0.1);
-        sleep(5000);
-
+        kuroSleep(5000);
+    }
+    public static void kuroSleep(long milliseconds) {
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 }
