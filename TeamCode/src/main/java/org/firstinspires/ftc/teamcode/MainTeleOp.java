@@ -101,8 +101,7 @@ public class MainTeleOp extends OpMode
 
         robot.left.setPower(-gamepad2.right_stick_y/2);
         robot.right.setPower(-gamepad2.right_stick_y/2);
-        double triggerVal2 = gamepad1.left_trigger;
-        triggerVal2 = Range.clip(triggerVal2, 0 , 0.75);
+        
         //Set Power to the drive motors
         /**int mode = 0;
         if (gamepad1.dpad_left) {
