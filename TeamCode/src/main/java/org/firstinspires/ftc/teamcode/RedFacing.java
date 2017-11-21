@@ -172,4 +172,38 @@ public class RedFacing extends LinearOpMode {
         sleep(100000);
 
     }
+
+    public moveRobot(double speed, int targetPostition,Kuro robot){
+        if(targetPostition > 0) {
+
+                robot.fLeft.setPower(speed);
+                robot.fRight.setPower(speed);
+                robot.bLeft.setPower(speed);
+                robot.bRight.setPower(speed);
+
+                robot.fLeft.setTargetPosition(targetPostition);
+                robot.fRight.setTargetPosition(targetPostition);
+                robot.bLeft.setTargetPosition(targetPostition);
+                robot.bRight.setTargetPosition(targetPostition);
+                sleep(500);
+                if(robot.fLeft.getCurrentPosition() < targetPostition) {
+                    return;
+                }
+        }else{
+
+                robot.fLeft.setPower(speed);
+                robot.fRight.setPower(speed);
+                robot.bLeft.setPower(speed);
+                robot.bRight.setPower(speed);
+
+                robot.fLeft.setTargetPosition(targetPostition);
+                robot.fRight.setTargetPosition(targetPostition);
+                robot.bLeft.setTargetPosition(targetPostition);
+                robot.bRight.setTargetPosition(targetPostition);
+
+                if(robot.fLeft.getCurrentPosition() > targetPostition) {
+                    return;
+                }
+        }
+    }
 }
