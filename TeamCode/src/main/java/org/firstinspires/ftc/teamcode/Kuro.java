@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.os.SystemClock;
+
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -9,6 +11,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -43,7 +46,9 @@ public class Kuro {
     public BNO055IMU imu;
     public Orientation angles;
 
-    public Kuro(HardwareMap hardwareMap){
+    public Telemetry telemetry;
+
+    public Kuro(HardwareMap hardwareMap, Telemetry telemetry){
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
@@ -52,6 +57,7 @@ public class Kuro {
         parameters.loggingTag          = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 
+        this.telemetry = telemetry;
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
@@ -104,15 +110,159 @@ public class Kuro {
         bRight.setPower(power);
     }
 
+//    public void resetEncoders(){
+//        fLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        fRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        bLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        bRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//
+//        fLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        fRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        bLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        bRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//    }
+
+    public void turn(double degrees){
+        resetEncoders();
+
+        changeRunModeToUsingEncoder();
+
+        while (Math.abs(angles.firstAngle) <= Math.abs(degrees)){
+            angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            double deltatAngle = Math.abs(degrees) - Math.abs(angles.firstAngle);
+            double power = 1 - (Math.abs(angles.firstAngle) / Math.abs(degrees));
+            if(Math.abs(angles.firstAngle) >= Math.abs(degrees)){
+                break;
+            }
+            fLeft.setPower(-power);
+            fRight.setPower(power);
+            bLeft.setPower(-power);
+            bRight.setPower(power);
+        }
+
+        fLeft.setPower(0);
+        fRight.setPower(0);
+        bLeft.setPower(0);
+        bRight.setPower(0);
+
+        angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+        resumeEncoders();
+    }
+
     public void resetEncoders(){
         fLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         fRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         bLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         bRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
 
+    public void closeClaws(){
+        upRight.setPosition(0.02);
+        upLeft.setPosition(0.9);
+        sleep(500);
+
+    }
+
+    public void moveSlide(double power, int targetPosition){
+        left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        left.setPower(-power);
+        right.setPower(-power);
+
+        right.setTargetPosition(targetPosition);
+        left.setTargetPosition(targetPosition);
+
+        while(left.isBusy() && right.isBusy() ){
+            sleep(10);
+        }
+        left.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+
+    }
+
+    public void moveRobot(double speed, int targetPostition) {
+        moveRobot(speed, targetPostition, 10000);
+    }
+
+        /**
+         *
+         * @param speed always positive
+         * @param targetPostition backwards = negative foward = positive
+         */
+    public void moveRobot(double speed, int targetPostition,long timeInMilli){
+
+        long startTime = SystemClock.elapsedRealtime();
+
+        resetEncoders();
         fLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         fRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         bLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         bRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        double newSpeed = speed;
+
+        if(targetPostition<0){
+            newSpeed = newSpeed * -1;
+        }
+
+        fLeft.setPower(newSpeed);
+        fRight.setPower(newSpeed);
+        bLeft.setPower(newSpeed);
+        bRight.setPower(newSpeed);
+
+
+        fLeft.setTargetPosition(targetPostition);
+        fRight.setTargetPosition(targetPostition);
+        bLeft.setTargetPosition(targetPostition);
+        bRight.setTargetPosition(targetPostition);
+
+
+        while(fLeft.isBusy() && fRight.isBusy() && bLeft.isBusy() && bRight.isBusy()
+                && (SystemClock.elapsedRealtime() - startTime < timeInMilli)){
+            sleep(10);
+        }
+
+        telemetry.addLine("finished sleeping");
+        resetEncoders();
+        resumeEncoders();
+
+    }
+
+    public void resumeEncoders(){
+        fLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        fRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        bLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        bRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
+    public void changeRunModeToUsingEncoder(){
+        fLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        fRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        bLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        bRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+    public void openClaws(){
+        upRight.setPosition(0.80);
+        upLeft.setPosition(0.15);
+    }
+
+    public void opBottomClaws(){
+        downRight.setPosition(0.25);
+        downLeft.setPosition(0.75);
+    }
+   
+    public final void sleep(long milliseconds) {
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 }

@@ -26,6 +26,8 @@ public class MainTeleOp extends OpMode
     boolean clawActivated;
     boolean grabberActivated;
 
+    double aPressed = 0;
+
     ElapsedTime runtime = new ElapsedTime();
 
     Kuro robot;
@@ -34,7 +36,7 @@ public class MainTeleOp extends OpMode
     @Override
     public void init() {
         //Init's robot
-        robot = new Kuro(hardwareMap);   //DO NOT DELETE
+        robot = new Kuro(hardwareMap,telemetry);   //DO NOT DELETE
 
         //Clears power values
         fLPower = 0.0;
@@ -103,8 +105,8 @@ public class MainTeleOp extends OpMode
             }
         }
 
-        robot.left.setPower(-gamepad2.right_stick_y/2);
-        robot.right.setPower(-gamepad2.right_stick_y/2);
+        robot.left.setPower(gamepad2.right_stick_y/2);
+        robot.right.setPower(gamepad2.right_stick_y/2);
 
         //Set Power to the drive motors
         /**int mode = 0;
@@ -152,106 +154,108 @@ public class MainTeleOp extends OpMode
 
         }
          */
-        if(gamepad1.dpad_down){
-            float left;
-            float right;
-            left = -gamepad1.left_stick_y + 3;
-            right = -gamepad1.left_stick_y - 3 ;
 
-            float max = Math.max(left, right);
+        if(aPressed==0) {
+            if (gamepad1.dpad_down) {
+                float left;
+                float right;
+                left = -gamepad1.left_stick_y + 3;
+                right = -gamepad1.left_stick_y - 3;
 
-            if(gamepad1.left_bumper) {
-                robot.fLeft.setPower(-left/12);
-                robot.fRight.setPower(-left/12);
-                robot.bLeft.setPower(right/12);
-                robot.bRight.setPower(right/12);
-            }else{
-                robot.fLeft.setPower(-left/5);
-                robot.fRight.setPower(-left/5);
-                robot.bLeft.setPower(right/5);
-                robot.bRight.setPower(right/5);
-            }
+                float max = Math.max(left, right);
+
+                if (gamepad1.left_bumper) {
+                    robot.fLeft.setPower(-left / 12);
+                    robot.fRight.setPower(-left / 12);
+                    robot.bLeft.setPower(right / 12);
+                    robot.bRight.setPower(right / 12);
+                } else {
+                    robot.fLeft.setPower(-left / 5);
+                    robot.fRight.setPower(-left / 5);
+                    robot.bLeft.setPower(right / 5);
+                    robot.bRight.setPower(right / 5);
+                }
 
 
-        }else if(gamepad1.dpad_up){
-            float left;
-            float right;
-            left = -gamepad1.left_stick_y + 3;
-            right = -gamepad1.left_stick_y - 3 ;
+            } else if (gamepad1.dpad_up) {
+                float left;
+                float right;
+                left = -gamepad1.left_stick_y + 3;
+                right = -gamepad1.left_stick_y - 3;
 
-            float max = Math.max(left, right);
+                float max = Math.max(left, right);
 
-            if(gamepad1.left_bumper) {
-                robot.fLeft.setPower(left/12);
-                robot.fRight.setPower(left/12);
-                robot.bLeft.setPower(-right/12);
-                robot.bRight.setPower(-right/12);
-            }else {
-                robot.fLeft.setPower(left / 5);
-                robot.fRight.setPower(left / 5);
-                robot.bLeft.setPower(-right / 5);
-                robot.bRight.setPower(-right / 5);
-            }
+                if (gamepad1.left_bumper) {
+                    robot.fLeft.setPower(left / 12);
+                    robot.fRight.setPower(left / 12);
+                    robot.bLeft.setPower(-right / 12);
+                    robot.bRight.setPower(-right / 12);
+                } else {
+                    robot.fLeft.setPower(left / 5);
+                    robot.fRight.setPower(left / 5);
+                    robot.bLeft.setPower(-right / 5);
+                    robot.bRight.setPower(-right / 5);
+                }
 
-        }else if(gamepad1.dpad_right){
-            float left;
-            float right;
-            left = -gamepad1.left_stick_y + 3;
-            right = -gamepad1.left_stick_y - 3 ;
+            } else if (gamepad1.dpad_right) {
+                float left;
+                float right;
+                left = -gamepad1.left_stick_y + 3;
+                right = -gamepad1.left_stick_y - 3;
 
-            float max = Math.max(left, right);
+                float max = Math.max(left, right);
 
-            if(gamepad1.left_bumper) {
-                robot.fLeft.setPower(left/12);
-                robot.fRight.setPower(-left/12);
-                robot.bLeft.setPower(-right/12);
-                robot.bRight.setPower(right/12);
-            }else {
-                robot.fLeft.setPower(left / 5);
-                robot.fRight.setPower(-left / 5);
-                robot.bLeft.setPower(-right / 5);
-                robot.bRight.setPower(right / 5);
-            }
-        }else if(gamepad1.dpad_left){
-            float left;
-            float right;
-            left = -gamepad1.left_stick_y + 3;
-            right = -gamepad1.left_stick_y - 3 ;
+                if (gamepad1.left_bumper) {
+                    robot.fLeft.setPower(left / 12);
+                    robot.fRight.setPower(-left / 12);
+                    robot.bLeft.setPower(-right / 12);
+                    robot.bRight.setPower(right / 12);
+                } else {
+                    robot.fLeft.setPower(left / 5);
+                    robot.fRight.setPower(-left / 5);
+                    robot.bLeft.setPower(-right / 5);
+                    robot.bRight.setPower(right / 5);
+                }
+            } else if (gamepad1.dpad_left) {
+                float left;
+                float right;
+                left = -gamepad1.left_stick_y + 3;
+                right = -gamepad1.left_stick_y - 3;
 
-            float max = Math.max(left, right);
+                float max = Math.max(left, right);
 
-            if(gamepad1.left_bumper) {
-                robot.fLeft.setPower(-left/12);
-                robot.fRight.setPower(left/12);
-                robot.bLeft.setPower(right/12);
-                robot.bRight.setPower(-right/12);
-            }else{
-                robot.fLeft.setPower(-left/5);
-                robot.fRight.setPower(left/5);
-                robot.bLeft.setPower(right/5);
-                robot.bRight.setPower(-right/5);
-            }
-        }
-        else {
-            if (gamepad1.left_bumper) {
-                robot.fLeft.setPower(fLPower / 3);
-                robot.fRight.setPower(fRPower / 3);
-                robot.bLeft.setPower(bLPower / 3);
-                robot.bRight.setPower(bRPower / 3);
+                if (gamepad1.left_bumper) {
+                    robot.fLeft.setPower(-left / 12);
+                    robot.fRight.setPower(left / 12);
+                    robot.bLeft.setPower(right / 12);
+                    robot.bRight.setPower(-right / 12);
+                } else {
+                    robot.fLeft.setPower(-left / 5);
+                    robot.fRight.setPower(left / 5);
+                    robot.bLeft.setPower(right / 5);
+                    robot.bRight.setPower(-right / 5);
+                }
             } else {
-                robot.fLeft.setPower(fLPower);
-                robot.fRight.setPower(fRPower);
-                robot.bLeft.setPower(bLPower);
-                robot.bRight.setPower(bRPower);
+                if (gamepad1.left_bumper) {
+                    robot.fLeft.setPower(fLPower / 3);
+                    robot.fRight.setPower(fRPower / 3);
+                    robot.bLeft.setPower(bLPower / 3);
+                    robot.bRight.setPower(bRPower / 3);
+                } else {
+                    robot.fLeft.setPower(fLPower);
+                    robot.fRight.setPower(fRPower);
+                    robot.bLeft.setPower(bLPower);
+                    robot.bRight.setPower(bRPower);
+                }
             }
         }
 
         //claws
 
-        if(gamepad2.x){
+        if(gamepad2.y){
             robot.upRight.setPosition(0.80);
             robot.upLeft.setPosition(0.15);
-        }else if(gamepad2.y){
+        }else if(gamepad2.x){
             robot.upRight.setPosition(0.02);
             robot.upLeft.setPosition(0.9);
         }
@@ -259,17 +263,19 @@ public class MainTeleOp extends OpMode
             robot.downRight.setPosition(1);
             robot.downLeft.setPosition(0);
         }else if(gamepad2.b){
-            robot.downRight.setPosition(0.2);
-            robot.downLeft.setPosition(0.8);
+            robot.downRight.setPosition(0.25);
+            robot.downLeft.setPosition(0.75);
         }
-        if(gamepad2.left_bumper){
-            robot.upRight.setPosition(0.1);
-            robot.upLeft.setPosition(0.9);
-        }
-        if(gamepad2.right_bumper){
-            robot.downRight.setPosition(1);
-            robot.downLeft.setPosition(0);
-        }
+
+//
+//        if(gamepad2.left_bumper){
+//            robot.upRight.setPosition(0.1);
+//            robot.upLeft.setPosition(0.9);
+//        }
+//        if(gamepad2.right_bumper){
+//            robot.downRight.setPosition(1);
+//            robot.downLeft.setPosition(0);
+//        }
 
         if(gamepad2.left_trigger>0){
             if(gamepad2.right_stick_y==0){
@@ -277,19 +283,24 @@ public class MainTeleOp extends OpMode
                 robot.right.setPower(0.22);
             }
         }
+
+        if(gamepad1.a){
+            robot.moveRobot(0.75,820);
+            telemetry.addLine("Finished moving");
+        }
+
         robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         // Elapsed Time
         telemetry.addData("Status", "Run Time: " + runtime.toString());
 
-        telemetry.addLine();
-        telemetry.addLine("Drive Motor Powers:");
-        telemetry.addData("Front Left", fLPower);
-        telemetry.addData("Front Right", fRPower);
-        telemetry.addData("Back Left", bLPower);
-        telemetry.addData("Back Right", bRPower);
-        telemetry.addData("Angle", robot.angles.firstAngle);
+//        telemetry.addLine();
+//        telemetry.addLine("Drive Motor Powers:");
+//        telemetry.addData("Front Left", fLPower);
+//        telemetry.addData("Front Right", fRPower);
+//        telemetry.addData("Back Left", bLPower);
+//        telemetry.addData("Back Right", bRPower);
+//        telemetry.addData("Angle", robot.angles.firstAngle);
     }
-
 
 
     @Override

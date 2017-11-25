@@ -6,11 +6,13 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 @Autonomous(name = "JewelArm")
 public class JewelArm extends LinearOpMode {
 
     public void runOpMode() throws InterruptedException {
-        Kuro robot = new Kuro(hardwareMap);
+        Kuro robot = new Kuro(hardwareMap,telemetry);
 
 
         telemetry.addData("Alpha", robot.ballColor.alpha());
@@ -27,8 +29,7 @@ public class JewelArm extends LinearOpMode {
         // If our team is RED, run this command
         // runArmMissionWithColorParameter(false);
 
-        sleep(1000);
-        jewelArm(hardwareMap);
+        jewelArm(hardwareMap,telemetry);
     }
 
     public static String getColor(ColorSensor colorSensor){
@@ -39,8 +40,8 @@ public class JewelArm extends LinearOpMode {
         }
     }
 
-    public static void jewelArm(HardwareMap hardwareMap) {
-        Kuro robot = new Kuro(hardwareMap);
+    public static void jewelArm(HardwareMap hardwareMap, Telemetry telemetry) {
+        Kuro robot = new Kuro(hardwareMap,telemetry);
         //Checks which color ball is then moves the arm to knock of jewel that is matching opposing team color
         robot.pivotServo.setPosition(0.45);
         kuroSleep(100);
@@ -55,8 +56,8 @@ public class JewelArm extends LinearOpMode {
             kuroSleep(1000);
 
         }
-        robot.armServo.setPosition(0.2);
-        kuroSleep(5000);
+        robot.armServo.setPosition(0.15);
+        kuroSleep(2000);
     }
     public static void kuroSleep(long milliseconds) {
         try {

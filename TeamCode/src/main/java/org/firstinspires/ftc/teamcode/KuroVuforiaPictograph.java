@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.os.SystemClock;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -7,6 +9,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -88,14 +91,15 @@ public class KuroVuforiaPictograph {
           * UNKNOWN will be returned by {@link RelicRecoveryVuMark#from(VuforiaTrackable)}.
           */
          RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-         double startTime = System.currentTimeMillis();
-         while (vuMark == RelicRecoveryVuMark.UNKNOWN || (System.currentTimeMillis() - startTime) > timeToCheckMilliseconds) {
+         long startTime = SystemClock.elapsedRealtime();
+
+         //double startTime = System.currentTimeMillis();
+         while (vuMark == RelicRecoveryVuMark.UNKNOWN && (SystemClock.elapsedRealtime() - startTime) < timeToCheckMilliseconds) {
              vuMark = RelicRecoveryVuMark.from(relicTemplate);
+
          }
 
          return vuMark;
-
-
     }
 
 
