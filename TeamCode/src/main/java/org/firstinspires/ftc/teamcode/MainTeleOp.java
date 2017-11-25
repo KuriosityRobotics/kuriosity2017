@@ -285,7 +285,7 @@ public class MainTeleOp extends OpMode
         }
 
         if(gamepad1.a){
-            robot.moveRobot(0.75,820);
+            robot.moveRobot(0.75,800);
             telemetry.addLine("Finished moving");
         }
 
