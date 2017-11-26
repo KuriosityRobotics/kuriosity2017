@@ -55,11 +55,6 @@ public class RedFacing extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            robot.moveRobot(0.5,500);
-            robot.turn(90);
-            if(true){
-                return;
-            }
             JewelArm.jewelArm(hardwareMap,telemetry);
             robot.closeClaws();
             robot.moveSlide(0.25,-600);
@@ -70,7 +65,7 @@ public class RedFacing extends LinearOpMode {
                 robot.moveRobot(0.25,-600);
             }else if(vuMark == RelicRecoveryVuMark.RIGHT){
                 robot.moveRobot(0.5,-1000);
-                robot.moveRobot(0.25,-230);
+                robot.moveRobot(0.25,-200);
             }else{
                 robot.moveRobot(0.5,-1000);
                 robot.moveRobot(0.25,-900);
@@ -83,7 +78,7 @@ public class RedFacing extends LinearOpMode {
             robot.sleep(2000);
             robot.openClaws();
             robot.sleep(2000);
-            robot.moveRobot(0.25,-150);
+            robot.moveRobot(0.25,-300);
             robot.opBottomClaws();
             Thread.sleep(1000000);
 

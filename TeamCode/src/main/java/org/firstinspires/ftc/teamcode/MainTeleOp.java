@@ -105,8 +105,11 @@ public class MainTeleOp extends OpMode
             }
         }
 
-        robot.left.setPower(gamepad2.right_stick_y/2);
-        robot.right.setPower(gamepad2.right_stick_y/2);
+        double sliderPower = (gamepad2.right_stick_y + gamepad2.left_stick_y)/2;
+
+        robot.left.setPower(sliderPower);
+        robot.right.setPower(sliderPower);
+
 
         //Set Power to the drive motors
         /**int mode = 0;
@@ -252,19 +255,31 @@ public class MainTeleOp extends OpMode
 
         //claws
 
+
+
         if(gamepad2.y){
-            robot.upRight.setPosition(0.80);
-            robot.upLeft.setPosition(0.15);
+            if(gamepad2.right_bumper){
+                robot.upRight.setPosition(0.6);
+                robot.upLeft.setPosition(0.35);
+            }else{
+                robot.upRight.setPosition(0.80);
+                robot.upLeft.setPosition(0.15);
+            }
         }else if(gamepad2.x){
             robot.upRight.setPosition(0.02);
             robot.upLeft.setPosition(0.9);
         }
         if(gamepad2.a) {
-            robot.downRight.setPosition(1);
-            robot.downLeft.setPosition(0);
+                robot.downRight.setPosition(1);
+                robot.downLeft.setPosition(0);
         }else if(gamepad2.b){
-            robot.downRight.setPosition(0.25);
-            robot.downLeft.setPosition(0.75);
+            if(gamepad2.right_bumper) {
+                robot.downRight.setPosition(0.25);
+                robot.downLeft.setPosition(0.75);
+            }else {
+                robot.downRight.setPosition(0.15);
+                robot.downLeft.setPosition(0.85);
+            }
         }
 
 //

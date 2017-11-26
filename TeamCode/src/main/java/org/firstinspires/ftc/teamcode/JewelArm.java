@@ -45,7 +45,7 @@ public class JewelArm extends LinearOpMode {
         //Checks which color ball is then moves the arm to knock of jewel that is matching opposing team color
         robot.pivotServo.setPosition(0.45);
         kuroSleep(100);
-        robot.armServo.setPosition(0.675);
+        robot.armServo.setPosition(1);
         kuroSleep(1000);
         if(getColor(robot.ballColor).equals(getColor(robot.stoneColor))){
             robot.pivotServo.setPosition(0);
