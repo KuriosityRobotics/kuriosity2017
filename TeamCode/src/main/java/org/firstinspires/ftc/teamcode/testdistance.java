@@ -5,6 +5,11 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+
 
 /**
  * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
@@ -19,31 +24,25 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="testdistance Position", group="Linear Opmode")
+@Autonomous(name="TEST", group="Linear Opmode")
 //@Disabled
-public class TestPosition extends LinearOpMode {
+public class testdistance extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor leftDrive = null;
-    private DcMotor rightDrive = null;
+
 
     @Override
-    public void runOpMode() throws InterruptedException{
+    public void runOpMode() throws InterruptedException {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        Kuro robot = new Kuro(hardwareMap);
+        Kuro robot = new Kuro(hardwareMap, telemetry);
 
-        robot.fLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.fRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.bLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.bRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.resetEncoders();
 
-        robot.fLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.fRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.bLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.bRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //causing problem below
+
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -52,13 +51,10 @@ public class TestPosition extends LinearOpMode {
         boolean toDo = true;
 
         // run until the end of the match (driver presses STOP)
+
         while (opModeIsActive()) {
-            telemetry.addLine("Positions:");
-            telemetry.addData("Front Left:", robot.fLeft.getCurrentPosition());
-            telemetry.addData("Front Right:", robot.fRight.getCurrentPosition());
-            telemetry.addData("Back Left:", robot.bLeft.getCurrentPosition());
-            telemetry.addData("Back Right:", robot.bRight.getCurrentPosition());
-            telemetry.update();
+            robot.moveRobotInches(0.25, 50.5);
+            sleep(1000000);
         }
     }
 }

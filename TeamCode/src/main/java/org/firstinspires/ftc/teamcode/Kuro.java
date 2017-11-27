@@ -204,6 +204,9 @@ public class Kuro {
 
     }
 
+    public void moveRobotInches(double speed, double targetDistance){
+        moveRobot(speed, (int)(targetDistance / 22.25 * 1000));
+    }
     public void moveRobot(double speed, int targetPostition) {
         moveRobot(speed, targetPostition, 10000);
     }
