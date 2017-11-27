@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 
-@Autonomous(name="Motor Test IT.", group="Iterative Opmode")
+@Autonomous(name="Motor testdistance IT.", group="Iterative Opmode")
 //@Disabled
 public class MotorTest extends OpMode
 {

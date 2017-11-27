@@ -130,6 +130,10 @@ public class Kuro {
 //    }
 
     public void turn(double degrees){
+        turn(degrees, 1500);
+    }
+    public void turn(double degrees, long timeInMilli){
+        long startTime = SystemClock.elapsedRealtime();
         resetEncoders();
 
         changeRunModeToUsingEncoder();
@@ -146,6 +150,10 @@ public class Kuro {
             fRight.setPower(power);
             bLeft.setPower(-power);
             bRight.setPower(power);
+
+            if (SystemClock.elapsedRealtime()> startTime + timeInMilli){
+                break;
+            }
         }
 
 
@@ -244,6 +252,9 @@ public class Kuro {
 
     }
 
+    public void moveRobotInches(double speed, double targetDistance){
+        moveRobot(speed, (int)(targetDistance / 22.25 * 1000));
+    }
     public void moveRobot(double speed, int targetPostition) {
         moveRobot(speed, targetPostition, 10000);
     }

@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp(name="Test Rig: Sensors", group="Linear Opmode")  // @Autonomous(...) is the other common choice
+@TeleOp(name="testdistance Rig: Sensors", group="Linear Opmode")  // @Autonomous(...) is the other common choice
 //@Disabled
 public class Sensor_testRig extends LinearOpMode{
 
