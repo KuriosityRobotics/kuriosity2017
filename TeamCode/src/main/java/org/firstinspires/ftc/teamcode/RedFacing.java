@@ -65,7 +65,7 @@ public class RedFacing extends LinearOpMode {
                 robot.moveRobot(0.25,-600);
             }else if(vuMark == RelicRecoveryVuMark.RIGHT){
                 robot.moveRobot(0.5,-1000);
-                robot.moveRobot(0.25,-200);
+                robot.moveRobot(0.25,-145);
             }else{
                 robot.moveRobot(0.5,-1000);
                 robot.moveRobot(0.25,-900);
@@ -79,6 +79,7 @@ public class RedFacing extends LinearOpMode {
             robot.openClaws();
             robot.sleep(2000);
             robot.moveRobot(0.25,-300);
+            robot.moveRobot(0.4,300);
             robot.opBottomClaws();
             Thread.sleep(1000000);
 

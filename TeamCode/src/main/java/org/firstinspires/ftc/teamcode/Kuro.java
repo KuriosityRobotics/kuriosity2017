@@ -47,23 +47,14 @@ public class Kuro {
     public Orientation angles;
 
     public Telemetry telemetry;
+    public HardwareMap hardwareMap;
 
     public Kuro(HardwareMap hardwareMap, Telemetry telemetry){
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
-        parameters.loggingEnabled      = true;
-        parameters.loggingTag          = "IMU";
-        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 
         this.telemetry = telemetry;
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
-        imu.initialize(parameters);
-        imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
+        this.hardwareMap = hardwareMap;
 
-        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-
+        intializeIMU();
         //Map motors
         fLeft = hardwareMap.dcMotor.get("fLeft");
         fRight = hardwareMap.dcMotor.get("fRight");
@@ -103,6 +94,22 @@ public class Kuro {
         stoneColor = hardwareMap.colorSensor.get("stoneColor");
     }
 
+    public void intializeIMU(){
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+        parameters.loggingEnabled      = true;
+        parameters.loggingTag          = "IMU";
+        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        imu.initialize(parameters);
+        imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
+
+        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+    }
+
     public void setDrivePower(double power){
         fLeft.setPower(power);
         fRight.setPower(power);
@@ -128,6 +135,7 @@ public class Kuro {
         changeRunModeToUsingEncoder();
 
         while (Math.abs(angles.firstAngle) <= Math.abs(degrees)){
+
             angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             double deltatAngle = Math.abs(degrees) - Math.abs(angles.firstAngle);
             double power = 1 - (Math.abs(angles.firstAngle) / Math.abs(degrees));
@@ -139,6 +147,8 @@ public class Kuro {
             bLeft.setPower(-power);
             bRight.setPower(power);
         }
+
+
 
         fLeft.setPower(0);
         fRight.setPower(0);
