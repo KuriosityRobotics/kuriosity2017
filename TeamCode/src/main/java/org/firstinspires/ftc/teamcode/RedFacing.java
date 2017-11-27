@@ -55,6 +55,13 @@ public class RedFacing extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
+            robot.turn2(10);
+            robot.turn2(90);
+            robot.turn2(0);
+            robot.turn2(180);
+            if(true){
+                return;
+            }
             JewelArm.jewelArm(hardwareMap,telemetry);
             robot.closeClaws();
             robot.moveSlide(0.25,-600);
