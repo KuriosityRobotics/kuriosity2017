@@ -75,7 +75,7 @@ public class RedFront extends LinearOpMode {
                 robot.moveRobot(0.25, -300);
                 robot.turn(-90);
                 robot.resetEncoders();
-                robot.moveRobot(0.25, -150);
+                robot.moveRobot(0.25, -230);
 
             }
             else
@@ -84,7 +84,7 @@ public class RedFront extends LinearOpMode {
                 robot.moveRobot(0.25, -300);
                 robot.turn(90);
                 robot.resetEncoders();
-                robot.moveRobot(0.25, -250);
+                robot.moveRobot(0.25, -830);
 
             }
             robot.turn(180);
