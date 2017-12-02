@@ -299,6 +299,33 @@ public class Kuro {
         downRight.setPosition(0.25);
         downLeft.setPosition(0.75);
     }
+
+    public void jewelArm() throws InterruptedException{
+        //Checks which color ball is then moves the arm to knock of jewel that is matching opposing team color
+        this.pivotServo.setPosition(0.45);
+        Thread.sleep(100);
+        this.armServo.setPosition(1);
+        Thread.sleep(1000);
+        if(getColor(this.ballColor).equals(getColor(this.stoneColor))){
+            this.pivotServo.setPosition(0);
+            Thread.sleep(1000);
+
+        }else{
+            this.pivotServo.setPosition(1);
+            Thread.sleep(1000);
+
+        }
+        this.armServo.setPosition(0.15);
+        Thread.sleep(2000);
+    }
+
+    public String getColor(ColorSensor colorSensor){
+        if(colorSensor.blue() > colorSensor.red()){
+            return "red";
+        }else{
+            return "blue";
+        }
+    }
    
     public final void sleep(long milliseconds) {
         try {

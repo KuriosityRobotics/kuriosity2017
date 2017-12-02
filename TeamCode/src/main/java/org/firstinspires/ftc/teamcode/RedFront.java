@@ -55,7 +55,7 @@ public class RedFront extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            JewelArm.jewelArm(hardwareMap, telemetry);
+            robot.jewelArm();
             robot.closeClaws();
             robot.moveSlide(0.25, -600);
             robot.sleep(1000);

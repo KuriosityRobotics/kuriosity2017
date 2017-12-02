@@ -24,9 +24,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Red: Facing", group="Linear Opmode")
+@Autonomous(name="Red: Back", group="Linear Opmode")
 //@Disabled
-public class RedFacing extends LinearOpMode {
+public class RedBack extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -50,7 +50,7 @@ public class RedFacing extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            JewelArm.jewelArm(hardwareMap,telemetry);
+            robot.jewelArm();
             robot.closeClaws();
             robot.moveSlide(0.25,-600);
             robot.sleep(1000);

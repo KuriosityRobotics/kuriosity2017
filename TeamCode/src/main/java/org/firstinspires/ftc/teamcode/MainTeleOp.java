@@ -36,7 +36,7 @@ public class MainTeleOp extends OpMode
     @Override
     public void init() {
         //Init's robot
-        robot = new Kuro(hardwareMap,telemetry);   //DO NOT DELETE
+        robot = new Kuro(hardwareMap, telemetry);   //DO NOT DELETE
 
         //Clears power values
         fLPower = 0.0;

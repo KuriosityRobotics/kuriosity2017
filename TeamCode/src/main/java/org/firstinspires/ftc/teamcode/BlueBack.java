@@ -37,7 +37,7 @@ public class BlueBack extends LinearOpMode {
         runtime.reset();
 
         while (opModeIsActive()) {
-            JewelArm.jewelArm(hardwareMap, telemetry);
+            robot.jewelArm();
             robot.closeClaws();
             robot.sleep(1000);
             robot.moveSlide(0.25,-600);
