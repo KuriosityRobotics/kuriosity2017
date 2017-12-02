@@ -110,54 +110,6 @@ public class MainTeleOp extends OpMode
         robot.left.setPower(sliderPower);
         robot.right.setPower(sliderPower);
 
-
-        //Set Power to the drive motors
-        /**int mode = 0;
-        if (gamepad1.dpad_left) {
-            mode = 0;
-        }else if (gamepad1.dpad_right) {
-            mode = 1;
-        }
-        switch (mode){
-            case 0:
-                if(gamepad1.left_bumper) {
-                    robot.fLeft.setPower(fLPower / 3);
-                    robot.fRight.setPower(fRPower / 3);
-                    robot.bLeft.setPower(bLPower / 3);
-                    robot.bRight.setPower(bRPower / 3);
-                }else{
-                    robot.fLeft.setPower(fLPower);
-                    robot.fRight.setPower(fRPower);
-                    robot.bLeft.setPower(bLPower);
-                    robot.bRight.setPower(bRPower);
-                }
-            case 1:
-                float left;
-                float right;
-                left = -gamepad1.left_stick_y + 3 * (gamepad1.right_stick_x);
-                right = -gamepad1.left_stick_y - 3 * (gamepad1.right_stick_x);
-
-                float max = Math.max(left, right);
-
-                if (max > 1.00) {
-                    left /= max;
-                    right /= max;
-                }
-                if(gamepad1.left_bumper){
-                    robot.fLeft.setPower(-left/3);
-                    robot.fRight.setPower(left/3);
-                    robot.bLeft.setPower(right/3);
-                    robot.bRight.setPower(-right/3);
-                }else {
-                    robot.fLeft.setPower(left);
-                    robot.fRight.setPower(-left);
-                    robot.bLeft.setPower(-right);
-                    robot.bRight.setPower(right);
-                }
-
-        }
-         */
-
         if(aPressed==0) {
             if (gamepad1.dpad_down) {
                 float left;
@@ -254,9 +206,6 @@ public class MainTeleOp extends OpMode
         }
 
         //claws
-
-
-
         if(gamepad2.y){
             if(gamepad2.right_bumper){
                 robot.upRight.setPosition(0.6);
@@ -281,17 +230,6 @@ public class MainTeleOp extends OpMode
                 robot.downLeft.setPosition(0.85);
             }
         }
-
-//
-//        if(gamepad2.left_bumper){
-//            robot.upRight.setPosition(0.1);
-//            robot.upLeft.setPosition(0.9);
-//        }
-//        if(gamepad2.right_bumper){
-//            robot.downRight.setPosition(1);
-//            robot.downLeft.setPosition(0);
-//        }
-
         if(gamepad2.left_trigger>0){
             if(gamepad2.right_stick_y==0){
                 robot.left.setPower(0.3);
@@ -308,16 +246,14 @@ public class MainTeleOp extends OpMode
         // Elapsed Time
         telemetry.addData("Status", "Run Time: " + runtime.toString());
 
-//        telemetry.addLine();
-//        telemetry.addLine("Drive Motor Powers:");
-//        telemetry.addData("Front Left", fLPower);
-//        telemetry.addData("Front Right", fRPower);
-//        telemetry.addData("Back Left", bLPower);
-//        telemetry.addData("Back Right", bRPower);
-//        telemetry.addData("Angle", robot.angles.firstAngle);
+        telemetry.addLine();
+        telemetry.addLine("Drive Motor Powers:");
+        telemetry.addData("Front Left", fLPower);
+        telemetry.addData("Front Right", fRPower);
+        telemetry.addData("Back Left", bLPower);
+        telemetry.addData("Back Right", bRPower);
+        telemetry.addData("Angle", robot.angles.firstAngle);
     }
-
-
     @Override
     public void stop() {
     }

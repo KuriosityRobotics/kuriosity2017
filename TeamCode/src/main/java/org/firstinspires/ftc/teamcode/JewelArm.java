@@ -22,13 +22,6 @@ public class JewelArm extends LinearOpMode {
         telemetry.update();
 
         waitForStart();
-        // Lower Arm between jewels
-
-        // If our team is BLUE, run this
-
-        // If our team is RED, run this command
-        // runArmMissionWithColorParameter(false);
-
         jewelArm(hardwareMap,telemetry);
     }
 

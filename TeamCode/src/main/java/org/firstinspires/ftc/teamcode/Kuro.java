@@ -117,18 +117,6 @@ public class Kuro {
         bRight.setPower(power);
     }
 
-//    public void resetEncoders(){
-//        fLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        fRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        bLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        bRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//
-//        fLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        fRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        bLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        bRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//    }
-
     public void turn(double degrees){
         turn(degrees, 1500);
     }
@@ -156,8 +144,6 @@ public class Kuro {
             }
         }
 
-
-
         fLeft.setPower(0);
         fRight.setPower(0);
         bLeft.setPower(0);
@@ -170,49 +156,38 @@ public class Kuro {
 
     public void turn2(double targetHeading){
         resetEncoders();
-
         changeRunModeToUsingEncoder();
-
         angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         double startHeading = angles.firstAngle;
         double maxAngle = startHeading - targetHeading;
         maxAngle = Math.abs(maxAngle);
         int sign = 0;
-
         if(targetHeading > startHeading){
             sign = 1;
         }else{
             sign = -1;
         }
-
         if(maxAngle == 0){
             return;
         }
-
         while(true){
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             double currentDeltatAngle = Math.abs(angles.firstAngle - startHeading);
             double scaleFactor = currentDeltatAngle / maxAngle;
             double absolutePower = 1-scaleFactor;
             double power = absolutePower * sign;
-
             if(scaleFactor > 1){
                 break;
             }
-
             fLeft.setPower(-power);
             fRight.setPower(power);
             bLeft.setPower(-power);
             bRight.setPower(power);
         }
-
         fLeft.setPower(0);
         fRight.setPower(0);
         bLeft.setPower(0);
         bRight.setPower(0);
-
-        angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-
         resumeEncoders();
     }
 
@@ -248,8 +223,6 @@ public class Kuro {
         }
         left.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-
     }
 
     public void moveRobotInches(double speed, double targetDistance){
