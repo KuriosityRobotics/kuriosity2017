@@ -14,7 +14,7 @@ public class MotorTest extends OpMode
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
 
-    Kuro robot = new Kuro(hardwareMap);
+    Kuro robot = new Kuro(hardwareMap,telemetry);
 
 
 
