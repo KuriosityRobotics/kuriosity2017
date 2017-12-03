@@ -100,8 +100,6 @@ public class RedFront extends LinearOpMode {
             robot.finalTurn(0);
             robot.moveRobot(0.5, -500);
             Thread.sleep(1000000);
-
-
         }
     }
 }

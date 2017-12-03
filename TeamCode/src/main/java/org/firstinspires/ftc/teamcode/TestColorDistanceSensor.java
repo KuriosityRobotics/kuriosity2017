@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
 
@@ -24,9 +25,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="TEST", group="Linear Opmode")
+@Autonomous(name="Test: Color Distance", group="Linear Opmode")
 //@Disabled
-public class testdistance extends LinearOpMode {
+public class TestColorDistanceSensor extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -53,8 +54,18 @@ public class testdistance extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
 
         while (opModeIsActive()) {
-            robot.moveRobotInches(0.25, 50.5);
-            sleep(1000000);
+            telemetry.addLine("Color");
+            telemetry.addData("Red", robot.cryptoBox.red());
+            telemetry.addData("Green", robot.cryptoBox.green());
+            telemetry.addData("Blue", robot.cryptoBox.blue());
+            telemetry.addData("Alpha", robot.cryptoBox.alpha());
+            telemetry.addLine();
+            telemetry.addLine("Distance");
+            telemetry.addData("MM", robot.distance.getDistance(DistanceUnit.MM));
+            telemetry.addData("CM", robot.distance.getDistance(DistanceUnit.CM));
+            telemetry.addData("Inches", robot.distance.getDistance(DistanceUnit.INCH));
+            telemetry.addData("Out of Range", robot.distance.distanceOutOfRange);
+            telemetry.update();
         }
     }
 }

@@ -129,7 +129,7 @@ public class Kuro {
         telemetry.addLine("in cryptobox");
         telemetry.update();
         sleep(1000);
-        double startDistance = distance.getDistance(DistanceUnit.INCH);
+        double startDistance = distance.getDistance(DistanceUnit.CM);
         telemetry.addData("Distance",startDistance);
         telemetry.update();
         sleep(2000);
@@ -138,8 +138,8 @@ public class Kuro {
 //        bLeft.setPower(power);
 //        bRight.setPower(power);
         while (true) {
-            telemetry.addData("Distance ",distance.getDistance(DistanceUnit.INCH));
-            telemetry.addData("Color",getColor(cryptoBox));
+            telemetry.addData("Distance ", distance.getDistance(DistanceUnit.CM));
+            telemetry.addData("Color", getColor(cryptoBox));
             telemetry.update();
             sleep(10);
         }
