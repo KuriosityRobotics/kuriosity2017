@@ -155,6 +155,10 @@ public class Kuro {
     }
 
     public void finalTurn(double targetHeading){
+        finalTurn(targetHeading,10000);
+    }
+    public void finalTurn(double targetHeading,long timeInMilli){
+        long startTime = SystemClock.elapsedRealtime();
         resetEncoders();
         changeRunModeToUsingEncoder();
         angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
@@ -175,8 +179,11 @@ public class Kuro {
             double currentDeltatAngle = Math.abs(angles.firstAngle - startHeading);
             double scaleFactor = currentDeltatAngle / maxAngle;
             double absolutePower = 1-scaleFactor;
+            if(absolutePower<=0.1){
+                absolutePower = 0.1;
+            }
             double power = absolutePower * sign;
-            if(scaleFactor > 1){
+            if(scaleFactor > 1 && (SystemClock.elapsedRealtime() - startTime > timeInMilli)){
                 break;
             }
             fLeft.setPower(-power);
