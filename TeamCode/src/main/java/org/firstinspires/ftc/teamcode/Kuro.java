@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.drm.DrmInfoStatus;
 import android.os.SystemClock;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
@@ -7,6 +8,7 @@ import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
@@ -16,6 +18,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
@@ -42,6 +45,7 @@ public class Kuro {
 
     public ColorSensor ballColor;
     public ColorSensor stoneColor;
+    public DistanceSensor distance;
 
     public BNO055IMU imu;
     public Orientation angles;
@@ -92,6 +96,8 @@ public class Kuro {
         //Map Sensors
         ballColor = hardwareMap.colorSensor.get("ballColor");
         stoneColor = hardwareMap.colorSensor.get("stoneColor");
+        distance = hardwareMap.get(DistanceSensor.class, "distance");
+
     }
 
     public void intializeIMU(){
@@ -117,6 +123,26 @@ public class Kuro {
         bRight.setPower(power);
     }
 
+    public void goToCryptoBox(double power){
+        double startDistance = distance.getDistance(DistanceUnit.INCH);
+        telemetry.addLine(startDistance + " ");
+        fLeft.setPower(power);
+        fRight.setPower(power);
+        bLeft.setPower(power);
+        bRight.setPower(power);
+        while (distance.getDistance(DistanceUnit.INCH) - startDistance > -2) {
+            telemetry.addData("Distance ",distance.getDistance(DistanceUnit.INCH));
+            sleep(10);
+        }
+        breakMotors();
+    }
+
+    public void breakMotors(){
+        fLeft.setPower(0);
+        fRight.setPower(0);
+        bLeft.setPower(0);
+        bRight.setPower(0);
+    }
     public void turn(double degrees){
         turn(degrees, 1500);
     }

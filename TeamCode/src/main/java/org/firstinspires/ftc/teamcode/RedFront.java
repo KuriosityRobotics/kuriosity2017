@@ -55,6 +55,10 @@ public class RedFront extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
+            robot.goToCryptoBox(0.25);
+            if(true){
+                return;
+            }
             robot.jewelArm();
             robot.closeClaws();
             robot.moveSlide(0.25, -600);
