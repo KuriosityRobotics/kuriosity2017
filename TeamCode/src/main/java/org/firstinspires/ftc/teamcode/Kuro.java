@@ -154,7 +154,7 @@ public class Kuro {
         resumeEncoders();
     }
 
-    public void turn2(double targetHeading){
+    public void finalTurn(double targetHeading){
         resetEncoders();
         changeRunModeToUsingEncoder();
         angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);

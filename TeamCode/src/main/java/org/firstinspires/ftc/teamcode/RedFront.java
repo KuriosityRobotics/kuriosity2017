@@ -64,7 +64,7 @@ public class RedFront extends LinearOpMode {
             {
                 robot.moveRobot(0.5, -700);
                 robot.moveRobot(0.25, -300);
-                robot.turn2(90);
+                robot.finalTurn(90);
                 robot.resetEncoders();
                 robot.moveRobot(0.25, -565);
 
@@ -73,7 +73,7 @@ public class RedFront extends LinearOpMode {
             {
                 robot.moveRobot(0.5, -700);
                 robot.moveRobot(0.25, -300);
-                robot.turn2(90);
+                robot.finalTurn(90);
                 robot.resetEncoders();
                 robot.moveRobot(0.25, -200);
 
@@ -82,17 +82,17 @@ public class RedFront extends LinearOpMode {
             {
                 robot.moveRobot(0.5, -700);
                 robot.moveRobot(0.25, -300);
-                robot.turn2(90);
+                robot.finalTurn(90);
                 robot.resetEncoders();
                 robot.moveRobot(0.25, -930);
 
             }
-            robot.turn2(180);
+            robot.finalTurn(180);
             robot.resetEncoders();
             robot.moveRobot(0.25, 300);
             robot.openClaws();
             robot.moveRobot(0.5, -300);
-            robot.turn2(0);
+            robot.finalTurn(0);
             robot.moveRobot(0.5, -500);
             Thread.sleep(1000000);
 
