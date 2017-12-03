@@ -24,7 +24,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 /**
- * Created by Bid on 10/29/2017.
+     * Created by Kuro on 10/29/2017.
  */
 
 public class Kuro {
@@ -46,6 +46,7 @@ public class Kuro {
     public ColorSensor ballColor;
     public ColorSensor stoneColor;
     public DistanceSensor distance;
+    public ColorSensor cryptoBox;
 
     public BNO055IMU imu;
     public Orientation angles;
@@ -96,6 +97,7 @@ public class Kuro {
         //Map Sensors
         ballColor = hardwareMap.colorSensor.get("ballColor");
         stoneColor = hardwareMap.colorSensor.get("stoneColor");
+        cryptoBox = hardwareMap.colorSensor.get("distance");
         distance = hardwareMap.get(DistanceSensor.class, "distance");
 
     }
@@ -124,17 +126,24 @@ public class Kuro {
     }
 
     public void goToCryptoBox(double power){
+        telemetry.addLine("in cryptobox");
+        telemetry.update();
+        sleep(1000);
         double startDistance = distance.getDistance(DistanceUnit.INCH);
-        telemetry.addLine(startDistance + " ");
-        fLeft.setPower(power);
-        fRight.setPower(power);
-        bLeft.setPower(power);
-        bRight.setPower(power);
-        while (distance.getDistance(DistanceUnit.INCH) - startDistance > -2) {
+        telemetry.addData("Distance",startDistance);
+        telemetry.update();
+        sleep(2000);
+//        fLeft.setPower(power);
+//        fRight.setPower(power);
+//        bLeft.setPower(power);
+//        bRight.setPower(power);
+        while (true) {
             telemetry.addData("Distance ",distance.getDistance(DistanceUnit.INCH));
+            telemetry.addData("Color",getColor(cryptoBox));
+            telemetry.update();
             sleep(10);
         }
-        breakMotors();
+
     }
 
     public void breakMotors(){
