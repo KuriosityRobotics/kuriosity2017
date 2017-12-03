@@ -64,33 +64,36 @@ public class RedFront extends LinearOpMode {
             {
                 robot.moveRobot(0.5, -700);
                 robot.moveRobot(0.25, -300);
-                robot.turn(-90);
+                robot.turn2(90);
                 robot.resetEncoders();
-                robot.moveRobot(0.25, -530);
+                robot.moveRobot(0.25, -565);
 
             }
             else if (vuMark == RelicRecoveryVuMark.RIGHT)
             {
                 robot.moveRobot(0.5, -700);
                 robot.moveRobot(0.25, -300);
-                robot.turn(-90);
+                robot.turn2(90);
                 robot.resetEncoders();
-                robot.moveRobot(0.25, -230);
+                robot.moveRobot(0.25, -200);
 
             }
             else
             {
                 robot.moveRobot(0.5, -700);
                 robot.moveRobot(0.25, -300);
-                robot.turn(90);
+                robot.turn2(90);
                 robot.resetEncoders();
-                robot.moveRobot(0.25, -830);
+                robot.moveRobot(0.25, -930);
 
             }
-            robot.turn(180);
+            robot.turn2(180);
             robot.resetEncoders();
-            robot.moveRobot(0.25, 200);
+            robot.moveRobot(0.25, 300);
             robot.openClaws();
+            robot.moveRobot(0.5, -300);
+            robot.turn2(0);
+            robot.moveRobot(0.5, -500);
             Thread.sleep(1000000);
 
 
