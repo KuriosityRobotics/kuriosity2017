@@ -208,8 +208,8 @@ public class MainTeleOp extends OpMode
         //claws
         if(gamepad2.y){
             if(gamepad2.right_bumper){
-                robot.upRight.setPosition(0.6);
-                robot.upLeft.setPosition(0.35);
+                robot.upRight.setPosition(0.5);
+                robot.upLeft.setPosition(0.5);
             }else{
                 robot.upRight.setPosition(0.80);
                 robot.upLeft.setPosition(0.15);
@@ -226,8 +226,8 @@ public class MainTeleOp extends OpMode
                 robot.downRight.setPosition(0.25);
                 robot.downLeft.setPosition(0.75);
             }else {
-                robot.downRight.setPosition(0.15);
-                robot.downLeft.setPosition(0.85);
+                robot.downRight.setPosition(0.3);
+                robot.downLeft.setPosition(0.7);
             }
         }
         if(gamepad2.left_trigger>0){
