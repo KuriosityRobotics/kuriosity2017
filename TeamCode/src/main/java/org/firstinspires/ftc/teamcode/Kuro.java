@@ -346,8 +346,8 @@ public class Kuro {
     }
 
     public void opBottomClaws(){
-        downRight.setPosition(0.25);
-        downLeft.setPosition(0.75);
+        downRight.setPosition(0);
+        downLeft.setPosition(1);
     }
 
     public void jewelArm() throws InterruptedException{

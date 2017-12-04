@@ -72,13 +72,13 @@ public class RedFront extends LinearOpMode {
             telemetry.addData("Vuforia Mark ", vuMark);
 
             //Moves to right column
-            robot.moveRobot(0.25, -145);
+            robot.moveRobotInches(0.25, -4);
 
             //If not right, move to respective location
             if(vuMark == RelicRecoveryVuMark.CENTER){
-                robot.moveRobotInches(0.25, -7.5);
+                robot.moveRobotInches(0.25, -6.5);
             }else if (vuMark == RelicRecoveryVuMark.LEFT) {
-                robot.moveRobotInches(0.25, -7.5 * 2);
+                robot.moveRobotInches(0.25, -6.5 * 2);
             }
             robot.finalTurn(180);
             robot.resetEncoders();
@@ -87,6 +87,7 @@ public class RedFront extends LinearOpMode {
             robot.moveRobot(0.5, -300);
             robot.finalTurn(0);
             robot.moveRobot(0.5, -500);
+            robot.opBottomClaws();
             Thread.sleep(1000000);
         }
     }
