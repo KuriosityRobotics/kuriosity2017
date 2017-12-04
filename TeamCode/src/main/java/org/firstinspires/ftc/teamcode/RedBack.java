@@ -57,6 +57,7 @@ public class RedBack extends LinearOpMode {
             telemetry.addData("Vuforia Mark ", vuMark);
             robot.moveRobotInches(0.4, -28);
             robot.moveRobotInches(0.4, 8);
+            sleep(1000);
             robot.goToCryptoBox(-0.25,0.6);
 
             //Moves to right column
