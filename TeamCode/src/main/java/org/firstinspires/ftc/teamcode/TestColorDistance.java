@@ -27,7 +27,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
 @Autonomous(name="Test: Color Distance", group="Linear Opmode")
 //@Disabled
-public class TestColorDistanceSensor extends LinearOpMode {
+public class TestColorDistance extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();

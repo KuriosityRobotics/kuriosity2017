@@ -37,10 +37,7 @@ public class RedFront extends LinearOpMode {
         telemetry.update();
 
         Kuro robot = new Kuro(hardwareMap,telemetry);
-        robot.goToCryptoBox(0.25);
-        if(true){
-            return;
-        }
+
         KuroVuforiaPictograph pictograph = new KuroVuforiaPictograph();
 
         RelicRecoveryVuMark vuMark = pictograph.startInit(hardwareMap, 3000);
@@ -59,7 +56,6 @@ public class RedFront extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-
             robot.jewelArm();
             robot.closeClaws();
             robot.moveSlide(0.25, -600);

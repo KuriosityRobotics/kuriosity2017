@@ -55,15 +55,18 @@ public class RedBack extends LinearOpMode {
             robot.moveSlide(0.25,-600);
             robot.sleep(1000);
             telemetry.addData("Vuforia Mark ", vuMark);
+            robot.moveRobotInches(0.4, -28);
+            robot.moveRobotInches(0.4, 8);
+            robot.goToCryptoBox(-0.25,0.6);
+
+            //Moves to right column
+            robot.moveRobot(0.25, -145);
+
+            //If not right, move to respective location
             if(vuMark == RelicRecoveryVuMark.CENTER){
-                robot.moveRobot(0.5,-1000);
-                robot.moveRobot(0.25,-600);
-            }else if(vuMark == RelicRecoveryVuMark.RIGHT){
-                robot.moveRobot(0.5,-1000);
-                robot.moveRobot(0.25,-145);
-            }else{
-                robot.moveRobot(0.5,-1000);
-                robot.moveRobot(0.25,-900);
+                robot.moveRobotInches(0.25, -robot.DISTANCE_BETWEEN_GLYPH_COLUMNS);
+            }else if (vuMark == RelicRecoveryVuMark.LEFT) {
+                robot.moveRobotInches(0.25, -robot.DISTANCE_BETWEEN_GLYPH_COLUMNS * 2);
             }
 
             robot.turn(90);

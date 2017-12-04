@@ -54,6 +54,8 @@ public class Kuro {
     public Telemetry telemetry;
     public HardwareMap hardwareMap;
 
+    public static double DISTANCE_BETWEEN_GLYPH_COLUMNS = 6.5;
+
     public Kuro(HardwareMap hardwareMap, Telemetry telemetry){
 
         this.telemetry = telemetry;
@@ -125,25 +127,23 @@ public class Kuro {
         bRight.setPower(power);
     }
 
-    public void goToCryptoBox(double power){
-        telemetry.addLine("in cryptobox");
-        telemetry.update();
-        sleep(1000);
-        double startDistance = distance.getDistance(DistanceUnit.CM);
-        telemetry.addData("Distance",startDistance);
-        telemetry.update();
-        sleep(2000);
-//        fLeft.setPower(power);
-//        fRight.setPower(power);
-//        bLeft.setPower(power);
-//        bRight.setPower(power);
-        while (true) {
-            telemetry.addData("Distance ", distance.getDistance(DistanceUnit.CM));
-            telemetry.addData("Color", getColor(cryptoBox));
-            telemetry.update();
-            sleep(10);
-        }
+    public void goToCryptoBox(double power,double servoPosition){
+        armServo.setPosition(servoPosition);
+        moveRobotInches(0.4,-2);
+        resumeEncoders();
+        fLeft.setPower(power);
+        fRight.setPower(power);
+        bLeft.setPower(power);
+        bRight.setPower(power);
+        while (!isCryptoBox()) {
 
+        }
+        breakMotors();
+        armServo.setPosition(0);
+    }
+
+    public boolean isCryptoBox(){
+        return !Double.isNaN(distance.getDistance(DistanceUnit.CM));
     }
 
     public void breakMotors(){
@@ -346,7 +346,7 @@ public class Kuro {
         //Checks which color ball is then moves the arm to knock of jewel that is matching opposing team color
         this.pivotServo.setPosition(0.45);
         Thread.sleep(100);
-        this.armServo.setPosition(1);
+        this.armServo.setPosition(0.9);
         Thread.sleep(1000);
         if(getColor(this.ballColor).equals(getColor(this.stoneColor))){
             this.pivotServo.setPosition(0);
