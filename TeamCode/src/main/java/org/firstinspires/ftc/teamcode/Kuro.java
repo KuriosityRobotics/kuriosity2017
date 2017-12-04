@@ -214,8 +214,8 @@ public class Kuro {
             double currentDeltatAngle = Math.abs(angles.firstAngle - startHeading);
             double scaleFactor = currentDeltatAngle / maxAngle;
             double absolutePower = 1-scaleFactor;
-            if(absolutePower<=0.1){
-                absolutePower = 0.1;
+            if(absolutePower<=0.05){
+                absolutePower = 0.05;
             }
             double power = absolutePower * sign;
             if(scaleFactor > 1 && (SystemClock.elapsedRealtime() - startTime > timeInMilli)){
