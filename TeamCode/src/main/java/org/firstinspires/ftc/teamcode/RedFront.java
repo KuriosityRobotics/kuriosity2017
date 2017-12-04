@@ -56,18 +56,19 @@ public class RedFront extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            robot.finalTurn(180);
-            if(true){
-                return;
-            }
             robot.jewelArm();
+
             robot.closeClaws();
             robot.moveSlide(0.25, -600);
             robot.sleep(1000);
+
             robot.moveRobot(0.5, -700);
-            robot.moveRobot(0.25, -400);
-            robot.finalTurn(-90);
+            robot.moveRobot(0.25, -325);
+            robot.finalTurn(90);
+            robot.moveRobotInches(0.4,6);
+            sleep(1000);
             robot.goToCryptoBox(-0.25,0.5);
+            sleep(2000);
             telemetry.addData("Vuforia Mark ", vuMark);
 
             //Moves to right column
@@ -75,9 +76,9 @@ public class RedFront extends LinearOpMode {
 
             //If not right, move to respective location
             if(vuMark == RelicRecoveryVuMark.CENTER){
-                robot.moveRobotInches(0.25, -robot.DISTANCE_BETWEEN_GLYPH_COLUMNS);
+                robot.moveRobotInches(0.25, -7.5);
             }else if (vuMark == RelicRecoveryVuMark.LEFT) {
-                robot.moveRobotInches(0.25, -robot.DISTANCE_BETWEEN_GLYPH_COLUMNS * 2);
+                robot.moveRobotInches(0.25, -7.5 * 2);
             }
             robot.finalTurn(180);
             robot.resetEncoders();
