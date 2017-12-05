@@ -215,16 +215,16 @@ public class MainTeleOp extends OpMode
                 robot.upLeft.setPosition(0.15);
             }
         }else if(gamepad2.x){
-            robot.upRight.setPosition(0.02);
-            robot.upLeft.setPosition(0.9);
+            robot.upRight.setPosition(0.42);
+            robot.upLeft.setPosition(0.5);
         }
         if(gamepad2.a) {
-                robot.downRight.setPosition(0.75);
-                robot.downLeft.setPosition(0.25);
+                robot.downRight.setPosition(0.45);
+                robot.downLeft.setPosition(0.55);
         }else if(gamepad2.b){
             if(gamepad2.right_bumper) {
-                robot.downRight.setPosition(0.3);
-                robot.downLeft.setPosition(0.7);
+                robot.downRight.setPosition(0.1);
+                robot.downLeft.setPosition(0.9);
             }else {
                 robot.downRight.setPosition(0);
                 robot.downLeft.setPosition(1);
