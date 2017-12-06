@@ -1,8 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -15,55 +12,87 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
 
 /**
- * Created by Khue on 11/26/17.
+ * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
+ * the autonomous or the teleop period of an FTC match. The names of OpModes appear on the menu
+ * of the FTC Driver Station. When an selection is made from the menu, the corresponding OpMode
+ * class is instantiated on the Robot Controller and executed.
+ *
+ * This particular OpMode just executes a basic Tank Drive Teleop for a two wheeled robot
+ * It includes all the skeletal structure that all linear OpModes contain.
+ *
+ * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
+ * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
-@Autonomous(name="Blue Black", group="Linear Opmode")
+
+@Autonomous(name="Blue: Back", group="Linear Opmode")
+//@Disabled
 public class BlueBack extends LinearOpMode {
+
+    // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() throws InterruptedException{
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        Kuro robot = new Kuro(hardwareMap, telemetry);
+        Kuro robot = new Kuro(hardwareMap,telemetry);
         KuroVuforiaPictograph pictograph = new KuroVuforiaPictograph();
 
         RelicRecoveryVuMark vuMark = pictograph.startInit(hardwareMap, 3000);
 
         robot.resetEncoders();
-
+        // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
 
+        boolean toDo = true;
+
+        // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             robot.jewelArm();
             robot.closeClaws();
-            robot.sleep(1000);
             robot.moveSlide(0.25,-600);
+            robot.sleep(1000);
             telemetry.addData("Vuforia Mark ", vuMark);
-            if(vuMark == RelicRecoveryVuMark.CENTER){
-                robot.moveRobot(0.5,1350);
-                robot.moveRobot(0.25,200);
-            }else if(vuMark == RelicRecoveryVuMark.RIGHT){
-                robot.moveRobot(0.5,1600);
-                robot.moveRobot(0.25,200);
-            }else{
-                robot.moveRobot(0.5,1000);
-                robot.moveRobot(0.25,200);
-            }
-            robot.turn(90);
+            robot.moveRobotInches(0.4, 23);
+            robot.finalTurn(-90);
             robot.resetEncoders();
-            robot.moveRobot(0.25,800);
+            robot.moveRobotInches(0.25, -12);
+            robot.sleep(1000);
+            robot.moveRobotInches(0.4, 8);
+            robot.finalTurn(0);
+            robot.resetEncoders();
+            robot.moveRobotInches(0.25, -3);
+
+            sleep(1000);
+            robot.goToCryptoBox(0.25, 0.6);
+
+            //Moves to right column
+            robot.moveRobot(0.4, 185);
+
+            //If not right, move to respective location
+            if(vuMark == RelicRecoveryVuMark.CENTER){
+                robot.moveRobotInches(0.25, robot.DISTANCE_BETWEEN_GLYPH_COLUMNS);
+            }else if (vuMark == RelicRecoveryVuMark.RIGHT) {
+                robot.moveRobotInches(0.25, robot.DISTANCE_BETWEEN_GLYPH_COLUMNS * 2);
+            }
+
+            robot.finalTurn(90);
+            robot.resetEncoders();
+            robot.moveRobot(0.6,700);
             robot.setDrivePower(0.1);
             robot.sleep(2000);
             robot.openClaws();
             robot.sleep(2000);
-            robot.moveRobot(0.25,-300);
-            robot.moveRobot(0.4,300);
+            robot.moveRobotInches(0.6,-5);
             robot.opBottomClaws();
+            robot.finalTurn(-89);
+            robot.resetEncoders();
+            robot.moveRobotInches(0.6, -4);
+            robot.moveRobotInches(0.6, 1);
             Thread.sleep(1000000);
+
         }
     }
-
 }
