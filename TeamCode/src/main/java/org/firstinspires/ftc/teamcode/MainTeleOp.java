@@ -191,8 +191,8 @@ public class MainTeleOp extends LinearOpMode
             //claws
             if (gamepad2.y) {
                 if (gamepad2.right_bumper) {
-                    robot.upRight.setPosition(0.5);
-                    robot.upLeft.setPosition(0.5);
+                    robot.upRight.setPosition(0.6);
+                    robot.upLeft.setPosition(0.4);
                 } else {
                     robot.upRight.setPosition(0.80);
                     robot.upLeft.setPosition(0.15);
