@@ -80,7 +80,7 @@ public class RedBack extends LinearOpMode {
             robot.moveRobot(0.25,-300);
             robot.moveRobot(0.4,300);
             robot.opBottomClaws();
-            Thread.sleep(1000000);
+            sleep(1000000);
 
         }
     }

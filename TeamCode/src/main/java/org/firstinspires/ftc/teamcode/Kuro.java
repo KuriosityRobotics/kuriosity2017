@@ -5,6 +5,7 @@ import android.os.SystemClock;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -53,14 +54,17 @@ public class Kuro {
 
     public Telemetry telemetry;
     public HardwareMap hardwareMap;
+    public LinearOpMode linearOpMode;
 
     public static double DISTANCE_BETWEEN_GLYPH_COLUMNS = 6.5;
 
-    public Kuro(HardwareMap hardwareMap, Telemetry telemetry){
+    public boolean stopped = false;
+
+    public Kuro(HardwareMap hardwareMap, Telemetry telemetrye){
 
         this.telemetry = telemetry;
         this.hardwareMap = hardwareMap;
-
+        //this.linearOpMode = linearOpMode;
         intializeIMU();
         //Map motors
         fLeft = hardwareMap.dcMotor.get("fLeft");
@@ -161,7 +165,7 @@ public class Kuro {
 
         changeRunModeToUsingEncoder();
 
-        while (Math.abs(angles.firstAngle) <= Math.abs(degrees)){
+        while (Math.abs(angles.firstAngle) <= Math.abs(degrees) && linearOpMode.opModeIsActive()){
 
             angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             double deltatAngle = Math.abs(degrees) - Math.abs(angles.firstAngle);
@@ -353,20 +357,20 @@ public class Kuro {
     public void jewelArm() throws InterruptedException{
         //Checks which color ball is then moves the arm to knock of jewel that is matching opposing team color
         this.pivotServo.setPosition(0.45);
-        Thread.sleep(100);
+        sleep(100);
         this.armServo.setPosition(0.9);
-        Thread.sleep(1000);
+        sleep(1000);
         if(getColor(this.ballColor).equals(getColor(this.stoneColor))){
             this.pivotServo.setPosition(0);
-            Thread.sleep(1000);
+            sleep(1000);
 
         }else{
             this.pivotServo.setPosition(1);
-            Thread.sleep(1000);
+            sleep(1000);
 
         }
         this.armServo.setPosition(0.15);
-        Thread.sleep(2000);
+        sleep(2000);
     }
 
     public String getColor(ColorSensor colorSensor){

@@ -1,5 +1,16 @@
 package org.firstinspires.ftc.teamcode;
 
+/**
+ * Created by sam on 12/5/17.
+ */
+
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -24,9 +35,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Blue: Back", group="Linear Opmode")
+@Autonomous(name="Red: Back", group="Linear Opmode")
 //@Disabled
-public class BlueBack extends LinearOpMode {
+public class TestOpMode extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -55,44 +66,34 @@ public class BlueBack extends LinearOpMode {
             robot.moveSlide(0.25,-600);
             robot.sleep(1000);
             telemetry.addData("Vuforia Mark ", vuMark);
-            robot.moveRobotInches(0.4, 23);
-            robot.finalTurn(-90);
-            robot.resetEncoders();
-            robot.moveRobotInches(0.25, -12);
-            robot.sleep(1000);
+            robot.moveRobotInches(0.4, -28);
             robot.moveRobotInches(0.4, 8);
-            robot.finalTurn(0);
-            robot.resetEncoders();
-            robot.moveRobotInches(0.25, -3);
-
             sleep(1000);
-            robot.goToCryptoBox(0.25, 0.6);
+            robot.goToCryptoBox(-0.25,0.6);
 
             //Moves to right column
-            robot.moveRobot(0.4, 185);
+            robot.moveRobot(0.25, -145);
 
             //If not right, move to respective location
             if(vuMark == RelicRecoveryVuMark.CENTER){
-                robot.moveRobotInches(0.25, robot.DISTANCE_BETWEEN_GLYPH_COLUMNS);
-            }else if (vuMark == RelicRecoveryVuMark.RIGHT) {
-                robot.moveRobotInches(0.25, robot.DISTANCE_BETWEEN_GLYPH_COLUMNS * 2);
+                robot.moveRobotInches(0.25, -robot.DISTANCE_BETWEEN_GLYPH_COLUMNS);
+            }else if (vuMark == RelicRecoveryVuMark.LEFT) {
+                robot.moveRobotInches(0.25, -robot.DISTANCE_BETWEEN_GLYPH_COLUMNS * 2);
             }
 
-            robot.finalTurn(90);
+            robot.turn(90);
             robot.resetEncoders();
-            robot.moveRobot(0.6,700);
+            robot.moveRobot(0.25,800);
             robot.setDrivePower(0.1);
             robot.sleep(2000);
             robot.openClaws();
             robot.sleep(2000);
-            robot.moveRobotInches(0.6,-5);
+            robot.moveRobot(0.25,-300);
+            robot.moveRobot(0.4,300);
             robot.opBottomClaws();
-            robot.finalTurn(-89);
-            robot.resetEncoders();
-            robot.moveRobotInches(0.6, -4);
-            robot.moveRobotInches(0.6, 1);
-            sleep(1000000);
+            Thread.sleep(1000000);
 
         }
     }
 }
+

@@ -88,7 +88,7 @@ public class RedFront extends LinearOpMode {
             robot.finalTurn(0);
             robot.moveRobot(0.5, -500);
             robot.opBottomClaws();
-            Thread.sleep(1000000);
+            sleep(1000000);
         }
     }
 }
