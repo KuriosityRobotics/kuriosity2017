@@ -38,7 +38,7 @@ public class TestColorDistance extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        Kuro robot = new Kuro(hardwareMap, telemetry);
+        Kuro robot = new Kuro(hardwareMap, telemetry,this);
 
         robot.resetEncoders();
 

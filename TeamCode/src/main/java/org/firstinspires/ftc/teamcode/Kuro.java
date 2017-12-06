@@ -60,11 +60,11 @@ public class Kuro {
 
     public boolean stopped = false;
 
-    public Kuro(HardwareMap hardwareMap, Telemetry telemetrye){
+    public Kuro(HardwareMap hardwareMap, Telemetry telemetry,LinearOpMode linearOpMode){
 
         this.telemetry = telemetry;
         this.hardwareMap = hardwareMap;
-        //this.linearOpMode = linearOpMode;
+        this.linearOpMode = linearOpMode;
         intializeIMU();
         //Map motors
         fLeft = hardwareMap.dcMotor.get("fLeft");
@@ -139,7 +139,7 @@ public class Kuro {
         fRight.setPower(power);
         bLeft.setPower(power);
         bRight.setPower(power);
-        while (!isCryptoBox()) {
+        while (!isCryptoBox() && linearOpMode.opModeIsActive()) {
 
         }
         breakMotors();
@@ -219,7 +219,7 @@ public class Kuro {
         if(maxAngle == 0){
             return;
         }
-        while(true){
+        while(linearOpMode.opModeIsActive()){
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
             double currentDeltatAngle = Math.abs(angles.firstAngle - startHeading);
@@ -272,7 +272,7 @@ public class Kuro {
         right.setTargetPosition(targetPosition);
         left.setTargetPosition(targetPosition);
 
-        while(left.isBusy() && right.isBusy() ){
+        while(left.isBusy() && right.isBusy() &&linearOpMode.opModeIsActive()){
             sleep(10);
         }
         left.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -320,7 +320,7 @@ public class Kuro {
 
 
         while(fLeft.isBusy() && fRight.isBusy() && bLeft.isBusy() && bRight.isBusy()
-                && (SystemClock.elapsedRealtime() - startTime < timeInMilli)){
+                && (SystemClock.elapsedRealtime() - startTime < timeInMilli) && linearOpMode.opModeIsActive()){
             sleep(10);
         }
 

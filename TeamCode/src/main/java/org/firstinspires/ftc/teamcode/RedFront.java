@@ -36,11 +36,11 @@ public class RedFront extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        Kuro robot = new Kuro(hardwareMap,telemetry);
+        Kuro robot = new Kuro(hardwareMap,telemetry,this);
 
         KuroVuforiaPictograph pictograph = new KuroVuforiaPictograph();
 
-        RelicRecoveryVuMark vuMark = pictograph.startInit(hardwareMap, 3000);
+        RelicRecoveryVuMark vuMark = pictograph.startInit(hardwareMap, 2000);
 
         robot.resetEncoders();
 
@@ -69,7 +69,6 @@ public class RedFront extends LinearOpMode {
             sleep(1000);
             robot.goToCryptoBox(-0.25,0.5);
             sleep(2000);
-            telemetry.addData("Vuforia Mark ", vuMark);
 
             //Moves to right column
             robot.moveRobotInches(0.25, -4);
