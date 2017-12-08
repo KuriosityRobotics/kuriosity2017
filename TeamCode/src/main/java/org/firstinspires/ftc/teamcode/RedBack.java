@@ -72,13 +72,15 @@ public class RedBack extends LinearOpMode {
             robot.turn(90);
             robot.resetEncoders();
             robot.moveRobot(0.25,800);
-            robot.setDrivePower(0.1);
             robot.sleep(2000);
             robot.openClaws();
             robot.sleep(2000);
             robot.moveRobot(0.25,-300);
-            robot.moveRobot(0.4,300);
+            robot.turn(-90);
+            robot.resetEncoders();
+            robot.moveRobot(0.4,-300);
             robot.opBottomClaws();
+            robot.moveRobotInches(0.25, 1);
             sleep(1000000);
 
         }
