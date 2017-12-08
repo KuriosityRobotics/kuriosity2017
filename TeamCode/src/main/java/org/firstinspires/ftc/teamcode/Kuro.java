@@ -358,7 +358,7 @@ public class Kuro {
         //Checks which color ball is then moves the arm to knock of jewel that is matching opposing team color
         this.pivotServo.setPosition(0.45);
         sleep(100);
-        this.armServo.setPosition(0.9);
+        this.armServo.setPosition(0.95);
         sleep(1000);
         if(getColor(this.ballColor).equals(getColor(this.stoneColor))){
             this.pivotServo.setPosition(0);
