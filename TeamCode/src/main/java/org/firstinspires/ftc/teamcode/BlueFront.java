@@ -38,9 +38,7 @@ public class BlueFront extends LinearOpMode {
 
         Kuro robot = new Kuro(hardwareMap,telemetry,this);
 
-        KuroVuforiaPictograph pictograph = new KuroVuforiaPictograph();
 
-        RelicRecoveryVuMark vuMark = pictograph.startInit(hardwareMap, 2000);
 
         robot.resetEncoders();
 
@@ -56,6 +54,9 @@ public class BlueFront extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
+            KuroVuforiaPictograph pictograph = new KuroVuforiaPictograph();
+
+            RelicRecoveryVuMark vuMark = pictograph.startInit(hardwareMap, 2000);
             robot.closeClaws();
             robot.moveSlide(0.25, -600);
 

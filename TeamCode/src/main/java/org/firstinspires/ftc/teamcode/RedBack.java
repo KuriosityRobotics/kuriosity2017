@@ -37,9 +37,6 @@ public class RedBack extends LinearOpMode {
         telemetry.update();
 
         Kuro robot = new Kuro(hardwareMap,telemetry,this);
-        KuroVuforiaPictograph pictograph = new KuroVuforiaPictograph();
-
-        RelicRecoveryVuMark vuMark = pictograph.startInit(hardwareMap, 2000);
 
         robot.resetEncoders();
         // Wait for the game to start (driver presses PLAY)
@@ -50,6 +47,10 @@ public class RedBack extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
+            KuroVuforiaPictograph pictograph = new KuroVuforiaPictograph();
+
+            RelicRecoveryVuMark vuMark = pictograph.startInit(hardwareMap, 2000);
+
             robot.closeClaws();
             robot.moveSlide(0.25, -600);
 
