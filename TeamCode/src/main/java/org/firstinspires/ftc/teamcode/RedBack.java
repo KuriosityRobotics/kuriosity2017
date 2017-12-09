@@ -57,7 +57,7 @@ public class RedBack extends LinearOpMode {
             robot.moveRobotInches(0.4, -28);
             robot.moveRobotInches(0.4, 8);
             sleep(1000);
-            robot.goToCryptoBox(-0.25,0.6);
+            robot.goToCryptoBox(-0.35,0.7);
 
             //Moves to right column
             robot.moveRobot(0.25, -145);
@@ -71,16 +71,14 @@ public class RedBack extends LinearOpMode {
 
             robot.turn(90);
             robot.resetEncoders();
-            robot.moveRobot(0.25,800);
-            robot.sleep(2000);
+            robot.moveRobot(0.25,400);
             robot.openClaws();
-            robot.sleep(2000);
-            robot.moveRobot(0.25,-300);
-            robot.turn(-90);
+            robot.moveRobot(0.25,-400);
+            robot.finalTurn(-90);
             robot.resetEncoders();
-            robot.moveRobot(0.4,-300);
+            robot.moveRobot(0.4,-400);
             robot.opBottomClaws();
-            robot.moveRobotInches(0.25, 1);
+            robot.moveRobotInches(0.25, 3);
             sleep(1000000);
 
         }

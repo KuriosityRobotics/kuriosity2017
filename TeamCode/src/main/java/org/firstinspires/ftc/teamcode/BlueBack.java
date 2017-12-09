@@ -55,41 +55,30 @@ public class BlueBack extends LinearOpMode {
             robot.moveSlide(0.25,-600);
             robot.sleep(1000);
             robot.moveRobotInches(0.4, 23);
-            robot.finalTurn(-90);
-            robot.resetEncoders();
-            robot.moveRobotInches(0.25, -12);
-            robot.sleep(1000);
-            robot.moveRobotInches(0.4, 8);
-            robot.finalTurn(0);
-            robot.resetEncoders();
-            robot.moveRobotInches(0.25, -3);
-
+            robot.moveRobotInches(0.4, -7);
             sleep(1000);
-            robot.goToCryptoBox(0.25, 0.6);
+            robot.goToCryptoBox(0.25, 0.7);
 
             //Moves to right column
             robot.moveRobot(0.4, 185);
 
             //If not right, move to respective location
             if(vuMark == RelicRecoveryVuMark.CENTER){
-                robot.moveRobotInches(0.25, robot.DISTANCE_BETWEEN_GLYPH_COLUMNS);
+                robot.moveRobotInches(0.25, 7);
             }else if (vuMark == RelicRecoveryVuMark.RIGHT) {
-                robot.moveRobotInches(0.25, robot.DISTANCE_BETWEEN_GLYPH_COLUMNS * 2);
+                robot.moveRobotInches(0.25, 7 * 2);
             }
 
             robot.finalTurn(90);
             robot.resetEncoders();
-            robot.moveRobot(0.6,700);
-            robot.setDrivePower(0.1);
-            robot.sleep(2000);
+            robot.moveRobotInches(0.4,7);
             robot.openClaws();
-            robot.sleep(2000);
-            robot.moveRobotInches(0.6,-5);
+            robot.moveRobotInches(0.3,-7);
             robot.opBottomClaws();
-            robot.finalTurn(-89);
+            robot.finalTurn(-90);
             robot.resetEncoders();
-            robot.moveRobotInches(0.6, -4);
-            robot.moveRobotInches(0.6, 1);
+            robot.moveRobotInches(0.6, -6);
+            robot.moveRobotInches(0.6, 3);
             sleep(1000000);
 
         }
