@@ -50,10 +50,12 @@ public class BlueBack extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            robot.jewelArm();
             robot.closeClaws();
-            robot.moveSlide(0.25,-600);
-            robot.sleep(1000);
+            robot.moveSlide(0.25, -600);
+
+            robot.jewelArm();
+            robot.sleep(750);
+
             robot.moveRobotInches(0.4, 23);
             robot.moveRobotInches(0.4, -7);
             sleep(1000);

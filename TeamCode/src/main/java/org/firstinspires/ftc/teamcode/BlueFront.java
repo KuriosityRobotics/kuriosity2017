@@ -56,11 +56,11 @@ public class BlueFront extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            robot.jewelArm();
-
             robot.closeClaws();
             robot.moveSlide(0.25, -600);
-            robot.sleep(1000);
+
+            robot.jewelArm();
+            robot.sleep(750);
 
             robot.moveRobotInches(0.5, 23.5);
             robot.moveRobotInches(0.25, 1);
