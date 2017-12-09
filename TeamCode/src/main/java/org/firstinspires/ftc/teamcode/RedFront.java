@@ -63,11 +63,11 @@ public class RedFront extends LinearOpMode {
             robot.sleep(750);
 
             robot.moveRobot(0.5, -700);
-            robot.moveRobot(0.25, -325);
+            robot.moveRobot(0.25, -300);
             robot.finalTurn(90);
             robot.moveRobotInches(0.4,6);
             sleep(1000);
-            robot.goToCryptoBox(-0.25,0.5);
+            robot.goToCryptoBox(-0.25,0.55);
             sleep(2000);
 
             //Moves to right column
@@ -83,15 +83,13 @@ public class RedFront extends LinearOpMode {
             robot.resetEncoders();
             robot.moveRobot(0.25, 300);
             robot.openClaws();
-            robot.moveRobot(0.5, -300);
+            robot.moveRobot(0.5, -200);
             robot.finalTurn(0);
             robot.resetEncoders();
-            robot.moveRobot(0.5, -500);
+            robot.moveRobot(0.5, -200);
             robot.opBottomClaws();
-            robot.finalTurn(0);
             robot.resetEncoders();
-            robot.moveRobot(0.5, -500);
-            robot.moveRobotInches(0.25, 1);
+            robot.moveRobotInches(0.25, 3);
             sleep(1000000);
         }
     }
