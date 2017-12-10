@@ -6,6 +6,7 @@ import android.os.SystemClock;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -43,6 +44,11 @@ public class Kuro {
     public Servo downRight;
     public Servo armServo;
     public Servo pivotServo;
+
+    public CRServo inTopL;
+    public CRServo inTopR;
+    public CRServo inBottomL;
+    public CRServo inBottomR;
 
     public ColorSensor ballColor;
     public ColorSensor stoneColor;
@@ -99,6 +105,11 @@ public class Kuro {
         upRight = hardwareMap.servo.get("upR");
         armServo = hardwareMap.servo.get("armServo");
         pivotServo = hardwareMap.servo.get("pivotServo");
+
+        inBottomL = hardwareMap.crservo.get("inBL");
+        inBottomR = hardwareMap.crservo.get("inBR");
+        inTopL = hardwareMap.crservo.get("inTL");
+        inTopR = hardwareMap.crservo.get("inTR");
 
         //Map Sensors
         ballColor = hardwareMap.colorSensor.get("ballColor");
