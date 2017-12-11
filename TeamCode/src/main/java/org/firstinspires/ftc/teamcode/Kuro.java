@@ -106,8 +106,8 @@ public class Kuro {
         armServo = hardwareMap.servo.get("armServo");
         pivotServo = hardwareMap.servo.get("pivotServo");
 
-        inBottomL = hardwareMap.crservo.get("inBL");
-        inBottomR = hardwareMap.crservo.get("inBR");
+//        inBottomL = hardwareMap.crservo.get("inBL");
+//        inBottomR = hardwareMap.crservo.get("inBR");
         inTopL = hardwareMap.crservo.get("inTL");
         inTopR = hardwareMap.crservo.get("inTR");
 
@@ -141,6 +141,8 @@ public class Kuro {
         bLeft.setPower(power);
         bRight.setPower(power);
     }
+
+
 
     public void goToCryptoBox(double power,double servoPosition){
         armServo.setPosition(servoPosition);

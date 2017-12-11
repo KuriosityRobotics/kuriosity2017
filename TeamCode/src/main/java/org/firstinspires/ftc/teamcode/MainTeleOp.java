@@ -33,7 +33,7 @@ public class MainTeleOp extends LinearOpMode
     @Override
     public void runOpMode() {
 
-        Kuro robot;
+        final Kuro robot;
 
 
 
@@ -187,19 +187,63 @@ public class MainTeleOp extends LinearOpMode
                     }
                 }
             }
+            if(gamepad2.right_trigger==0) {
+                robot.inTopL.setPower(-gamepad2.left_trigger);
+                robot.inTopR.setPower(gamepad2.left_trigger);
+            }else{
+                robot.inTopL.setPower(gamepad2.right_trigger);
+                robot.inTopR.setPower(-gamepad2.right_trigger);
+            }
 
             //claws
             if (gamepad2.y) {
                 if (gamepad2.right_bumper) {
                     robot.upRight.setPosition(0.6);
                     robot.upLeft.setPosition(0.4);
+
+                    sleep(500);
                 } else {
                     robot.upRight.setPosition(0.80);
                     robot.upLeft.setPosition(0.15);
+
                 }
             } else if (gamepad2.x) {
                 robot.upRight.setPosition(0.42);
                 robot.upLeft.setPosition(0.5);
+                sleep(250);
+
+//                Runnable runnable = new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        telemetry.addLine("in run");
+//                        robot.inTopL.setPower(-1);
+//                        robot.inTopR.setPower(1);
+//                        try {
+//                            Thread.currentThread().sleep(10000);
+//                        }catch (InterruptedException e){
+//
+//                        }
+//
+//                    }
+//                };
+                //new Thread(runnable).start();
+
+                Thread aThread = new Thread(){
+                    @Override
+                    public void run() {
+                        telemetry.addLine("in run");
+                        robot.inTopL.setPower(-1);
+                        robot.inTopR.setPower(1);
+                        try {
+                            Thread.currentThread().sleep(1000);
+                        }catch (InterruptedException e){
+
+                        }
+
+                    }
+                };
+                aThread.run();
+
             }
             if (gamepad2.a) {
                 robot.downRight.setPosition(0.45);
@@ -213,12 +257,7 @@ public class MainTeleOp extends LinearOpMode
                     robot.downLeft.setPosition(1);
                 }
             }
-            if (gamepad2.left_trigger > 0) {
-                if (gamepad2.right_stick_y == 0) {
-                    robot.left.setPower(0.3);
-                    robot.right.setPower(0.22);
-                }
-            }
+
 
             if (gamepad1.a) {
                 robot.moveRobot(0.75, 800);

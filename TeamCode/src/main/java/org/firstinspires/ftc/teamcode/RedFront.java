@@ -53,6 +53,8 @@ public class RedFront extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
+//
+
             KuroVuforiaPictograph pictograph = new KuroVuforiaPictograph();
 
             RelicRecoveryVuMark vuMark = pictograph.startInit(hardwareMap, 2000);
