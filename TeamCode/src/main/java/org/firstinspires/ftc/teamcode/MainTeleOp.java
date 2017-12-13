@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.os.SystemClock;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -22,8 +24,9 @@ public class MainTeleOp extends LinearOpMode
     double inputPower;
     boolean up = true;
     boolean down = true;
+    long startTime = 0;
     int controlMode;
-
+    boolean xActivated = false;
     boolean clawActivated;
     boolean grabberActivated;
 
@@ -34,8 +37,6 @@ public class MainTeleOp extends LinearOpMode
     public void runOpMode() {
 
         final Kuro robot;
-
-
 
 
         //Init's robot
@@ -196,6 +197,24 @@ public class MainTeleOp extends LinearOpMode
             }
 
             //claws
+            if(gamepad2.x){
+                xActivated = true;
+                startTime = SystemClock.elapsedRealtime();
+                robot.upRight.setPosition(0.42);
+                robot.upLeft.setPosition(0.5);
+            }
+            if(SystemClock.elapsedRealtime()-startTime<=1000 && xActivated){
+                robot.inTopL.setPower(-1);
+                robot.inTopR.setPower(1);
+                sleep(100);
+            }else{
+                startTime = 0;
+                xActivated = false;
+            }
+            if(gamepad2.dpad_up){
+                robot.upRight.setPosition(0.5);
+                robot.upLeft.setPosition(0.4);
+            }
             if (gamepad2.y) {
                 if (gamepad2.right_bumper) {
                     robot.upRight.setPosition(0.6);
@@ -207,43 +226,6 @@ public class MainTeleOp extends LinearOpMode
                     robot.upLeft.setPosition(0.15);
 
                 }
-            } else if (gamepad2.x) {
-                robot.upRight.setPosition(0.42);
-                robot.upLeft.setPosition(0.5);
-                sleep(250);
-
-//                Runnable runnable = new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        telemetry.addLine("in run");
-//                        robot.inTopL.setPower(-1);
-//                        robot.inTopR.setPower(1);
-//                        try {
-//                            Thread.currentThread().sleep(10000);
-//                        }catch (InterruptedException e){
-//
-//                        }
-//
-//                    }
-//                };
-                //new Thread(runnable).start();
-
-                Thread aThread = new Thread(){
-                    @Override
-                    public void run() {
-                        telemetry.addLine("in run");
-                        robot.inTopL.setPower(-1);
-                        robot.inTopR.setPower(1);
-                        try {
-                            Thread.currentThread().sleep(1000);
-                        }catch (InterruptedException e){
-
-                        }
-
-                    }
-                };
-                aThread.run();
-
             }
             if (gamepad2.a) {
                 robot.downRight.setPosition(0.45);
@@ -277,4 +259,21 @@ public class MainTeleOp extends LinearOpMode
             telemetry.addData("Angle", robot.angles.firstAngle);
         }
     }
+
+    public void execute(final Kuro robot){
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                update(robot);
+            }
+        });
+        t.start();
+    }
+
+    public void update(Kuro robot){
+        robot.inTopL.setPower(-1);
+        robot.inTopR.setPower(1);
+        sleep(10000);
+    }
+
 }
