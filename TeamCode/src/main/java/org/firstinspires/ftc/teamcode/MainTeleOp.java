@@ -3,10 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import android.os.SystemClock;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -27,6 +25,8 @@ public class MainTeleOp extends LinearOpMode
     long startTime = 0;
     int controlMode;
     boolean xActivated = false;
+    boolean topIntakeAcitivated = false;
+    boolean bottomIntakeActivated = false;
     boolean clawActivated;
     boolean grabberActivated;
 
@@ -188,13 +188,7 @@ public class MainTeleOp extends LinearOpMode
                     }
                 }
             }
-            if(gamepad2.right_trigger==0) {
-                robot.inTopL.setPower(-gamepad2.left_trigger);
-                robot.inTopR.setPower(gamepad2.left_trigger);
-            }else{
-                robot.inTopL.setPower(gamepad2.right_trigger);
-                robot.inTopR.setPower(-gamepad2.right_trigger);
-            }
+
 
             //claws
             if(gamepad2.x){
@@ -211,20 +205,69 @@ public class MainTeleOp extends LinearOpMode
                 startTime = 0;
                 xActivated = false;
             }
-            if(gamepad2.dpad_up){
-                robot.upRight.setPosition(0.5);
-                robot.upLeft.setPosition(0.4);
+
+
+
+
+
+            if(gamepad2.left_trigger > 0.1) {
+                if( !topIntakeAcitivated){
+                    topIntakeAcitivated = true;
+
+                    robot.upRight.setPosition(0.5);
+                    robot.upLeft.setPosition(0.4);
+                    robot.inTopL.setPower(-1);
+                    robot.inTopR.setPower(1);
+                }
+            }else {
+                if (topIntakeAcitivated) {
+                    robot.upRight.setPosition(0.42);
+                    robot.upLeft.setPosition(0.5);
+                    robot.inTopL.setPower(0);
+                    robot.inTopR.setPower(0);
+                    topIntakeAcitivated = false;
+                }
             }
+
+            if(gamepad2.right_trigger > 0.1) {
+                if( !bottomIntakeActivated){
+                    bottomIntakeActivated = true;
+                    robot.downRight.setPosition(0.4);
+                    robot.downLeft.setPosition(0.55);
+
+                    robot.inBottomL.setPower(1);
+                    robot.inBottomR.setPower(-1);
+                }
+            }else {
+                if (bottomIntakeActivated) {
+                    robot.downRight.setPosition(0.6);
+                    robot.downLeft.setPosition(0.4);
+                    robot.inBottomL.setPower(0);
+                    robot.inBottomR.setPower(0);
+                    bottomIntakeActivated = false;
+                }
+            }
+
+
+
+//                if(gamepad2.right_trigger==0) {
+//                    robot.downRight.setPosition(0.45);
+//                    robot.downLeft.setPosition(0.55);
+//                }else {
+//                    robot.inBottomL.setPower(gamepad2.right_trigger);
+//                    robot.inBottomR.setPower(-gamepad2.right_trigger);
+//                }
+//
+//
+
+
             if (gamepad2.y) {
                 if (gamepad2.right_bumper) {
                     robot.upRight.setPosition(0.6);
                     robot.upLeft.setPosition(0.4);
-
-                    sleep(500);
                 } else {
                     robot.upRight.setPosition(0.80);
                     robot.upLeft.setPosition(0.15);
-
                 }
             }
             if (gamepad2.a) {
@@ -259,21 +302,4 @@ public class MainTeleOp extends LinearOpMode
             telemetry.addData("Angle", robot.angles.firstAngle);
         }
     }
-
-    public void execute(final Kuro robot){
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                update(robot);
-            }
-        });
-        t.start();
-    }
-
-    public void update(Kuro robot){
-        robot.inTopL.setPower(-1);
-        robot.inTopR.setPower(1);
-        sleep(10000);
-    }
-
 }
