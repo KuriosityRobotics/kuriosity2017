@@ -187,7 +187,7 @@ public class MainTeleOp extends LinearOpMode
                         robot.bRight.setPower(bRPower);
                     }
                 }
-            
+
 
 
             //claws
@@ -211,43 +211,43 @@ public class MainTeleOp extends LinearOpMode
 
 
 
-            if(gamepad2.left_trigger > 0.1) {
-                if( !topIntakeAcitivated){
-                    topIntakeAcitivated = true;
-
-                    robot.upRight.setPosition(0.44);
-                    robot.upLeft.setPosition(0.46);
-                    robot.inTopL.setPower(-1);
-                    robot.inTopR.setPower(1);
-                }
-            }else {
-                if (topIntakeAcitivated) {
-                    robot.upRight.setPosition(0);
-                    robot.upLeft.setPosition(1);
-                    robot.inTopL.setPower(0);
-                    robot.inTopR.setPower(0);
-                    topIntakeAcitivated = false;
-                }
-            }
-
-            if(gamepad2.right_trigger > 0.1) {
-                if( !bottomIntakeActivated){
-                    bottomIntakeActivated = true;
-                    robot.downRight.setPosition(0.33);
-                    robot.downLeft.setPosition(0.67);
-
-                    robot.inBottomL.setPower(1);
-                    robot.inBottomR.setPower(-1);
-                }
-            }else {
-                if (bottomIntakeActivated) {
-                    robot.downRight.setPosition(0.6);
-                    robot.downLeft.setPosition(0.4);
-                    robot.inBottomL.setPower(0);
-                    robot.inBottomR.setPower(0);
-                    bottomIntakeActivated = false;
-                }
-            }
+//            if(gamepad2.left_trigger > 0.1) {
+//                if( !topIntakeAcitivated){
+//                    topIntakeAcitivated = true;
+//
+//                    robot.upRight.setPosition(0.44);
+//                    robot.upLeft.setPosition(0.46);
+//                    robot.inTopL.setPower(-1);
+//                    robot.inTopR.setPower(1);
+//                }
+//            }else {
+//                if (topIntakeAcitivated) {
+//                    robot.upRight.setPosition(0);
+//                    robot.upLeft.setPosition(1);
+//                    robot.inTopL.setPower(0);
+//                    robot.inTopR.setPower(0);
+//                    topIntakeAcitivated = false;
+//                }
+//            }
+//
+//            if(gamepad2.right_trigger > 0.1) {
+//                if( !bottomIntakeActivated){
+//                    bottomIntakeActivated = true;
+//                    robot.downRight.setPosition(0.33);
+//                    robot.downLeft.setPosition(0.67);
+//
+//                    robot.inBottomL.setPower(1);
+//                    robot.inBottomR.setPower(-1);
+//                }
+//            }else {
+//                if (bottomIntakeActivated) {
+//                    robot.downRight.setPosition(0.6);
+//                    robot.downLeft.setPosition(0.4);
+//                    robot.inBottomL.setPower(0);
+//                    robot.inBottomR.setPower(0);
+//                    bottomIntakeActivated = false;
+//                }
+//            }
 
 
 
@@ -264,11 +264,11 @@ public class MainTeleOp extends LinearOpMode
 
             if (gamepad2.y) {
                 if (gamepad2.right_bumper) {
-                    robot.upRight.setPosition(0.6);
-                    robot.upLeft.setPosition(0.4);
+                    robot.upRight.setPosition(0.4);
+                    robot.upLeft.setPosition(0.45);
                 } else {
-                    robot.upRight.setPosition(0.80);
-                    robot.upLeft.setPosition(0.15);
+                    robot.upRight.setPosition(0.70);
+                    robot.upLeft.setPosition(0.25);
                 }
             }
             if (gamepad2.a) {
@@ -277,10 +277,10 @@ public class MainTeleOp extends LinearOpMode
             } else if (gamepad2.b) {
                 if (gamepad2.right_bumper) {
                     robot.downRight.setPosition(0.35);
-                    robot.downLeft.setPosition(0.65);
+                    robot.downLeft.setPosition(0.6);
                 } else {
-                    robot.downRight.setPosition(0.2);
-                    robot.downLeft.setPosition(0.8);
+                    robot.downRight.setPosition(0);
+                    robot.downLeft.setPosition(1);
                 }
             }
 
