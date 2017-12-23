@@ -94,7 +94,7 @@ public class MainTeleOp extends LinearOpMode
             robot.left.setPower(sliderPower);
             robot.right.setPower(sliderPower);
 
-            if (aPressed == 0) {
+
                 if (gamepad1.dpad_down) {
                     float left;
                     float right;
@@ -187,7 +187,7 @@ public class MainTeleOp extends LinearOpMode
                         robot.bRight.setPower(bRPower);
                     }
                 }
-            }
+            
 
 
             //claws
