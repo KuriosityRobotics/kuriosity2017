@@ -75,7 +75,7 @@ public class MainTeleOp extends LinearOpMode
             }
 
             //Calculate power for motors in Meccanum Drive
-            if (!(gamepad1.left_trigger != 0 && gamepad1.right_trigger != 0)) {
+
                 if (gamepad1.left_trigger != 0) {
                     fLPower = -gamepad1.left_trigger;
                     bLPower = gamepad1.left_trigger;
@@ -87,7 +87,7 @@ public class MainTeleOp extends LinearOpMode
                     fRPower = -gamepad1.right_trigger;
                     bRPower = gamepad1.right_trigger;
                 }
-            }
+
 
             double sliderPower = (gamepad2.right_stick_y + gamepad2.left_stick_y) / 2;
 
@@ -191,20 +191,21 @@ public class MainTeleOp extends LinearOpMode
 
 
             //claws
-            if(gamepad2.x){
+            if(gamepad2.x) {
                 xActivated = true;
                 startTime = SystemClock.elapsedRealtime();
-                robot.upRight.setPosition(0.42);
-                robot.upLeft.setPosition(0.5);
+                robot.upRight.setPosition(0);
+                robot.upLeft.setPosition(1);
             }
-            if(SystemClock.elapsedRealtime()-startTime<=1000 && xActivated){
-                robot.inTopL.setPower(-1);
-                robot.inTopR.setPower(1);
-                sleep(100);
-            }else{
-                startTime = 0;
-                xActivated = false;
-            }
+//            }
+//            if(SystemClock.elapsedRealtime()-startTime<=1000 && xActivated){
+//                robot.inTopL.setPower(-1);
+//                robot.inTopR.setPower(1);
+//                sleep(100);
+//            }else{
+//                startTime = 0;
+//                xActivated = false;
+//            }
 
 
 
@@ -214,15 +215,15 @@ public class MainTeleOp extends LinearOpMode
                 if( !topIntakeAcitivated){
                     topIntakeAcitivated = true;
 
-                    robot.upRight.setPosition(0.5);
-                    robot.upLeft.setPosition(0.4);
+                    robot.upRight.setPosition(0.44);
+                    robot.upLeft.setPosition(0.46);
                     robot.inTopL.setPower(-1);
                     robot.inTopR.setPower(1);
                 }
             }else {
                 if (topIntakeAcitivated) {
-                    robot.upRight.setPosition(0.42);
-                    robot.upLeft.setPosition(0.5);
+                    robot.upRight.setPosition(0);
+                    robot.upLeft.setPosition(1);
                     robot.inTopL.setPower(0);
                     robot.inTopR.setPower(0);
                     topIntakeAcitivated = false;
@@ -232,8 +233,8 @@ public class MainTeleOp extends LinearOpMode
             if(gamepad2.right_trigger > 0.1) {
                 if( !bottomIntakeActivated){
                     bottomIntakeActivated = true;
-                    robot.downRight.setPosition(0.4);
-                    robot.downLeft.setPosition(0.55);
+                    robot.downRight.setPosition(0.33);
+                    robot.downLeft.setPosition(0.67);
 
                     robot.inBottomL.setPower(1);
                     robot.inBottomR.setPower(-1);
@@ -271,15 +272,15 @@ public class MainTeleOp extends LinearOpMode
                 }
             }
             if (gamepad2.a) {
-                robot.downRight.setPosition(0.45);
-                robot.downLeft.setPosition(0.55);
+                robot.downRight.setPosition(1);
+                robot.downLeft.setPosition(0);
             } else if (gamepad2.b) {
                 if (gamepad2.right_bumper) {
-                    robot.downRight.setPosition(0.1);
-                    robot.downLeft.setPosition(0.9);
+                    robot.downRight.setPosition(0.35);
+                    robot.downLeft.setPosition(0.65);
                 } else {
-                    robot.downRight.setPosition(0);
-                    robot.downLeft.setPosition(1);
+                    robot.downRight.setPosition(0.2);
+                    robot.downLeft.setPosition(0.8);
                 }
             }
 
