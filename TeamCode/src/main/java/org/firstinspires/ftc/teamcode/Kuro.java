@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import android.drm.DrmInfoStatus;
 import android.os.SystemClock;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
@@ -9,14 +8,12 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
@@ -38,12 +35,15 @@ public class Kuro {
     public DcMotor right;
     public DcMotor left;
 
+    public DcMotor relicPivot;
+
     public Servo upLeft;
     public Servo upRight;
     public Servo downLeft;
     public Servo downRight;
     public Servo armServo;
     public Servo pivotServo;
+    public Servo relicClaw;
 
     public CRServo inTopL;
     public CRServo inTopR;
@@ -79,6 +79,7 @@ public class Kuro {
         bRight = hardwareMap.dcMotor.get("bRight");
         right = hardwareMap.dcMotor.get("right");
         left = hardwareMap.dcMotor.get("left");
+        relicPivot = hardwareMap.dcMotor.get("relicPivot");
 
         //Set direction of Smotors
         fLeft.setDirection(DcMotor.Direction.REVERSE);
@@ -106,10 +107,12 @@ public class Kuro {
         armServo = hardwareMap.servo.get("armServo");
         pivotServo = hardwareMap.servo.get("pivotServo");
 
-        inBottomL = hardwareMap.crservo.get("inBL");
-        inBottomR = hardwareMap.crservo.get("inBR");
-        inTopL = hardwareMap.crservo.get("inTL");
-        inTopR = hardwareMap.crservo.get("inTR");
+//        inBottomL = hardwareMap.crservo.get("inBL");
+//        inBottomR = hardwareMap.crservo.get("inBR");
+//        inTopL = hardwareMap.crservo.get("inTL");
+//        inTopR = hardwareMap.crservo.get("inTR");
+
+        relicClaw = hardwareMap.servo.get("relicClaw");
 
         //Map Sensors
         ballColor = hardwareMap.colorSensor.get("ballColor");

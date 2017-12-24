@@ -267,7 +267,7 @@ public class MainTeleOp extends LinearOpMode
                     robot.upRight.setPosition(0.4);
                     robot.upLeft.setPosition(0.45);
                 } else {
-                    robot.upRight.setPosition(0.70);
+                    robot.upRight.setPosition(0.60);
                     robot.upLeft.setPosition(0.25);
                 }
             }
@@ -279,11 +279,27 @@ public class MainTeleOp extends LinearOpMode
                     robot.downRight.setPosition(0.35);
                     robot.downLeft.setPosition(0.6);
                 } else {
-                    robot.downRight.setPosition(0);
-                    robot.downLeft.setPosition(1);
+                    robot.downRight.setPosition(0.15);
+                    robot.downLeft.setPosition(0.8);
                 }
             }
 
+            if(gamepad2.dpad_down){
+                robot.relicClaw.setPosition(1);
+            }
+
+            if(gamepad2.dpad_up){
+                robot.relicClaw.setPosition(0);
+            }
+
+            if(gamepad2.dpad_right){
+                robot.relicPivot.setPower(0.5);
+            }else if(gamepad2.dpad_left)
+            {
+                robot.relicPivot.setPower(-0.5);
+            }else{
+                robot.relicPivot.setPower(0);
+            }
 
             if (gamepad1.a) {
                 robot.moveRobot(0.75, 800);
