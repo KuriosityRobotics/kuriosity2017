@@ -53,46 +53,47 @@ public class RedFront extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-//
-
             KuroVuforiaPictograph pictograph = new KuroVuforiaPictograph();
 
             RelicRecoveryVuMark vuMark = pictograph.startInit(hardwareMap, 2000);
 
             robot.closeClaws();
-            robot.moveSlide(0.25, -600);
+            robot.moveSlide(0.5, -850);
 
             robot.jewelArm();
             robot.sleep(750);
 
-            robot.moveRobot(0.5, -700);
+            robot.moveRobot(0.65, -850);
             robot.moveRobot(0.25, -300);
+            robot.moveRobotInches(0.6,9);
+            robot.moveRobotInches(0.6,-5.5);
             robot.finalTurn(90);
             robot.moveRobotInches(0.4,6);
             sleep(1000);
-            robot.goToCryptoBox(-0.25,0.55);
+            robot.goToCryptoBox(-0.4,0.55);
             sleep(2000);
 
             //Moves to right column
-            robot.moveRobotInches(0.25, -4);
+            robot.moveRobotInches(0.4, -4);
 
             //If not right, move to respective location
             if(vuMark == RelicRecoveryVuMark.CENTER){
-                robot.moveRobotInches(0.25, -6.5);
+                robot.moveRobotInches(0.5, -6.5);
             }else if (vuMark == RelicRecoveryVuMark.LEFT) {
-                robot.moveRobotInches(0.25, -6.5 * 2);
+                robot.moveRobotInches(0.5, -6.5 * 2);
             }
             robot.finalTurn(180);
             robot.resetEncoders();
-            robot.moveRobot(0.25, 300);
+            robot.moveSlide(0.6, 200);
+            robot.moveRobot(0.35, 400);
             robot.openClaws();
             robot.moveRobot(0.5, -200);
             robot.finalTurn(0);
             robot.resetEncoders();
-            robot.moveRobot(0.5, -200);
+            robot.moveRobotInches(0.5,-6);
             robot.opBottomClaws();
             robot.resetEncoders();
-            robot.moveRobotInches(0.25, 3);
+            robot.moveRobotInches(0.5, 3);
             sleep(1000000);
         }
     }
