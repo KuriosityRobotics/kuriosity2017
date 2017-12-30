@@ -52,28 +52,28 @@ public class RedBack extends LinearOpMode {
             RelicRecoveryVuMark vuMark = pictograph.startInit(hardwareMap, 2000);
 
             robot.closeClaws();
-            robot.moveSlide(0.25, -600);
+            robot.moveSlide(0.25, -850);
 
             robot.jewelArm();
-            robot.sleep(750);
 
-            robot.moveRobotInches(0.4, -28);
+            robot.moveRobotInches(0.3, -28);
             robot.moveRobotInches(0.4, 8);
             sleep(1000);
-            robot.goToCryptoBox(-0.35,0.7);
+            robot.goToCryptoBox(-0.3,0.65);
 
             //Moves to right column
-            robot.moveRobot(0.25, -145);
+            robot.moveRobotInches(0.25, -4);
 
             //If not right, move to respective location
             if(vuMark == RelicRecoveryVuMark.CENTER){
-                robot.moveRobotInches(0.25, -robot.DISTANCE_BETWEEN_GLYPH_COLUMNS);
+                robot.moveRobotInches(0.25, -6.5);
             }else if (vuMark == RelicRecoveryVuMark.LEFT) {
-                robot.moveRobotInches(0.25, -robot.DISTANCE_BETWEEN_GLYPH_COLUMNS * 2);
+                robot.moveRobotInches(0.25, -6.5 * 2);
             }
 
             robot.turn(90);
             robot.resetEncoders();
+            robot.moveSlide(0.4, 450);
             robot.moveRobot(0.25,400);
             robot.openClaws();
             robot.moveRobot(0.25,-400);

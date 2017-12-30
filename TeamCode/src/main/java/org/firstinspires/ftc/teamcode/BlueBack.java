@@ -52,28 +52,29 @@ public class BlueBack extends LinearOpMode {
 
             RelicRecoveryVuMark vuMark = pictograph.startInit(hardwareMap, 2000);
             robot.closeClaws();
-            robot.moveSlide(0.25, -600);
+            robot.moveSlide(0.25, -850);
 
             robot.jewelArm();
-            robot.sleep(750);
 
-            robot.moveRobotInches(0.4, 23);
-            robot.moveRobotInches(0.4, -7);
+            robot.moveRobotInches(0.3, 28);
+            robot.moveRobotInches(0.4, -8);
             sleep(1000);
-            robot.goToCryptoBox(0.25, 0.7);
+            robot.goToCryptoBox(0.3, 0.7);
+            sleep(1000);
 
             //Moves to right column
-            robot.moveRobot(0.4, 185);
+            robot.moveRobotInches(0.25, 2.25);
 
             //If not right, move to respective location
             if(vuMark == RelicRecoveryVuMark.CENTER){
-                robot.moveRobotInches(0.25, 7);
+                robot.moveRobotInches(0.25, 6.5);
             }else if (vuMark == RelicRecoveryVuMark.RIGHT) {
-                robot.moveRobotInches(0.25, 7 * 2);
+                robot.moveRobotInches(0.25, 6.5 * 2);
             }
 
             robot.finalTurn(90);
             robot.resetEncoders();
+            robot.moveSlide(0.4, 450);
             robot.moveRobotInches(0.4,7);
             robot.openClaws();
             robot.moveRobotInches(0.3,-7);

@@ -61,36 +61,34 @@ public class RedFront extends LinearOpMode {
             robot.moveSlide(0.5, -850);
 
             robot.jewelArm();
-            robot.sleep(750);
 
-            robot.moveRobot(0.65, -850);
+            robot.moveRobot(0.3, -900);
             robot.moveRobot(0.25, -300);
             robot.moveRobotInches(0.6,9);
-            robot.moveRobotInches(0.6,-5.5);
+            robot.moveRobotInches(0.4,-6);
             robot.finalTurn(90);
             robot.moveRobotInches(0.4,6);
             sleep(1000);
-            robot.goToCryptoBox(-0.4,0.55);
-            sleep(2000);
+            robot.goToCryptoBox(-0.3,0.55);
 
             //Moves to right column
             robot.moveRobotInches(0.4, -4);
 
             //If not right, move to respective location
             if(vuMark == RelicRecoveryVuMark.CENTER){
-                robot.moveRobotInches(0.5, -6.5);
+                robot.moveRobotInches(0.5, -6);
             }else if (vuMark == RelicRecoveryVuMark.LEFT) {
-                robot.moveRobotInches(0.5, -6.5 * 2);
+                robot.moveRobotInches(0.5, -6 * 2);
             }
             robot.finalTurn(180);
             robot.resetEncoders();
-            robot.moveSlide(0.6, 200);
+            robot.moveSlide(0.4, 450);
             robot.moveRobot(0.35, 400);
             robot.openClaws();
-            robot.moveRobot(0.5, -200);
+            robot.moveRobot(0.5, -400);
             robot.finalTurn(0);
             robot.resetEncoders();
-            robot.moveRobotInches(0.5,-6);
+            robot.moveRobotInches(0.5,-8);
             robot.opBottomClaws();
             robot.resetEncoders();
             robot.moveRobotInches(0.5, 3);
