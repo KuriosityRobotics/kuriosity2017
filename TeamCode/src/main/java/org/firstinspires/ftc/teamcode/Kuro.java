@@ -36,6 +36,7 @@ public class Kuro {
     public DcMotor left;
 
     public DcMotor relicPivot;
+    public DcMotor relicSlide;
 
     public Servo upLeft;
     public Servo upRight;
@@ -43,7 +44,8 @@ public class Kuro {
     public Servo downRight;
     public Servo armServo;
     public Servo pivotServo;
-    public Servo relicClaw;
+    public Servo relicClawLeft;
+    public Servo relicClawRight;
 
     public CRServo inTopL;
     public CRServo inTopR;
@@ -80,6 +82,8 @@ public class Kuro {
         right = hardwareMap.dcMotor.get("right");
         left = hardwareMap.dcMotor.get("left");
         relicPivot = hardwareMap.dcMotor.get("relicPivot");
+        relicSlide = hardwareMap.dcMotor.get("relicSlide");
+
 
         //Set direction of Smotors
         fLeft.setDirection(DcMotor.Direction.REVERSE);
@@ -98,6 +102,7 @@ public class Kuro {
         fRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         bLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         bRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        relicPivot.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         //Map servo
         downLeft = hardwareMap.servo.get("downL");
@@ -112,7 +117,8 @@ public class Kuro {
 //        inTopL = hardwareMap.crservo.get("inTL");
 //        inTopR = hardwareMap.crservo.get("inTR");
 
-        relicClaw = hardwareMap.servo.get("relicClaw");
+        relicClawLeft = hardwareMap.servo.get("relicClawLeft");
+        relicClawRight = hardwareMap.servo.get("relicClawRight");
 
         //Map Sensors
         ballColor = hardwareMap.colorSensor.get("ballColor");
@@ -337,7 +343,6 @@ public class Kuro {
 
         while(fLeft.isBusy() && fRight.isBusy() && bLeft.isBusy() && bRight.isBusy()
                 && (SystemClock.elapsedRealtime() - startTime < timeInMilli) && linearOpMode.opModeIsActive()){
-            sleep(10);
         }
 
         telemetry.addLine("finished sleeping");
@@ -403,5 +408,40 @@ public class Kuro {
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
+    }
+
+    public void grabRelic(){
+        relicPivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        relicPivot.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        relicPivot.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        relicClawRight.setPosition(0);
+        relicClawLeft.setPosition(1);
+        sleep(2000);
+        relicSlide.setPower(1);
+        sleep(750);
+        relicPivot.setPower(1);
+        relicPivot.setTargetPosition(-80);
+        relicSlide.setPower(0);
+        while(relicPivot.isBusy()){
+
+        }
+        relicPivot.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+    }
+
+    public void releaseRelic(){
+        relicPivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        relicPivot.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        relicPivot.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        relicPivot.setPower(1);
+        relicPivot.setTargetPosition(60);
+        while(relicPivot.isBusy()){
+
+        }
+        sleep(1000);
+        relicClawRight.setPosition(1);
+        relicClawLeft.setPosition(0);
+        sleep(500);
+        relicSlide.setPower(1);
+        sleep(1250);
     }
 }

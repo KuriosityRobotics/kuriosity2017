@@ -284,21 +284,27 @@ public class MainTeleOp extends LinearOpMode
                 }
             }
 
-            if(gamepad2.dpad_down){
-                robot.relicClaw.setPosition(1);
+
+            if(gamepad2.right_trigger>0){
+                robot.grabRelic();
             }
 
-            if(gamepad2.dpad_up){
-                robot.relicClaw.setPosition(0);
+            if(gamepad2.left_trigger>0){
+                robot.releaseRelic();
+            }
+
+            if(gamepad2.dpad_left){
+                robot.relicSlide.setPower(1);
+            }else{
+                robot.relicSlide.setPower(0);
+
             }
 
             if(gamepad2.dpad_right){
-                robot.relicPivot.setPower(0.5);
-            }else if(gamepad2.dpad_left)
-            {
-                robot.relicPivot.setPower(-0.5);
+                robot.relicSlide.setPower(-1);
             }else{
-                robot.relicPivot.setPower(0);
+                robot.relicSlide.setPower(0);
+
             }
 
             if (gamepad1.a) {

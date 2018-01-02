@@ -52,7 +52,7 @@ public class RedBack extends LinearOpMode {
             RelicRecoveryVuMark vuMark = pictograph.startInit(hardwareMap, 2000);
 
             robot.closeClaws();
-            robot.moveSlide(0.25, -850);
+            robot.moveSlide(0.5, -850);
 
             robot.jewelArm();
 
