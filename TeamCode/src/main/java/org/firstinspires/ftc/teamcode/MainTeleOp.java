@@ -198,13 +198,9 @@ public class MainTeleOp extends LinearOpMode
                     robot.releaseRelic();
                 }
 
-                if(gamepad2.dpad_left){
+                if(gamepad2.dpad_down){
                     robot.relicSlide.setPower(1);
-                }else{
-                    robot.relicSlide.setPower(0);
-                }
-
-                if(gamepad2.dpad_right){
+                }else if(gamepad2.dpad_up){
                     robot.relicSlide.setPower(-1);
                 }else{
                     robot.relicSlide.setPower(0);

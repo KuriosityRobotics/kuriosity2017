@@ -409,7 +409,7 @@ public class Kuro {
         relicPivot.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         relicClawRight.setPosition(0);
         relicClawLeft.setPosition(1);
-        sleep(2000);
+        sleep(1000);
         relicSlide.setPower(1);
         sleep(750);
         relicPivot.setPower(1);
