@@ -40,10 +40,7 @@ public class RedFront extends LinearOpMode {
 
 
         robot.resetEncoders();
-
         //causing problem below
-
-
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();

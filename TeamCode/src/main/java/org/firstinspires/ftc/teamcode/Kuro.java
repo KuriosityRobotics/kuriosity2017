@@ -5,7 +5,6 @@ import android.os.SystemClock;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
@@ -27,69 +26,78 @@ import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
  */
 
 public class Kuro {
+    //Drive Motors
     public DcMotor fLeft;
     public DcMotor fRight;
     public DcMotor bLeft;
     public DcMotor bRight;
 
+    //Glyph spool motors
     public DcMotor right;
     public DcMotor left;
 
+    //Relic Claw control motors
     public DcMotor relicPivot;
     public DcMotor relicSlide;
 
+    //Relic claw servos
+    public Servo relicClawLeft;
+    public Servo relicClawRight;
+
+    //Glyph claw servos
     public Servo upLeft;
     public Servo upRight;
     public Servo downLeft;
     public Servo downRight;
+
+    //Jewel Arm servos
     public Servo armServo;
     public Servo pivotServo;
-    public Servo relicClawLeft;
-    public Servo relicClawRight;
 
-    public CRServo inTopL;
-    public CRServo inTopR;
-    public CRServo inBottomL;
-    public CRServo inBottomR;
-
+    //Jewel Arm Color sensors
     public ColorSensor ballColor;
     public ColorSensor stoneColor;
+
+    //Cryptobox detector sensors
     public DistanceSensor distance;
     public ColorSensor cryptoBox;
 
+    //imu
     public BNO055IMU imu;
     public Orientation angles;
 
+    //Inherited classes from Op Mode
     public Telemetry telemetry;
     public HardwareMap hardwareMap;
     public LinearOpMode linearOpMode;
-
-    public static double DISTANCE_BETWEEN_GLYPH_COLUMNS = 6.5;
-
-    public boolean stopped = false;
 
     public Kuro(HardwareMap hardwareMap, Telemetry telemetry,LinearOpMode linearOpMode){
 
         this.telemetry = telemetry;
         this.hardwareMap = hardwareMap;
         this.linearOpMode = linearOpMode;
+
         intializeIMU();
+
         //Map motors
         fLeft = hardwareMap.dcMotor.get("fLeft");
         fRight = hardwareMap.dcMotor.get("fRight");
         bLeft = hardwareMap.dcMotor.get("bLeft");
         bRight = hardwareMap.dcMotor.get("bRight");
+
         right = hardwareMap.dcMotor.get("right");
         left = hardwareMap.dcMotor.get("left");
+
         relicPivot = hardwareMap.dcMotor.get("relicPivot");
         relicSlide = hardwareMap.dcMotor.get("relicSlide");
 
 
-        //Set direction of Smotors
+        //Set direction of motors
         fLeft.setDirection(DcMotor.Direction.REVERSE);
         fRight.setDirection(DcMotor.Direction.FORWARD);
         bLeft.setDirection(DcMotor.Direction.FORWARD);
         bRight.setDirection(DcMotor.Direction.REVERSE);
+
         left.setDirection(DcMotor.Direction.FORWARD);
         right.setDirection(DcMotor.Direction.REVERSE);
 
@@ -104,7 +112,7 @@ public class Kuro {
         bRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         relicPivot.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        //Map servo
+        //Map servos
         downLeft = hardwareMap.servo.get("downL");
         downRight = hardwareMap.servo.get("downR");
         upLeft = hardwareMap.servo.get("upL");
@@ -112,20 +120,15 @@ public class Kuro {
         armServo = hardwareMap.servo.get("armServo");
         pivotServo = hardwareMap.servo.get("pivotServo");
 
-//        inBottomL = hardwareMap.crservo.get("inBL");
-//        inBottomR = hardwareMap.crservo.get("inBR");
-//        inTopL = hardwareMap.crservo.get("inTL");
-//        inTopR = hardwareMap.crservo.get("inTR");
-
         relicClawLeft = hardwareMap.servo.get("relicClawLeft");
         relicClawRight = hardwareMap.servo.get("relicClawRight");
 
         //Map Sensors
         ballColor = hardwareMap.colorSensor.get("ballColor");
         stoneColor = hardwareMap.colorSensor.get("stoneColor");
+
         cryptoBox = hardwareMap.colorSensor.get("distance");
         distance = hardwareMap.get(DistanceSensor.class, "distance");
-
     }
 
     public void intializeIMU(){
@@ -151,20 +154,15 @@ public class Kuro {
         bRight.setPower(power);
     }
 
-
-
     public void goToCryptoBox(double power,double servoPosition){
         armServo.setPosition(servoPosition);
         moveRobotInches(0.4,-2);
         resumeEncoders();
-        fLeft.setPower(power);
-        fRight.setPower(power);
-        bLeft.setPower(power);
-        bRight.setPower(power);
-        while (!isCryptoBox() && linearOpMode.opModeIsActive()) {
+        setDrivePower(power);
 
-        }
-        breakMotors();
+        while (!isCryptoBox() && linearOpMode.opModeIsActive()) {}
+
+        brakeMotors();
         armServo.setPosition(0);
     }
 
@@ -172,15 +170,14 @@ public class Kuro {
         return !Double.isNaN(distance.getDistance(DistanceUnit.CM));
     }
 
-    public void breakMotors(){
-        fLeft.setPower(0);
-        fRight.setPower(0);
-        bLeft.setPower(0);
-        bRight.setPower(0);
+    public void brakeMotors(){
+        setDrivePower(0);
     }
+
     public void turn(double degrees){
         turn(degrees, 1500);
     }
+
     public void turn(double degrees, long timeInMilli){
         long startTime = SystemClock.elapsedRealtime();
         resetEncoders();
@@ -188,13 +185,16 @@ public class Kuro {
         changeRunModeToUsingEncoder();
 
         while (Math.abs(angles.firstAngle) <= Math.abs(degrees) && linearOpMode.opModeIsActive()){
-
             angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
             double deltatAngle = Math.abs(degrees) - Math.abs(angles.firstAngle);
+
             double power = 1 - (Math.abs(angles.firstAngle) / Math.abs(degrees));
+
             if(Math.abs(angles.firstAngle) >= Math.abs(degrees)){
                 break;
             }
+
             fLeft.setPower(-power);
             fRight.setPower(power);
             bLeft.setPower(-power);
@@ -205,12 +205,9 @@ public class Kuro {
             }
         }
 
-        fLeft.setPower(0);
-        fRight.setPower(0);
-        bLeft.setPower(0);
-        bRight.setPower(0);
+        brakeMotors();
 
-        angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         resumeEncoders();
     }
@@ -260,10 +257,7 @@ public class Kuro {
             bLeft.setPower(-power);
             bRight.setPower(power);
         }
-        fLeft.setPower(0);
-        fRight.setPower(0);
-        bLeft.setPower(0);
-        bRight.setPower(0);
+        brakeMotors();
         resumeEncoders();
     }
 
@@ -278,7 +272,6 @@ public class Kuro {
         upRight.setPosition(0.02);
         upLeft.setPosition(0.9);
         sleep(500);
-
     }
 
     public void moveSlide(double power, int targetPosition){
