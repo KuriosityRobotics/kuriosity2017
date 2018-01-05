@@ -22,7 +22,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 /**
-     * Created by Kuro on 10/29/2017.
+ * Created by Kuro on 10/29/2017.
  */
 
 public class Kuro {
@@ -111,6 +111,7 @@ public class Kuro {
         bLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         bRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         relicPivot.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        relicSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         //Map servos
         downLeft = hardwareMap.servo.get("downL");
@@ -301,11 +302,11 @@ public class Kuro {
         moveRobot(speed, targetPostition, 10000);
     }
 
-        /**
-         *
-         * @param speed always positive
-         * @param targetPostition backwards = negative foward = positive
-         */
+    /**
+     *
+     * @param speed always positive
+     * @param targetPostition backwards = negative foward = positive
+     */
     public void moveRobot(double speed, int targetPostition,long timeInMilli){
 
         long startTime = SystemClock.elapsedRealtime();
@@ -394,7 +395,7 @@ public class Kuro {
             return "blue";
         }
     }
-   
+
     public final void sleep(long milliseconds) {
         try {
             Thread.sleep(milliseconds);
@@ -407,34 +408,70 @@ public class Kuro {
         relicPivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         relicPivot.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         relicPivot.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        relicSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
         relicClawRight.setPosition(0);
         relicClawLeft.setPosition(1);
         sleep(1000);
+
         relicSlide.setPower(1);
-        sleep(750);
-        relicPivot.setPower(1);
-        relicPivot.setTargetPosition(-80);
-        relicSlide.setPower(0);
-        while(relicPivot.isBusy()){
+        relicSlide.setTargetPosition(-200);
+        while(relicSlide.isBusy() && linearOpMode.opModeIsActive()){
 
         }
+
+        relicPivot.setPower(1);
+        relicPivot.setTargetPosition(-80);
         relicPivot.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        relicSlide.setPower(1);
+        relicSlide.setTargetPosition(-10);
+        while((relicPivot.isBusy() || relicSlide.isBusy()) && linearOpMode.opModeIsActive()){
+
+        }
+        relicSlide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     public void releaseRelic(){
         relicPivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         relicPivot.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         relicPivot.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        relicSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        relicSlide.setPower(1);
+        relicSlide.setTargetPosition(-1275);
+        while(relicSlide.isBusy() && linearOpMode.opModeIsActive()){
+
+        }
+
         relicPivot.setPower(1);
         relicPivot.setTargetPosition(60);
-        while(relicPivot.isBusy()){
+        while(relicPivot.isBusy() && linearOpMode.opModeIsActive()){
 
         }
         sleep(1000);
         relicClawRight.setPosition(1);
         relicClawLeft.setPosition(0);
         sleep(500);
+
+        relicSlide.setTargetPosition(-800);
+        while(relicSlide.isBusy() && linearOpMode.opModeIsActive()){
+
+        }
+
+        relicClawRight.setPosition(0);
+        relicClawLeft.setPosition(1);
+        relicPivot.setTargetPosition(-10);
+        relicPivot.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         relicSlide.setPower(1);
-        sleep(1250);
+        relicSlide.setTargetPosition(-10);
+        while((relicSlide.isBusy() || relicPivot.isBusy()) && linearOpMode.opModeIsActive()){
+
+        }
+
+        relicSlide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+
     }
 }

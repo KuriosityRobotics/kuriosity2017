@@ -202,6 +202,10 @@ public class MainTeleOp extends LinearOpMode
                     robot.relicSlide.setPower(1);
                 }else if(gamepad2.dpad_up){
                     robot.relicSlide.setPower(-1);
+                    if(robot.relicSlide.getCurrentPosition() <= -190){
+                        robot.relicClawRight.setPosition(0.5);
+                        robot.relicClawLeft.setPosition(0.5);
+                    }
                 }else{
                     robot.relicSlide.setPower(0);
                 }
@@ -214,14 +218,8 @@ public class MainTeleOp extends LinearOpMode
                 robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
                 // Elapsed Time
                 telemetry.addData("Status", "Run Time: " + runtime.toString());
-
-                telemetry.addLine();
-                telemetry.addLine("Drive Motor Powers:");
-                telemetry.addData("Front Left", fLPower);
-                telemetry.addData("Front Right", fRPower);
-                telemetry.addData("Back Left", bLPower);
-                telemetry.addData("Back Right", bRPower);
-                telemetry.addData("Angle", robot.angles.firstAngle);
+                telemetry.addData("Relic Slide Position", robot.relicSlide.getCurrentPosition());
+                telemetry.update();
             }catch(Exception e){
                 if(e instanceof InterruptedException){
                     continue;
