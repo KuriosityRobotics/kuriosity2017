@@ -427,6 +427,8 @@ public class Kuro {
         relicSlide.setPower(1);
         relicSlide.setTargetPosition(-10);
         while((relicPivot.isBusy() || relicSlide.isBusy()) && linearOpMode.opModeIsActive()){
+            telemetry.addData("Relic Pivot Position", relicPivot.getCurrentPosition());
+            telemetry.update();
 
         }
         relicSlide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -439,7 +441,7 @@ public class Kuro {
         relicSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         relicSlide.setPower(1);
-        relicSlide.setTargetPosition(-1275);
+        relicSlide.setTargetPosition(-1235);
         while(relicSlide.isBusy() && linearOpMode.opModeIsActive()){
 
         }

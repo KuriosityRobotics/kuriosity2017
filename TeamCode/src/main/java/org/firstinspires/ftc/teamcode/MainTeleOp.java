@@ -22,7 +22,7 @@ public class MainTeleOp extends LinearOpMode
 
     long startTime = 0;
     boolean xActivated = false;
-
+    boolean releaseRelic = false;
     private ElapsedTime runtime = new ElapsedTime();
 
     @Override
@@ -171,8 +171,8 @@ public class MainTeleOp extends LinearOpMode
                         robot.upRight.setPosition(0.49);
                         robot.upLeft.setPosition(0.42);
                     } else {
-                        robot.upRight.setPosition(0.56);
-                        robot.upLeft.setPosition(0.29);
+                        robot.upRight.setPosition(0.63);
+                        robot.upLeft.setPosition(0.22);
                     }
                 }
 
@@ -184,14 +184,15 @@ public class MainTeleOp extends LinearOpMode
                         robot.downRight.setPosition(0.26);
                         robot.downLeft.setPosition(0.67);
                     } else {
-                        robot.downRight.setPosition(0.17);
-                        robot.downLeft.setPosition(0.78);
+                        robot.downRight.setPosition(0.1);
+                        robot.downLeft.setPosition(0.85);
                     }
                 }
 
 
                 if(gamepad2.right_trigger>0){
                     robot.grabRelic();
+                    releaseRelic = true;
                 }
 
                 if(gamepad2.left_trigger>0){
@@ -202,7 +203,7 @@ public class MainTeleOp extends LinearOpMode
                     robot.relicSlide.setPower(1);
                 }else if(gamepad2.dpad_up){
                     robot.relicSlide.setPower(-1);
-                    if(robot.relicSlide.getCurrentPosition() <= -190){
+                    if((robot.relicSlide.getCurrentPosition() <= -190)){
                         robot.relicClawRight.setPosition(0.5);
                         robot.relicClawLeft.setPosition(0.5);
                     }
@@ -219,6 +220,7 @@ public class MainTeleOp extends LinearOpMode
                 // Elapsed Time
                 telemetry.addData("Status", "Run Time: " + runtime.toString());
                 telemetry.addData("Relic Slide Position", robot.relicSlide.getCurrentPosition());
+                telemetry.addData("Relic Pivot Position", robot.relicPivot.getCurrentPosition());
                 telemetry.update();
             }catch(Exception e){
                 if(e instanceof InterruptedException){
