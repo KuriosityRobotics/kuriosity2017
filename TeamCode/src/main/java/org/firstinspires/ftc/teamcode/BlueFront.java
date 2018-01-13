@@ -65,7 +65,7 @@ public class BlueFront extends LinearOpMode {
             robot.moveRobot(0.3, 900);
             robot.moveRobot(0.25, 300);
             robot.moveRobotInches(0.6,-9);
-            robot.moveRobotInches(0.4,4);
+            robot.moveRobotInches(0.4,4.75);
             robot.finalTurn(-90);
             robot.moveRobotInches(0.4,-6);
             sleep(1000);
