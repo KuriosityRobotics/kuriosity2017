@@ -180,7 +180,7 @@ public class MainTeleOp extends LinearOpMode
 //                }
 
                 if (gamepad1.a) {
-                    robot.moveRobot(0.75, 800);
+                    robot.moveRobot(0.75, 675);
                 }
 
                 robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
