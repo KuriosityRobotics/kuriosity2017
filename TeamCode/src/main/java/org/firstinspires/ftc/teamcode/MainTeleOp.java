@@ -183,6 +183,17 @@ public class MainTeleOp extends LinearOpMode
                     robot.moveRobot(0.75, 675);
                 }
 
+                if(gamepad2.dpad_up){
+                    robot.relicSlide.setPower(1);
+                    robot.relicPivot.setPower(-1);
+                }else if(gamepad2.dpad_down){
+                    robot.relicSlide.setPower(-1);
+                    robot.relicPivot.setPower(1);
+                }else{
+                    robot.relicSlide.setPower(0);
+                    robot.relicPivot.setPower(0);
+                }
+
                 robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
                 // Elapsed Time
                 telemetry.addData("Status", "Run Time: " + runtime.toString());
