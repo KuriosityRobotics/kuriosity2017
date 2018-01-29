@@ -38,25 +38,18 @@ public class BlueFront extends LinearOpMode {
 
         Kuro robot = new Kuro(hardwareMap,telemetry,this);
 
-
-
         robot.resetEncoders();
-
-        //causing problem below
-
-
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
-
-        boolean toDo = true;
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             KuroVuforiaPictograph pictograph = new KuroVuforiaPictograph();
 
             RelicRecoveryVuMark vuMark = pictograph.startInit(hardwareMap, 2000);
+
             robot.closeClaws();
             robot.moveSlide(0.5, -850);
 
@@ -71,29 +64,46 @@ public class BlueFront extends LinearOpMode {
             sleep(1000);
             robot.goToCryptoBox(0.3,0.55);
 
+            if(vuMark == RelicRecoveryVuMark.LEFT){
 
-            //Moves to right column
-            robot.moveRobotInches(0.25, 2.75);
+                robot.moveRobotInches(0.3, -9);
 
-            //If not right, move to respective location
-            if(vuMark == RelicRecoveryVuMark.CENTER){
-                robot.moveRobotInches(0.25, 6.5);
-            }else if (vuMark == RelicRecoveryVuMark.RIGHT) {
-                robot.moveRobotInches(0.25, 6.5 * 2);
+            }else if(vuMark == RelicRecoveryVuMark.RIGHT){
+
+                robot.moveRobotInches(0.3, 4.5);
+
+            }else /*Center or unknown*/{
+                //Defaults here
+
+                robot.moveRobotInches(0.25, -3);
+
             }
 
-            robot.finalTurn(0);
-            robot.resetEncoders();
-            robot.moveSlide(0.4, 450);
-            robot.moveRobot(0.35, 400);
+            robot.finalTurn(-45);
+
+            sleep(250);
+
+            robot.moveRobotInches(0.45, 9);
+
             robot.openClaws();
-            robot.moveRobot(0.5, -400);
-            robot.finalTurn(180);
-            robot.resetEncoders();
-            robot.moveRobotInches(0.5,-8);
-            robot.opBottomClaws();
-            robot.resetEncoders();
-            robot.moveRobotInches(0.5, 3);
+
+            sleep(1500);
+
+            robot.moveRobotInches(0.5, -5);
+
+            robot.finalTurn(-90);
+
+            if(vuMark == RelicRecoveryVuMark.LEFT){
+                robot.moveRobotInches(0.3, 23);
+
+            }else if(vuMark == RelicRecoveryVuMark.RIGHT){
+
+            }else /*Center or unknown*/{
+                //Defaults here
+                robot.moveRobotInches(0.3, 12.5);
+
+            }
+
             sleep(1000000);
         }
     }

@@ -282,17 +282,16 @@ public class Kuro {
         left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        left.setPower(-power);
-        right.setPower(-power);
+        right.setPower(0);
+        left.setPower(0);
 
         right.setTargetPosition(targetPosition);
         left.setTargetPosition(targetPosition);
 
-        while(left.isBusy() && right.isBusy() &&linearOpMode.opModeIsActive()){
-            sleep(10);
-        }
-        left.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        left.setPower(-power);
+        right.setPower(-power);
+
+        while(left.isBusy() && right.isBusy() && linearOpMode.opModeIsActive()){}
     }
 
     public void moveRobotInches(double speed, double targetDistance){
@@ -473,7 +472,5 @@ public class Kuro {
         }
 
         relicSlide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-
     }
 }
