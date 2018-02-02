@@ -24,7 +24,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Blue Front", group="Linear Opmode")
+@Autonomous(name="Blue: Front", group="Linear Opmode")
 //@Disabled
 public class BlueFront extends LinearOpMode {
 
@@ -62,19 +62,17 @@ public class BlueFront extends LinearOpMode {
             robot.finalTurn(-90);
             robot.moveRobotInches(0.4,-6);
             sleep(1000);
-            robot.goToCryptoBox(0.3,0.55);
+
+            robot.goToCryptoBox(0.25,0.55);
 
             if(vuMark == RelicRecoveryVuMark.LEFT){
-
-                robot.moveRobotInches(0.3, -9);
+                robot.moveRobotInches(0.25, -9);
 
             }else if(vuMark == RelicRecoveryVuMark.RIGHT){
-
-                robot.moveRobotInches(0.3, 4.5);
+                robot.moveRobotInches(0.25, 4.5);
 
             }else /*Center or unknown*/{
                 //Defaults here
-
                 robot.moveRobotInches(0.25, -3);
 
             }
@@ -83,13 +81,15 @@ public class BlueFront extends LinearOpMode {
 
             sleep(250);
 
+            robot.moveSlide(0.4, 400);
+
             robot.moveRobotInches(0.45, 9);
 
             robot.openClaws();
 
             sleep(1500);
 
-            robot.moveRobotInches(0.5, -5);
+            robot.moveRobotInches(0.5, -6);
 
             robot.finalTurn(-90);
 

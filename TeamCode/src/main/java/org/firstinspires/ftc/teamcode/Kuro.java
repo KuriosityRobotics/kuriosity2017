@@ -155,10 +155,11 @@ public class Kuro {
         bRight.setPower(power);
     }
 
-    public void goToCryptoBox(double power,double servoPosition){
+    public void goToCryptoBox(double power, double servoPosition){
         armServo.setPosition(servoPosition);
-        moveRobotInches(0.4,-2);
-        resumeEncoders();
+//        moveRobotInches(0.4,-2);
+//        resumeEncoders();
+        this.changeRunModeToUsingEncoder();
         setDrivePower(power);
 
         while (!isCryptoBox() && linearOpMode.opModeIsActive()) {}
@@ -341,7 +342,6 @@ public class Kuro {
         telemetry.addLine("finished sleeping");
         resetEncoders();
         resumeEncoders();
-
     }
 
     public void resumeEncoders(){
@@ -381,8 +381,8 @@ public class Kuro {
         }else{
             this.pivotServo.setPosition(1);
             sleep(1000);
-
         }
+
         this.armServo.setPosition(0.15);
         sleep(2000);
     }

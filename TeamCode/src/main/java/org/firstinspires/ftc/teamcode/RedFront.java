@@ -61,34 +61,57 @@ public class RedFront extends LinearOpMode {
 
             robot.moveRobot(0.3, -900);
             robot.moveRobot(0.25, -300);
-            robot.moveRobotInches(0.6,9);
+            robot.moveRobotInches(0.4,9);
             robot.moveRobotInches(0.4,-6.75);
             robot.finalTurn(90);
             robot.moveRobotInches(0.4,6);
             sleep(1000);
-            robot.goToCryptoBox(-0.3,0.55);
 
-            //Moves to right column
-            robot.moveRobotInches(0.4, -4);
+            robot.goToCryptoBox(-0.25,0.55);
 
-            //If not right, move to respective location
-            if(vuMark == RelicRecoveryVuMark.CENTER){
-                robot.moveRobotInches(0.5, -6);
-            }else if (vuMark == RelicRecoveryVuMark.LEFT) {
-                robot.moveRobotInches(0.5, -6 * 2);
+            robot.finalTurn(-90, 7500);
+
+            if(vuMark == RelicRecoveryVuMark.RIGHT){
+                robot.moveRobotInches(0.25, -4.5);
+
+            }else if(vuMark == RelicRecoveryVuMark.LEFT){
+                robot.moveRobotInches(0.25, 11.5);
+
+            }else /*Center or unknown*/{
+                //Defaults here
+                robot.moveRobotInches(0.25, 4.5);
+
             }
-            robot.finalTurn(180);
-            robot.resetEncoders();
-            robot.moveSlide(0.4, 450);
-            robot.moveRobot(0.35, 400);
+
+            robot.finalTurn(-135);
+
+            sleep(250);
+
+            robot.moveSlide(0.4, 500);
+
+            sleep(250);
+
+            robot.moveRobotInches(0.45, 9);
+
             robot.openClaws();
-            robot.moveRobot(0.5, -400);
-            robot.finalTurn(0);
-            robot.resetEncoders();
-            robot.moveRobotInches(0.5,-8);
-            robot.opBottomClaws();
-            robot.resetEncoders();
-            robot.moveRobotInches(0.5, 3);
+
+            sleep(500);
+
+            robot.moveRobotInches(0.5, -6);
+
+            robot.finalTurn(-90, 2500);
+
+            if(vuMark == RelicRecoveryVuMark.RIGHT){
+                robot.moveRobotInches(0.3, 18);
+
+            }else if(vuMark == RelicRecoveryVuMark.LEFT){
+
+            }else /*Center or unknown*/{
+                //Defaults here
+                robot.moveRobotInches(0.3, 14.5);
+
+            }
+
             sleep(1000000);
         }
     }
