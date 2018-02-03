@@ -62,7 +62,7 @@ public class RedBack extends LinearOpMode {
             robot.goToCryptoBox(-0.2,0.65);
 
 
-            
+
 
             //If not right, move to respective location
             if(vuMark == RelicRecoveryVuMark.CENTER){

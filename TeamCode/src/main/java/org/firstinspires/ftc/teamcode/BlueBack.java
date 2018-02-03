@@ -59,7 +59,7 @@ public class BlueBack extends LinearOpMode {
             robot.moveRobotInches(0.3, 28);
             robot.moveRobotInches(0.4, -8);
             sleep(1000);
-            robot.goToCryptoBox(0.3, 0.7);
+            robot.goToCryptoBox(0.1, 0.7);
             sleep(1000);
 
             //Moves to right column
