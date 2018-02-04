@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Kuro;
+package org.firstinspires.ftc.teamcode;
 
 import android.os.SystemClock;
 
@@ -24,7 +24,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefau
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 
-public class KuroVuforiaPictograph {
+public class Pictograph {
 
     public static final String TAG = "Vuforia VuMark Sample";
 

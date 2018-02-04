@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Aries;
+package org.firstinspires.ftc.teamcode;
 
 /**
  * Created by sam on 1/21/18.
@@ -92,7 +92,7 @@ public class Aries {
         bRight = hardwareMap.dcMotor.get("bRight");
 
         //Set direction of drive motors
-        fLeft.setDirection(DcMotor.Direction.FORWARD);
+        fLeft.setDirection(DcMotor.Direction.REVERSE);
         fRight.setDirection(DcMotor.Direction.FORWARD);
         bLeft.setDirection(DcMotor.Direction.FORWARD);
         bRight.setDirection(DcMotor.Direction.REVERSE);
@@ -107,6 +107,7 @@ public class Aries {
         rightIntake.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
+
         //Map tray motors
         trayPivot = hardwareMap.dcMotor.get("trayPivot");
         linearSlideMotor = hardwareMap.dcMotor.get("linearSlideMotor");
@@ -114,6 +115,10 @@ public class Aries {
         //Set direction of intake motors
         trayPivot.setDirection(DcMotorSimple.Direction.REVERSE);
         linearSlideMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        //Sets mode of tray motors
+        linearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        linearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
         //Map jewel arm servos
@@ -149,4 +154,106 @@ public class Aries {
     }
 
 
+
+    public void setDrivePower(double power){
+        fLeft.setPower(power);
+        fRight.setPower(power);
+        bLeft.setPower(power);
+        bRight.setPower(power);
+    }
+
+
+
+    public void finalTurn(double targetHeading){
+        finalTurn(targetHeading, 10000);
+    }
+
+    public void finalTurn(double targetHeading,long timeInMilli){
+        targetHeading = Range.clip(targetHeading, -179, 179);
+
+        long startTime = SystemClock.elapsedRealtime();
+
+        this.setMotorMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        this.setMotorMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        double startHeading = angles.firstAngle;
+        double maxAngle = startHeading - targetHeading;
+        maxAngle = Math.abs(maxAngle);
+
+        int sign = 0;
+        if(targetHeading > startHeading){
+            sign = 1;
+        }else{
+            sign = -1;
+        }
+        if(maxAngle == 0){
+            return;
+        }
+        while(linearOpMode.opModeIsActive()){
+            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+            double currentDeltatAngle = Math.abs(angles.firstAngle - startHeading);
+            double scaleFactor = currentDeltatAngle / maxAngle;
+            double absolutePower = 1-scaleFactor;
+
+            if(absolutePower<0.02){
+                absolutePower = 0.02;
+            }
+            double power = absolutePower * sign;
+            if(scaleFactor > 1 || ((SystemClock.elapsedRealtime() - startTime) > timeInMilli)){
+                break;
+            }
+            fLeft.setPower(-power);
+            fRight.setPower(power);
+            bLeft.setPower(-power);
+            bRight.setPower(power);
+        }
+
+        setDrivePower(0);
+        this.setMotorMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
+
+
+    public void moveRobotInches(double speed, double targetDistance){
+        moveRobot(speed, (int)(targetDistance / 22.25 * 1000));
+    }
+    public void moveRobot(double speed, int targetPostition) {
+        moveRobot(speed, targetPostition, 10000);
+    }
+
+    public void moveRobot(double speed, int targetPostition,long timeInMilli){
+
+        long startTime = SystemClock.elapsedRealtime();
+
+        this.setMotorMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        this.setMotorMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        double newSpeed = speed;
+
+        if(targetPostition<0){
+            newSpeed = newSpeed * -1;
+        }
+
+        fLeft.setPower(newSpeed);
+        fRight.setPower(newSpeed);
+        bLeft.setPower(newSpeed);
+        bRight.setPower(newSpeed);
+
+
+        fLeft.setTargetPosition(targetPostition);
+        fRight.setTargetPosition(targetPostition);
+        bLeft.setTargetPosition(targetPostition);
+        bRight.setTargetPosition(targetPostition);
+
+
+        while(fLeft.isBusy() && fRight.isBusy() && bLeft.isBusy() && bRight.isBusy()
+                && (SystemClock.elapsedRealtime() - startTime < timeInMilli) && linearOpMode.opModeIsActive()){
+        }
+
+        telemetry.addLine("finished sleeping");
+        this.setMotorMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        this.setMotorMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
 }

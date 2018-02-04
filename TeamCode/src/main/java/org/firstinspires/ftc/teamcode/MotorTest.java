@@ -1,97 +1,49 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Kuro.Kuro;
 
-
-@Autonomous(name="Motor TestColorDistance IT.", group="Iterative Opmode")
+@TeleOp(name="Aries: MotorTest", group="Linear Opmode")
 //@Disabled
-public class MotorTest extends OpMode
+public class MotorTest extends LinearOpMode
 {
-    // Declare OpMode members.
+    double fLPower;
+    double fRPower;
+    double bLPower;
+    double bRPower;
+
+    long startTime = 0;
+
     private ElapsedTime runtime = new ElapsedTime();
 
-    Kuro robot = new Kuro(hardwareMap,telemetry);
-
-
-
     @Override
-    public void init() {
-        telemetry.addData("Status", "Initialized");
+    public void runOpMode(){
+        //Init's robot
+        Aries robot = new Aries(hardwareMap, telemetry, this);   //DO NOT DELETE
 
-        // Tell the driver that initialization is complete.
-        telemetry.addData("Status", "Initialized");
-    }
+        robot.setMotorMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        DcMotor[] arrayOfMotors = {robot.fRight, robot.bRight, robot.fLeft, robot.bLeft};
 
-
-    @Override
-    public void init_loop() {
+        waitForStart();
         runtime.reset();
-    }
 
+        while (opModeIsActive()){
+            for(DcMotor motor : arrayOfMotors){
+                for (DcMotor toBrake : arrayOfMotors){
+                    toBrake.setPower(0);
+                }
 
+                motor.setPower(0.1);
+                telemetry.addLine(motor.getConnectionInfo());
+                telemetry.addLine(motor.getPortNumber() + "");
+                telemetry.update();
 
-    @Override
-    public void start() {
-        runtime.reset();
-    }
-
-    DcMotor[] arrayOfMotor = {robot.fLeft, robot.fRight, robot.bLeft, robot.bRight};
-    int currentMotorIndex = 0;
-    long startedTime = 0;
-
-    /*
-     * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
-     */
-    @Override
-    public void loop(){
-        startedTime++;
-        if (runtime.time() > 100.0) {
-            startedTime = 0;
-            for(DcMotor toBrake : arrayOfMotor){
-                toBrake.setPower(0);
+                sleep(2500);
             }
         }
-        currentMotorIndex = (currentMotorIndex + 1) % arrayOfMotor.length;
-        DcMotor currentMotor = arrayOfMotor[currentMotorIndex];
-        currentMotor.setPower(1);
-
-
-
-
-//        DcMotor[] arrayOfMotor = {frontLeftDrive,fRight,bLeft,bRight};
-//
-//        for(DcMotor motor : arrayOfMotor){
-//            //Brake all
-//            for(DcMotor toBrake : arrayOfMotor){
-//                toBrake.setPower(0);
-//            }
-//            if (stopRequested) {
-//                break;
-//            }
-//
-//            //Tell what motor should e running
-//            telemetry.addData("Motor", motor.getPortNumber());
-//            motor.setPower(1);
-//
-//
-//            telemetry.update();
-//            delay(1000);
-//        }
     }
-
-
-
-    @Override
-    public void stop() {
-        for(DcMotor toBrake : arrayOfMotor){
-            toBrake.setPower(0);
-        }
-    }
-
 }
