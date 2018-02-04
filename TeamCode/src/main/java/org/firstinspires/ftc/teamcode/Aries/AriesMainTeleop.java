@@ -1,17 +1,11 @@
-package org.firstinspires.ftc.teamcode;
-
-import android.os.SystemClock;
+package org.firstinspires.ftc.teamcode.Aries;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 
-
-@TeleOp(name="Aries OpMode", group="Linear Opmode")
+@TeleOp(name="Aries: MainTeleOp", group="Linear Opmode")
 //@Disabled
 public class AriesMainTeleop extends LinearOpMode
 {
@@ -37,6 +31,7 @@ public class AriesMainTeleop extends LinearOpMode
 
         waitForStart();
         runtime.reset();
+
         while (opModeIsActive()){
             fLPower = (gamepad1.left_stick_y);
             bLPower = (gamepad1.left_stick_y);
@@ -44,11 +39,13 @@ public class AriesMainTeleop extends LinearOpMode
             fRPower = (gamepad1.right_stick_y);
             bRPower = (gamepad1.right_stick_y);
 
+            //Strafe
             if (gamepad1.left_trigger != 0) {
                 fLPower = gamepad1.left_trigger;
                 bLPower = -gamepad1.left_trigger;
                 fRPower = -gamepad1.left_trigger;
                 bRPower = gamepad1.left_trigger;
+
             } else if (gamepad1.right_trigger != 0) {
                 fLPower = -gamepad1.right_trigger;
                 bLPower = gamepad1.right_trigger;
@@ -56,7 +53,7 @@ public class AriesMainTeleop extends LinearOpMode
                 bRPower = -gamepad1.right_trigger;
             }
 
-
+            //Straight D-Pad move
             if (gamepad1.dpad_up) {
                 fLPower = (gamepad1.left_stick_y)-0.7;
                 bLPower = (gamepad1.left_stick_y)-0.7;

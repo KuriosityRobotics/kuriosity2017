@@ -11,15 +11,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+import org.firstinspires.ftc.teamcode.Kuro.Kuro;
+import org.firstinspires.ftc.teamcode.Kuro.KuroVuforiaPictograph;
 
 
 /**
@@ -47,7 +40,7 @@ public class TestOpMode extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        Kuro robot = new Kuro(hardwareMap,telemetry);
+        Kuro robot = new Kuro(hardwareMap, telemetry, this);
         KuroVuforiaPictograph pictograph = new KuroVuforiaPictograph();
 
         RelicRecoveryVuMark vuMark = pictograph.startInit(hardwareMap, 3000);
@@ -75,11 +68,11 @@ public class TestOpMode extends LinearOpMode {
             robot.moveRobot(0.25, -145);
 
             //If not right, move to respective location
-            if(vuMark == RelicRecoveryVuMark.CENTER){
-                robot.moveRobotInches(0.25, -robot.DISTANCE_BETWEEN_GLYPH_COLUMNS);
-            }else if (vuMark == RelicRecoveryVuMark.LEFT) {
-                robot.moveRobotInches(0.25, -robot.DISTANCE_BETWEEN_GLYPH_COLUMNS * 2);
-            }
+//            if(vuMark == RelicRecoveryVuMark.CENTER){
+//                robot.moveRobotInches(0.25, -robot.DISTANCE_BETWEEN_GLYPH_COLUMNS);
+//            }else if (vuMark == RelicRecoveryVuMark.LEFT) {
+//                robot.moveRobotInches(0.25, -robot.DISTANCE_BETWEEN_GLYPH_COLUMNS * 2);
+//            }
 
             robot.turn(90);
             robot.resetEncoders();
