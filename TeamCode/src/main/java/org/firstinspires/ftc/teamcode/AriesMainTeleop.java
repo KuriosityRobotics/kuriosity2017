@@ -28,7 +28,11 @@ public class AriesMainTeleop extends LinearOpMode
 
         robot.trayPivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.trayPivot.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.trayPivot.setPower(0.5);
+
+        robot.linearSlideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        robot.linearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.linearSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         //Clears power values
         fLPower = 0.0;
@@ -67,6 +71,7 @@ public class AriesMainTeleop extends LinearOpMode
                 bLPower = (gamepad1.left_stick_y)+0.7;
 
                 fRPower = (gamepad1.right_stick_y+0.7);
+                bRPower = (gamepad1.right_stick_y+0.7);
 
             } else if (gamepad1.dpad_down) {
                 fLPower = (gamepad1.left_stick_y)-0.7;
@@ -76,7 +81,6 @@ public class AriesMainTeleop extends LinearOpMode
                 bRPower = (gamepad1.right_stick_y)-0.7;
 
             } else if (gamepad1.dpad_right) {
-
 
                 fLPower = (gamepad1.right_stick_y+0.7);
                 bLPower = (gamepad1.right_stick_y)+0.7;
@@ -99,19 +103,43 @@ public class AriesMainTeleop extends LinearOpMode
             robot.bRight.setPower(bRPower);
 
             //Intake
-            double intakePower = -gamepad2.left_stick_y;
-            robot.leftIntake.setPower(intakePower);
-            robot.rightIntake.setPower(intakePower);
+            double intakePowerLeft = -gamepad2.left_stick_y;
+            double intakePowerRight = -gamepad2.right_stick_y;
+            robot.leftIntake.setPower(intakePowerRight);
+            robot.rightIntake.setPower(intakePowerLeft);
 
             //Linear slide
-            robot.linearSlideMotor.setPower(-gamepad2.right_stick_y);
 
             //Tray Operation
-            if(gamepad2.y){
-                robot.trayPivot.setTargetPosition(5);
-            }else if(gamepad2.x){
-                robot.trayPivot.setTargetPosition(0);
+            if(gamepad2.dpad_up){
+                robot.trayPivot.setPower(1);
+                robot.trayPivot.setTargetPosition(30);
+                robot.trayPivot.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                sleep(500);
+                robot.linearSlideMotor.setPower(1);
+                robot.linearSlideMotor.setTargetPosition(1525);
+                robot.linearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+            }else if(gamepad2.dpad_down){
+                robot.linearSlideMotor.setPower(1);
+                robot.linearSlideMotor.setTargetPosition(0);
+                sleep(500);
+
+                robot.trayPivot.setPower(1);
+                robot.trayPivot.setTargetPosition(3);
+
+
             }
+
+            if(gamepad2.x){
+                robot.trayPivot.setPower(1);
+                robot.trayPivot.setTargetPosition(78);
+            }else if(gamepad2.a){
+                robot.trayPivot.setPower(1);
+                robot.trayPivot.setTargetPosition(10);
+            }
+            telemetry.addData("Linear slide motor",robot.linearSlideMotor.getCurrentPosition());
+            telemetry.update();
         }
     }
 }
