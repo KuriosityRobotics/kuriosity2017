@@ -31,45 +31,45 @@ public class MotorTest extends LinearOpMode
         waitForStart();
         runtime.reset();
 
-        robot.armServo.setPosition(0);
+//        robot.armServo.setPosition(0);
 
         while (opModeIsActive()){
-//            for(DcMotor motor : arrayOfMotors){
-//                for (DcMotor toBrake : arrayOfMotors){
-//                    toBrake.setPower(0);
-//                }
+            for(DcMotor motor : arrayOfMotors){
+                for (DcMotor toBrake : arrayOfMotors){
+                    toBrake.setPower(0);
+                }
+
+                motor.setPower(0.1);
+                telemetry.addLine(motor.getConnectionInfo());
+                telemetry.addLine(motor.getPortNumber() + "");
+                telemetry.update();
+
+                sleep(2500);
+            }
+
+//            if(-gamepad1.left_stick_y > 0){
+//                robot.armServo.setPosition(robot.armServo.getPosition() + 0.01);
 //
-//                motor.setPower(0.1);
-//                telemetry.addLine(motor.getConnectionInfo());
-//                telemetry.addLine(motor.getPortNumber() + "");
-//                telemetry.update();
+//                sleep(50);
+//            }else if(-gamepad1.left_stick_y < 0){
+//                robot.armServo.setPosition(robot.armServo.getPosition() - 0.01);
 //
-//                sleep(2500);
+//                sleep(50);
 //            }
-
-            if(-gamepad1.left_stick_y > 0){
-                robot.armServo.setPosition(robot.armServo.getPosition() + 0.01);
-
-                sleep(50);
-            }else if(-gamepad1.left_stick_y < 0){
-                robot.armServo.setPosition(robot.armServo.getPosition() - 0.01);
-
-                sleep(50);
-            }
-
-            if(gamepad1.dpad_up){
-                robot.armServo.setPosition(robot.armServo.getPosition() + 0.01);
-
-                sleep(200);
-            }else if (gamepad1.dpad_down){
-                robot.armServo.setPosition(robot.armServo.getPosition() - 0.01);
-
-                sleep(200);
-            }
-
-            telemetry.addData("Servo Position", robot.armServo.getPosition());
-            telemetry.addLine(robot.armServo.getConnectionInfo());
-            telemetry.update();
+//
+//            if(gamepad1.dpad_up){
+//                robot.armServo.setPosition(robot.armServo.getPosition() + 0.01);
+//
+//                sleep(200);
+//            }else if (gamepad1.dpad_down){
+//                robot.armServo.setPosition(robot.armServo.getPosition() - 0.01);
+//
+//                sleep(200);
+//            }
+//
+//            telemetry.addData("Servo Position", robot.armServo.getPosition());
+//            telemetry.addLine(robot.armServo.getConnectionInfo());
+//            telemetry.update();
         }
     }
 }
