@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
-import org.firstinspires.ftc.teamcode.Pictograph;
+import org.firstinspires.ftc.teamcode.Aries.Pictograph;
 
 
 /**
@@ -48,59 +48,35 @@ public class RedBack extends LinearOpMode {
 
             RelicRecoveryVuMark vuMark = pictograph.startInit(hardwareMap, 2000);
 
-            robot.closeClaws();
-            robot.moveSlide(0.5, -850);
-
             robot.jewelArm();
 
             robot.moveRobotInches(0.3, -28);
             robot.moveRobotInches(0.4, 8);
             sleep(1000);
-            robot.goToCryptoBox(-0.2,0.65);
+            robot.goToCryptoBox(-0.2,0.3);
 
-
-
+            //Moves to right column
+            robot.moveRobotInches(0.25, -4);
 
             //If not right, move to respective location
             if(vuMark == RelicRecoveryVuMark.CENTER){
-                robot.moveRobotInches(0.25, 2);
-                robot.finalTurn(120);
-                robot.resetEncoders();
-                robot.moveSlide(0.4, 450);
-                robot.moveRobot(0.25, 400);
-                robot.openClaws();
-                robot.moveRobot(0.25, -200);
+                robot.moveRobotInches(0.25, -6.5);
             }else if (vuMark == RelicRecoveryVuMark.LEFT) {
-                robot.moveRobotInches(0.25, -8);
-                robot.finalTurn(120);
-                robot.resetEncoders();
-                robot.moveSlide(0.4, 450);
-                robot.moveRobot(0.25, 400);
-                robot.openClaws();
-                robot.moveRobot(0.25, -600);
-                robot.finalTurn(-90);
-                robot.resetEncoders();
-                robot.moveRobot(0.4, -600);
-                robot.moveRobot(0.9, 300);
-                robot.opBottomClaws();
-                robot.moveRobotInches(0.25, 3);
-                sleep(1000000);
-            }else{
-                robot.moveRobotInches(0.25, -8);
-                robot.finalTurn(65);
-                robot.resetEncoders();
-                robot.moveSlide(0.4, 450);
-                robot.moveRobot(0.25, 400);
-                robot.openClaws();
-                robot.moveRobot(0.25, -600);
-                robot.finalTurn(-90);
-                robot.resetEncoders();
-                robot.moveRobot(0.4, -600);
-                robot.moveRobot(0.9, 300);
-                robot.opBottomClaws();
-                robot.moveRobotInches(0.25, 3);
-                sleep(1000000);
+                robot.moveRobotInches(0.25, -6.5 * 2);
             }
+
+            robot.turn(90);
+            robot.resetEncoders();
+            robot.moveSlide(0.4, 450);
+            robot.moveRobot(0.25,400);
+            robot.openClaws();
+            robot.moveRobot(0.25,-400);
+            robot.finalTurn(-90);
+            robot.resetEncoders();
+            robot.moveRobot(0.4,-400);
+            robot.opBottomClaws();
+            robot.moveRobotInches(0.25, 3);
+            sleep(1000000);
 
 
         }

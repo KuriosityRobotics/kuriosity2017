@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Aries;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -21,9 +21,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Aries: Blue Front", group="Linear Opmode")
+@Autonomous(name="Red: Back", group="Linear Opmode")
 //@Disabled
-public class AriesBlueFront extends LinearOpMode {
+public class AriesRedBack extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -36,24 +36,47 @@ public class AriesBlueFront extends LinearOpMode {
         Aries robot = new Aries(hardwareMap,telemetry,this);
 
         robot.setMotorMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.setMotorMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
+        robot.intializeIMU();
+
+
+        boolean toDo = true;
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             Pictograph pictograph = new Pictograph();
 
             RelicRecoveryVuMark vuMark = pictograph.startInit(hardwareMap, 2000);
+            robot.jewelArm();
 
-            robot.moveInches(0.3, 25);
-            robot.moveInches(-0.5, 4);
+            robot.moveRobotInches(0.4, -28);
+            robot.moveRobotInches(0.4, 8);
+            sleep(1000);
+            robot.goToCryptoBox(-0.1,0.3);
 
+            //Moves to right column
+            robot.moveRobotInches(0.25, -4);
 
+            //If not right, move to respective location
+            if(vuMark == RelicRecoveryVuMark.CENTER){
+                robot.moveRobotInches(0.25, -6.75);
+            }else if (vuMark == RelicRecoveryVuMark.LEFT) {
+                robot.moveRobotInches(0.25, -6.75 * 2);
+            }
 
+            robot.finalTurn(-90);
+            robot.resetEncoders();
+            robot.moveTray(78);
+            robot.moveRobot(0.7,-300);
+            robot.moveRobot(0.7,150);
+            robot.moveTray(3);
             sleep(1000000);
+
+
+
         }
     }
 }

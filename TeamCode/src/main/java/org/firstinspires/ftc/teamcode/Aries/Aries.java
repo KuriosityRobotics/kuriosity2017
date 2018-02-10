@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Aries;
 
 /**
  * Created by sam on 1/21/18.
@@ -74,7 +74,7 @@ public class Aries {
     public ColorSensor stoneColor;
 
     //Cryptobox detector sensor
-    public  DistanceSensor distance;
+    public DistanceSensor distance;
 
     //imu
     public BNO055IMU imu;
@@ -159,7 +159,27 @@ public class Aries {
 
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
     }
+    public void resetEncoders(){
+        fLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        fRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
 
+
+    public void resumeEncoders(){
+        fLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        fRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        bLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        bRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
+    public void changeRunModeToUsingEncoder(){
+        fLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        fRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        bLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        bRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
 
 
     public void setMotorMode(DcMotor.RunMode runMode){
@@ -232,11 +252,23 @@ public class Aries {
 
 
 
-    public void moveInches(double speed, double targetDistance){
+    public void moveRobotInches(double speed, double targetDistance){
         moveRobot(speed, (int)(targetDistance / 22.25 * 1000));
+        brakeMotors();
     }
     public void moveRobot(double speed, int targetPostition) {
         moveRobot(speed, targetPostition, 10000);
+        brakeMotors();
+    }
+
+    public void moveTray(int targetPosition){
+        trayPivot.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        trayPivot.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        trayPivot.setPower(1);
+        trayPivot.setTargetPosition(targetPosition);
+        while(trayPivot.isBusy() && linearOpMode.opModeIsActive()){
+
+        }
     }
 
     public void moveRobot(double speed, int targetPostition,long timeInMilli){
@@ -268,9 +300,64 @@ public class Aries {
                 && (SystemClock.elapsedRealtime() - startTime < timeInMilli) && linearOpMode.opModeIsActive()){
         }
 
+        brakeMotors();
+
         telemetry.addLine("finished sleeping");
         this.setMotorMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         this.setMotorMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
+    public String getColor(ColorSensor colorSensor){
+        if(colorSensor.blue() > colorSensor.red()){
+            return "red";
+        }else{
+            return "blue";
+        }
+    }
+
+    public void goToCryptoBox(double power, double servoPosition){
+        armServo.setPosition(servoPosition);
+//        moveInches(0.4,-2);
+//        resumeEncoders();
+        this.changeRunModeToUsingEncoder();
+        setDrivePower(power);
+
+        while (!isCryptoBox() && linearOpMode.opModeIsActive()) {}
+
+        brakeMotors();
+        armServo.setPosition(0.65);
+    }
+
+    public void brakeMotors(){
+        setDrivePower(0);
+    }
+
+
+    public void jewelArm() throws InterruptedException{
+        //Checks which color ball is then moves the arm to knock of jewel that is matching opposing team color
+        this.pivotServo.setPosition(0.45);
+        sleep(100);
+        this.armServo.setPosition(0.05);
+        sleep(1000);
+        if(getColor(this.ballColor).equals(getColor(this.stoneColor))){
+            this.pivotServo.setPosition(0);
+            sleep(1000);
+
+        }else{
+            this.pivotServo.setPosition(1);
+            sleep(1000);
+        }
+
+        this.armServo.setPosition(0.65);
+        sleep(2000);
+    }
+
+    public final void sleep(long milliseconds) {
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 
     public void goToCryptobox(double power, double servoPosition){

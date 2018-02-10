@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Aries;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -44,6 +44,8 @@ public class AriesMainTeleop extends LinearOpMode
         runtime.reset();
 
         while (opModeIsActive()){
+            robot.armServo.setPosition(0.65);
+
             //tank drive
             fLPower = -(gamepad1.left_stick_y);
             bLPower = -(gamepad1.left_stick_y);
@@ -115,6 +117,10 @@ public class AriesMainTeleop extends LinearOpMode
                 robot.trayPivot.setPower(1);
                 robot.trayPivot.setTargetPosition(30);
                 robot.trayPivot.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                robot.fLeft.setPower(0);
+                robot.bLeft.setPower(0);
+                robot.fRight.setPower(0);
+                robot.bRight.setPower(0);
                 sleep(500);
                 robot.linearSlideMotor.setPower(1);
                 robot.linearSlideMotor.setTargetPosition(1525);
@@ -123,6 +129,10 @@ public class AriesMainTeleop extends LinearOpMode
             }else if(gamepad2.dpad_down){
                 robot.linearSlideMotor.setPower(1);
                 robot.linearSlideMotor.setTargetPosition(0);
+                robot.fLeft.setPower(0);
+                robot.bLeft.setPower(0);
+                robot.fRight.setPower(0);
+                robot.bRight.setPower(0);
                 sleep(500);
 
                 robot.trayPivot.setPower(1);
@@ -134,9 +144,6 @@ public class AriesMainTeleop extends LinearOpMode
             if(gamepad2.x){
                 robot.trayPivot.setPower(1);
                 robot.trayPivot.setTargetPosition(78);
-            }else if(gamepad2.a){
-                robot.trayPivot.setPower(1);
-                robot.trayPivot.setTargetPosition(10);
             }
             telemetry.addData("Linear slide motor",robot.linearSlideMotor.getCurrentPosition());
             telemetry.update();

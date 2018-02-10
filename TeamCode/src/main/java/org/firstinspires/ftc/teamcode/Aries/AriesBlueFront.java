@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode.Kuro;
+package org.firstinspires.ftc.teamcode.Aries;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
-import org.firstinspires.ftc.teamcode.Aries.Pictograph;
 
 
 /**
@@ -21,9 +21,9 @@ import org.firstinspires.ftc.teamcode.Aries.Pictograph;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Blue: Back", group="Linear Opmode")
+@Autonomous(name="Aries: Blue Front", group="Linear Opmode")
 //@Disabled
-public class BlueBack extends LinearOpMode {
+public class AriesBlueFront extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -33,55 +33,27 @@ public class BlueBack extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        Kuro robot = new Kuro(hardwareMap,telemetry,this);
+        Aries robot = new Aries(hardwareMap,telemetry,this);
 
+        robot.setMotorMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.setMotorMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        robot.resetEncoders();
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
-
-        boolean toDo = true;
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             Pictograph pictograph = new Pictograph();
 
             RelicRecoveryVuMark vuMark = pictograph.startInit(hardwareMap, 2000);
-            robot.closeClaws();
-            robot.moveSlide(0.5, -850);
 
-            robot.jewelArm();
+            robot.moveInches(0.3, 25);
+            robot.moveInches(-0.5, 4);
 
-            robot.moveRobotInches(0.3, 28);
-            robot.moveRobotInches(0.4, -8);
-            sleep(1000);
-            robot.goToCryptoBox(0.3, 0.7);
-            sleep(1000);
 
-            //Moves to right column
-            robot.moveRobotInches(0.25, 2.25);
 
-            //If not right, move to respective location
-            if(vuMark == RelicRecoveryVuMark.CENTER){
-                robot.moveRobotInches(0.25, 6.5);
-            }else if (vuMark == RelicRecoveryVuMark.RIGHT) {
-                robot.moveRobotInches(0.25, 6.5 * 2);
-            }
-
-            robot.finalTurn(90);
-            robot.resetEncoders();
-            robot.moveSlide(0.4, 450);
-            robot.moveRobotInches(0.4,7);
-            robot.openClaws();
-            robot.moveRobotInches(0.3,-7);
-            robot.opBottomClaws();
-            robot.finalTurn(-90);
-            robot.resetEncoders();
-            robot.moveRobotInches(0.6, -6);
-            robot.moveRobotInches(0.6, 3);
             sleep(1000000);
-
         }
     }
 }
