@@ -1,10 +1,11 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Kuro;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+import org.firstinspires.ftc.teamcode.Pictograph;
 
 
 /**
@@ -20,9 +21,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Red: Back", group="Linear Opmode")
+@Autonomous(name="Blue: Back", group="Linear Opmode")
 //@Disabled
-public class RedBack extends LinearOpMode {
+public class BlueBack extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -33,6 +34,7 @@ public class RedBack extends LinearOpMode {
         telemetry.update();
 
         Kuro robot = new Kuro(hardwareMap,telemetry,this);
+
 
         robot.resetEncoders();
         // Wait for the game to start (driver presses PLAY)
@@ -46,61 +48,39 @@ public class RedBack extends LinearOpMode {
             Pictograph pictograph = new Pictograph();
 
             RelicRecoveryVuMark vuMark = pictograph.startInit(hardwareMap, 2000);
-
             robot.closeClaws();
             robot.moveSlide(0.5, -850);
 
             robot.jewelArm();
 
-            robot.moveRobotInches(0.3, -28);
-            robot.moveRobotInches(0.4, 8);
+            robot.moveRobotInches(0.3, 28);
+            robot.moveRobotInches(0.4, -8);
             sleep(1000);
-            robot.goToCryptoBox(-0.2,0.65);
+            robot.goToCryptoBox(0.3, 0.7);
+            sleep(1000);
 
-
-
+            //Moves to right column
+            robot.moveRobotInches(0.25, 2.25);
 
             //If not right, move to respective location
             if(vuMark == RelicRecoveryVuMark.CENTER){
-                robot.moveRobotInches(0.25, 2);
-                robot.finalTurn(120);
-                robot.resetEncoders();
-                robot.moveSlide(0.4, 450);
-                robot.moveRobot(0.25, 400);
-                robot.openClaws();
-                robot.moveRobot(0.25, -200);
-            }else if (vuMark == RelicRecoveryVuMark.LEFT) {
-                robot.moveRobotInches(0.25, -8);
-                robot.finalTurn(120);
-                robot.resetEncoders();
-                robot.moveSlide(0.4, 450);
-                robot.moveRobot(0.25, 400);
-                robot.openClaws();
-                robot.moveRobot(0.25, -600);
-                robot.finalTurn(-90);
-                robot.resetEncoders();
-                robot.moveRobot(0.4, -600);
-                robot.moveRobot(0.9, 300);
-                robot.opBottomClaws();
-                robot.moveRobotInches(0.25, 3);
-                sleep(1000000);
-            }else{
-                robot.moveRobotInches(0.25, -8);
-                robot.finalTurn(65);
-                robot.resetEncoders();
-                robot.moveSlide(0.4, 450);
-                robot.moveRobot(0.25, 400);
-                robot.openClaws();
-                robot.moveRobot(0.25, -600);
-                robot.finalTurn(-90);
-                robot.resetEncoders();
-                robot.moveRobot(0.4, -600);
-                robot.moveRobot(0.9, 300);
-                robot.opBottomClaws();
-                robot.moveRobotInches(0.25, 3);
-                sleep(1000000);
+                robot.moveRobotInches(0.25, 6.5);
+            }else if (vuMark == RelicRecoveryVuMark.RIGHT) {
+                robot.moveRobotInches(0.25, 6.5 * 2);
             }
 
+            robot.finalTurn(90);
+            robot.resetEncoders();
+            robot.moveSlide(0.4, 450);
+            robot.moveRobotInches(0.4,7);
+            robot.openClaws();
+            robot.moveRobotInches(0.3,-7);
+            robot.opBottomClaws();
+            robot.finalTurn(-90);
+            robot.resetEncoders();
+            robot.moveRobotInches(0.6, -6);
+            robot.moveRobotInches(0.6, 3);
+            sleep(1000000);
 
         }
     }

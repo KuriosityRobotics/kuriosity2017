@@ -69,6 +69,13 @@ public class Aries {
     public Servo armServo;
     public Servo pivotServo;
 
+    //Jewel arm color sensors
+    public ColorSensor ballColor;
+    public ColorSensor stoneColor;
+
+    //Cryptobox detector sensor
+    public  DistanceSensor distance;
+
     //imu
     public BNO055IMU imu;
     public Orientation angles;
@@ -124,6 +131,15 @@ public class Aries {
         //Map jewel arm servos
         armServo = hardwareMap.servo.get("armServo");
         pivotServo = hardwareMap.servo.get("pivotServo");
+
+
+        //Map jewel arm sensors
+        ballColor = hardwareMap.colorSensor.get("ballColor");
+        stoneColor = hardwareMap.colorSensor.get("stoneColor");
+
+
+        //Map cryptobox detector sensor
+        distance = hardwareMap.get(DistanceSensor.class, "distance");
     }
 
 
@@ -216,7 +232,7 @@ public class Aries {
 
 
 
-    public void moveRobotInches(double speed, double targetDistance){
+    public void moveInches(double speed, double targetDistance){
         moveRobot(speed, (int)(targetDistance / 22.25 * 1000));
     }
     public void moveRobot(double speed, int targetPostition) {
@@ -256,4 +272,21 @@ public class Aries {
         this.setMotorMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         this.setMotorMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
+
+    public void goToCryptobox(double power, double servoPosition){
+        this.armServo.setPosition(servoPosition);
+
+        //Start moving forward
+        this.setMotorMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        setDrivePower(power);
+
+        //Wait until it sees cryptobox
+        while (!isCryptoBox() && linearOpMode.opModeIsActive()){}
+
+        //Stop robot
+        this.setDrivePower(0);
+        this.armServo.setPosition(0);
+    }
+
+    public boolean isCryptoBox(){ return !Double.isNaN(distance.getDistance(DistanceUnit.CM)); }
 }

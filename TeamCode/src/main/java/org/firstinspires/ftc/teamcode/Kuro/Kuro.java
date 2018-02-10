@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Kuro;
 
 import android.os.SystemClock;
 
@@ -157,7 +157,7 @@ public class Kuro {
 
     public void goToCryptoBox(double power, double servoPosition){
         armServo.setPosition(servoPosition);
-//        moveRobotInches(0.4,-2);
+//        moveInches(0.4,-2);
 //        resumeEncoders();
         this.changeRunModeToUsingEncoder();
         setDrivePower(power);
