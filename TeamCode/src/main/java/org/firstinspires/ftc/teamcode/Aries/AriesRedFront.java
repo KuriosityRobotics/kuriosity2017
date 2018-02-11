@@ -5,9 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
 
@@ -24,9 +21,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Blue: Front", group="Linear Opmode")
+@Autonomous(name="Red: Front", group="Linear Opmode")
 //@Disabled
-public class AriesBlueFront extends LinearOpMode {
+public class AriesRedFront extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -55,28 +52,28 @@ public class AriesBlueFront extends LinearOpMode {
 
             robot.jewelArm();
 
-            robot.moveRobot(0.3, -900);
-            robot.moveRobot(0.25, -300);
-            robot.moveRobotInches(0.6, 9);
-            robot.moveRobotInches(0.4, -4.75);
-            robot.finalTurn(-90);
-            robot.moveRobotInches(0.4, 3);
+            robot.moveRobot(0.3, 900);
+            robot.moveRobot(0.25, 300);
+            robot.moveRobotInches(0.6, -9);
+            robot.moveRobotInches(0.4, 5.75);
+            robot.finalTurn(90);
+            robot.moveRobotInches(0.4, -3);
             sleep(1000);
-            robot.goToCryptoBox(-0.1, 0.35);
+            robot.goToCryptoBox(0.1, 0.35);
 
 
-            //Moves to left column
-            robot.moveRobotInches(0.25, -3.25);
+            //Moves to right column
+            robot.moveRobotInches(0.25, 3.4);
 
-            //If not left, move to respective location
+            //If not right, move to respective location
             if(vuMark == RelicRecoveryVuMark.CENTER){
-                robot.moveRobotInches(0.25, -6.75);
-            }else if (vuMark == RelicRecoveryVuMark.RIGHT) {
-                robot.moveRobotInches(0.25, -6.75 * 2);
+                robot.moveRobotInches(0.25, 6.75);
+            }else if (vuMark == RelicRecoveryVuMark.LEFT) {
+                robot.moveRobotInches(0.25, 6.75 * 2);
             }
 
-            robot.finalTurn(0, 7500);
-            robot.moveTray(78);
+            robot.finalTurn(180, 7500);
+            robot.moveTray(75);
             robot.moveRobot(0.7, -300);
             robot.moveRobot(0.7, 110);
             robot.moveTray(3);

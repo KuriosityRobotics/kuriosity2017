@@ -42,9 +42,6 @@ public class AriesRedBack extends LinearOpMode {
         runtime.reset();
         robot.intializeIMU();
 
-
-        boolean toDo = true;
-
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             Pictograph pictograph = new Pictograph();

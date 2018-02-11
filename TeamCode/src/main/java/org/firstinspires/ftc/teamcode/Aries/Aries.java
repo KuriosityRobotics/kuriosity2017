@@ -233,8 +233,8 @@ public class Aries {
             double scaleFactor = currentDeltatAngle / maxAngle;
             double absolutePower = 1-scaleFactor;
 
-            if(absolutePower<0.02){
-                absolutePower = 0.02;
+            if(absolutePower< 0.01){
+                absolutePower = 0.01;
             }
             double power = absolutePower * sign;
             if(scaleFactor > 1 || ((SystemClock.elapsedRealtime() - startTime) > timeInMilli)){
