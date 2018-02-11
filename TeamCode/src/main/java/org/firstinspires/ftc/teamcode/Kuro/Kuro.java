@@ -157,7 +157,7 @@ public class Kuro {
 
     public void goToCryptoBox(double power, double servoPosition){
         armServo.setPosition(servoPosition);
-//        moveInches(0.4,-2);
+//        moveRobotInches(0.4,-2);
 //        resumeEncoders();
         this.changeRunModeToUsingEncoder();
         setDrivePower(power);

@@ -317,7 +317,7 @@ public class Aries {
 
     public void goToCryptoBox(double power, double servoPosition){
         armServo.setPosition(servoPosition);
-//        moveInches(0.4,-2);
+//        moveRobotInches(0.4,-2);
 //        resumeEncoders();
         this.changeRunModeToUsingEncoder();
         setDrivePower(power);
@@ -337,7 +337,7 @@ public class Aries {
         //Checks which color ball is then moves the arm to knock of jewel that is matching opposing team color
         this.pivotServo.setPosition(0.45);
         sleep(100);
-        this.armServo.setPosition(0.05);
+        this.armServo.setPosition(0);
         sleep(1000);
         if(getColor(this.ballColor).equals(getColor(this.stoneColor))){
             this.pivotServo.setPosition(0);

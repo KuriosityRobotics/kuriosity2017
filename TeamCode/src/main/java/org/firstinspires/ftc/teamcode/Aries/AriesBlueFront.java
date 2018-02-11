@@ -48,8 +48,8 @@ public class AriesBlueFront extends LinearOpMode {
 
             RelicRecoveryVuMark vuMark = pictograph.startInit(hardwareMap, 2000);
 
-            robot.moveInches(0.3, 25);
-            robot.moveInches(-0.5, 4);
+            robot.moveRobotInches(0.3, 25);
+            robot.moveRobotInches(-0.5, 4);
 
 
 
