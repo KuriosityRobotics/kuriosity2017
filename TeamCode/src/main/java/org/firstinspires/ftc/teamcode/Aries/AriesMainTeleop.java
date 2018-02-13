@@ -120,18 +120,22 @@ public class AriesMainTeleop extends LinearOpMode
 
             //Tray Operation
             if(gamepad2.dpad_up){
+                robot.trayPivot.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                robot.trayPivot.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 robot.trayPivot.setPower(1);
-                robot.trayPivot.setTargetPosition(32);
+                robot.trayPivot.setTargetPosition(30);
                 robot.fLeft.setPower(0);
                 robot.bLeft.setPower(0);
                 robot.fRight.setPower(0);
                 robot.bRight.setPower(0);
                 sleep(500);
                 robot.linearSlideMotor.setPower(1);
-                robot.linearSlideMotor.setTargetPosition(1550);
+                robot.linearSlideMotor.setTargetPosition(1500);
                 robot.linearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
             }else if(gamepad2.dpad_down){
+                robot.trayPivot.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                robot.trayPivot.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 robot.linearSlideMotor.setPower(1);
                 robot.linearSlideMotor.setTargetPosition(0);
                 robot.fLeft.setPower(0);
@@ -147,12 +151,15 @@ public class AriesMainTeleop extends LinearOpMode
             }
 
             if(gamepad2.x){
+                robot.trayPivot.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                robot.trayPivot.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 robot.trayPivot.setPower(1);
                 robot.trayPivot.setTargetPosition(80);
-                while(robot.trayPivot.isBusy() && this.opModeIsActive() && (!gamepad1.a||!gamepad2.a)) {
-                    robot.trayPivot.setPower(1);
-                    robot.trayPivot.setTargetPosition(80);
-                }
+            }
+
+            if(gamepad2.right_trigger>0){
+                robot.trayPivot.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                robot.trayPivot.setPower(gamepad2.right_trigger/2);
             }
 
 
