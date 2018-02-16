@@ -317,8 +317,7 @@ public class Aries {
 
     public void goToCryptoBox(double power, double servoPosition){
         armServo.setPosition(servoPosition);
-//        moveRobotInches(0.4,-2);
-//        resumeEncoders();
+
         this.changeRunModeToUsingEncoder();
         setDrivePower(power);
 

@@ -113,8 +113,8 @@ public class AriesMainTeleop extends LinearOpMode
             //Intake
             double intakePowerLeft = -gamepad2.left_stick_y;
             double intakePowerRight = -gamepad2.right_stick_y;
-            robot.leftIntake.setPower(intakePowerRight);
-            robot.rightIntake.setPower(intakePowerLeft);
+            robot.leftIntake.setPower(intakePowerLeft);
+            robot.rightIntake.setPower(intakePowerRight);
 
             //Linear slide
 
