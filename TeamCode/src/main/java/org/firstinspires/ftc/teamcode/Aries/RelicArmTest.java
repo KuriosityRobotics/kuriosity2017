@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -26,9 +27,12 @@ public class RelicArmTest extends LinearOpMode {
     public Servo RelicLifter;
     public int RelicClawCounter;
     public int RelicLifterCounter;
-    public RelicExtendor = hardwareMap.dcMotor.get("RelicExtendor");
-    public RelicClaw = hardwareMap.servo.get("RelicClaw");
-    public RelicLifter = hardwareMap.servo.get("RelicLifter");
+
+        public RelicExtendor = hardwareMap.dcMotor.get("RelicExtendor");
+        public RelicClaw = hardwareMap.servo.get("RelicClaw");
+        public RelicLifter = hardwareMap.servo.get("RelicLifter");
+
+
 
     public void runOpMode() {
         RelicExtendor.setPower(-gamepad2.right_stick_y);
@@ -52,6 +56,7 @@ public class RelicArmTest extends LinearOpMode {
         } else if (RelicLifterCounter > 0) {
             if (gamepad2.b) {
                 RelicLifter.setPosition(0);
+                RelicLifterCounter --;
             }
         }
     }
