@@ -68,7 +68,7 @@ public class AriesBlueBack extends LinearOpMode {
             }
 
             robot.finalTurn(90, 7500);
-            robot.moveTray(78);
+            robot.moveTray(76);
             robot.moveRobot(0.7,-300);
             robot.moveRobot(0.7,100);
             robot.moveTray(3);

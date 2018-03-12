@@ -63,11 +63,15 @@ public class Aries {
 
     //Tray motors
     public DcMotor trayPivot;
-    public DcMotor linearSlideMotor;
+    public Servo traySlide;
 
     //Jewel arm servos
     public Servo armServo;
     public Servo pivotServo;
+
+    public Servo relicPivot;
+    public Servo relicClaw;
+    public DcMotor relicSlide;
 
     //Jewel arm color sensors
     public ColorSensor ballColor;
@@ -113,19 +117,22 @@ public class Aries {
         leftIntake.setDirection(DcMotorSimple.Direction.REVERSE);
         rightIntake.setDirection(DcMotorSimple.Direction.REVERSE);
 
-
+        //relic
+        relicPivot = hardwareMap.servo.get("relicPivot");
+        relicClaw = hardwareMap.servo.get("relicClaw");
+        relicSlide = hardwareMap.dcMotor.get("relicSlide");
 
         //Map tray motors
         trayPivot = hardwareMap.dcMotor.get("trayPivot");
-        linearSlideMotor = hardwareMap.dcMotor.get("linearSlideMotor");
+        traySlide = hardwareMap.servo.get("traySlide");
 
         //Set direction of intake motors
         trayPivot.setDirection(DcMotorSimple.Direction.REVERSE);
-        linearSlideMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-
-        //Sets mode of tray motors
-        linearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        linearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        linearSlideMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+//
+//        //Sets mode of tray motors
+//        linearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        linearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
         //Map jewel arm servos
@@ -262,11 +269,13 @@ public class Aries {
     }
 
     public void moveTray(int targetPosition){
+
         trayPivot.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         trayPivot.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         trayPivot.setPower(1);
         trayPivot.setTargetPosition(targetPosition);
-        while(trayPivot.isBusy() && linearOpMode.opModeIsActive()){
+        long startTime = SystemClock.elapsedRealtime();
+        while(trayPivot.isBusy() && linearOpMode.opModeIsActive() && (SystemClock.elapsedRealtime() - startTime) < 2000){
 
         }
     }
