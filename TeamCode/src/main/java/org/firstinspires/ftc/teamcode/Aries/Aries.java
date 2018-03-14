@@ -85,6 +85,9 @@ public class Aries {
     public HardwareMap hardwareMap;
     public LinearOpMode linearOpMode;
 
+
+
+
     public Aries(HardwareMap hardwareMap, Telemetry telemetry,LinearOpMode linearOpMode){
 
         this.telemetry = telemetry;
@@ -140,6 +143,10 @@ public class Aries {
 
         //Map cryptobox detector sensor
         distance = hardwareMap.get(DistanceSensor.class, "distance");
+
+
+        //Relic Arm Motors and servos
+
     }
 
 
