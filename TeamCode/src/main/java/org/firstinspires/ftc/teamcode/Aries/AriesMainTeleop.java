@@ -113,6 +113,14 @@ public class AriesMainTeleop extends LinearOpMode
 
             }
 
+            if(gamepad1.right_bumper){
+                fLPower = fLPower * 0.3;
+                fRPower = fRPower * 0.3;
+                bLPower = bLPower * 0.3;
+                bRPower = bRPower * 0.3;
+                robot.relicPivot.setPosition(0.27);
+            }
+
             //Sets power of motor to set value
             robot.fLeft.setPower(fLPower);
             robot.fRight.setPower(fRPower);
@@ -132,126 +140,20 @@ public class AriesMainTeleop extends LinearOpMode
                 robot.trayPivot.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 robot.trayPivot.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 robot.trayPivot.setPower(1);
-                robot.trayPivot.setTargetPosition(30);
+                robot.trayPivot.setTargetPosition(25);
                 robot.fLeft.setPower(0);
                 robot.bLeft.setPower(0);
                 robot.fRight.setPower(0);
                 robot.bRight.setPower(0);
                 while (robot.trayPivot.isBusy() && opModeIsActive()) {
-                    fLPower = -(gamepad1.left_stick_y);
-                    bLPower = -(gamepad1.left_stick_y);
-                    fRPower = -(gamepad1.right_stick_y);
-                    bRPower = -(gamepad1.right_stick_y);
-
-                    //Strafe
-                    if (gamepad1.left_trigger != 0) {
-                        fLPower = -gamepad1.left_trigger;
-                        bLPower = gamepad1.left_trigger;
-                        fRPower = gamepad1.left_trigger;
-                        bRPower = -gamepad1.left_trigger;
-
-                    } else if (gamepad1.right_trigger != 0) {
-                        fLPower = gamepad1.right_trigger;
-                        bLPower = -gamepad1.right_trigger;
-                        fRPower = -gamepad1.right_trigger;
-                        bRPower = gamepad1.right_trigger;
-
-                    }
-
-                    //Straight D-Pad move
-                    if (gamepad1.dpad_up) {
-                        fLPower = (gamepad1.left_stick_y)+0.7;
-                        bLPower = (gamepad1.left_stick_y)+0.7;
-                        fRPower = (gamepad1.right_stick_y+0.7);
-                        bRPower = (gamepad1.right_stick_y+0.7);
-
-                    } else if (gamepad1.dpad_down) {
-                        fLPower = (gamepad1.left_stick_y)-0.7;
-                        bLPower = (gamepad1.left_stick_y)-0.7;
-                        fRPower = (gamepad1.right_stick_y-0.7);
-                        bRPower = (gamepad1.right_stick_y)-0.7;
-
-                    } else if (gamepad1.dpad_right) {
-
-                        fLPower = (gamepad1.right_stick_y+0.7);
-                        bLPower = (gamepad1.right_stick_y)+0.7;
-                        fRPower = (gamepad1.left_stick_y)-0.7;
-                        bRPower = (gamepad1.left_stick_y)-0.7;
-
-                    } else if (gamepad1.dpad_left) {
-
-                        fRPower = (gamepad1.right_stick_y+0.7);
-                        bRPower = (gamepad1.right_stick_y)+0.7;
-                        fLPower = (gamepad1.left_stick_y)-0.7;
-                        bLPower = (gamepad1.left_stick_y)-0.7;
-
-                    }
-
-                    //Sets power of motor to set value
-                    robot.fLeft.setPower(fLPower);
-                    robot.fRight.setPower(fRPower);
-                    robot.bLeft.setPower(bLPower);
-                    robot.bRight.setPower(bRPower);
+                    controlTeleop(robot);
                 }
                 robot.traySlide.setPosition(0.395);
 
             }else if(gamepad2.dpad_down){
                 robot.traySlide.setPosition(0.2);
-                while (robot.traySlide.getPosition() != 0.2 && opModeIsActive()) {
-                    fLPower = -(gamepad1.left_stick_y);
-                    bLPower = -(gamepad1.left_stick_y);
-                    fRPower = -(gamepad1.right_stick_y);
-                    bRPower = -(gamepad1.right_stick_y);
-
-                    //Strafe
-                    if (gamepad1.left_trigger != 0) {
-                        fLPower = -gamepad1.left_trigger;
-                        bLPower = gamepad1.left_trigger;
-                        fRPower = gamepad1.left_trigger;
-                        bRPower = -gamepad1.left_trigger;
-
-                    } else if (gamepad1.right_trigger != 0) {
-                        fLPower = gamepad1.right_trigger;
-                        bLPower = -gamepad1.right_trigger;
-                        fRPower = -gamepad1.right_trigger;
-                        bRPower = gamepad1.right_trigger;
-
-                    }
-
-                    //Straight D-Pad move
-                    if (gamepad1.dpad_up) {
-                        fLPower = (gamepad1.left_stick_y)+0.7;
-                        bLPower = (gamepad1.left_stick_y)+0.7;
-                        fRPower = (gamepad1.right_stick_y+0.7);
-                        bRPower = (gamepad1.right_stick_y+0.7);
-
-                    } else if (gamepad1.dpad_down) {
-                        fLPower = (gamepad1.left_stick_y)-0.7;
-                        bLPower = (gamepad1.left_stick_y)-0.7;
-                        fRPower = (gamepad1.right_stick_y-0.7);
-                        bRPower = (gamepad1.right_stick_y)-0.7;
-
-                    } else if (gamepad1.dpad_right) {
-
-                        fLPower = (gamepad1.right_stick_y+0.7);
-                        bLPower = (gamepad1.right_stick_y)+0.7;
-                        fRPower = (gamepad1.left_stick_y)-0.7;
-                        bRPower = (gamepad1.left_stick_y)-0.7;
-
-                    } else if (gamepad1.dpad_left) {
-
-                        fRPower = (gamepad1.right_stick_y+0.7);
-                        bRPower = (gamepad1.right_stick_y)+0.7;
-                        fLPower = (gamepad1.left_stick_y)-0.7;
-                        bLPower = (gamepad1.left_stick_y)-0.7;
-
-                    }
-
-                    //Sets power of motor to set value
-                    robot.fLeft.setPower(fLPower);
-                    robot.fRight.setPower(fRPower);
-                    robot.bLeft.setPower(bLPower);
-                    robot.bRight.setPower(bRPower);
+                while (robot.traySlide.getPosition() > 0.2 && opModeIsActive()) {
+                    controlTeleop(robot);
                 }
                 robot.trayPivot.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 robot.trayPivot.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -259,12 +161,12 @@ public class AriesMainTeleop extends LinearOpMode
                 robot.bLeft.setPower(0);
                 robot.fRight.setPower(0);
                 robot.bRight.setPower(0);
+
+
                 robot.trayPivot.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 robot.trayPivot.setPower(1);
                 robot.trayPivot.setTargetPosition(30);
-                while(robot.traySlide.getPosition()!=0.2){
-
-                }
+                sleep(1000);
                 robot.trayPivot.setTargetPosition(3);
 
             }
@@ -291,23 +193,31 @@ public class AriesMainTeleop extends LinearOpMode
                 robot.trayPivot.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
 
-            if(gamepad1.left_bumper){
+            if(gamepad1.a){
                 robot.relicClaw.setPosition(0.2);
-            }else if(gamepad1.right_bumper){
-                robot.relicClaw.setPosition(0.7);
+            }else if(gamepad1.x){
+                robot.relicPivot.setPosition(0.21);
+                sleep(500);
+                robot.relicClaw.setPosition(1);
+                sleep(500);
+                robot.relicSlide.setPower(-1);
+                sleep(750);
             }
-
-            if(robot.relicSlide.getCurrentPosition() < 200 && robot.relicSlide.getCurrentPosition() > 100 && !gamepad2.b) {
+            if(robot.relicSlide.getCurrentPosition() < 200 && robot.relicSlide.getCurrentPosition() > 100 && !gamepad2.b && !gamepad1.right_bumper) {
                 robot.relicPivot.setPosition(0.7);
-            }else if(robot.relicSlide.getCurrentPosition() > 200 && !gamepad2.y){
+            }else if(robot.relicSlide.getCurrentPosition() > 2700 && !gamepad2.y && !gamepad1.right_bumper){
+                robot.relicPivot.setPosition(0.15);
+            } else if(robot.relicSlide.getCurrentPosition() > 200 && !gamepad2.y && !gamepad1.right_bumper){
                 robot.relicPivot.setPosition(0.2);
+            }else{
+                robot.relicSlide.setPower(0.05);
             }
 
             if(gamepad2.y){
                 robot.relicPivot.setPosition(0.7);
 
             }else if(gamepad2.b) {
-                robot.relicPivot.setPosition(0.2);
+                robot.relicPivot.setPosition(0.22);
             }
 
             if(gamepad2.dpad_left){
@@ -326,7 +236,7 @@ public class AriesMainTeleop extends LinearOpMode
                 robot.armServo.setPosition(0);
             }
 
-            if(gamepad1.x){
+            if(gamepad1.left_bumper){
                 robot.moveRobotInches(0.8,16);
                 robot.setDrivePower(0);
             }
@@ -341,7 +251,8 @@ public class AriesMainTeleop extends LinearOpMode
 
     }
 
-    public void teleopCOntrol(Aries robot){
+
+    public void controlTeleop(Aries robot){
         fLPower = -(gamepad1.left_stick_y);
         bLPower = -(gamepad1.left_stick_y);
         fRPower = -(gamepad1.right_stick_y);
@@ -389,6 +300,13 @@ public class AriesMainTeleop extends LinearOpMode
             fLPower = (gamepad1.left_stick_y)-0.7;
             bLPower = (gamepad1.left_stick_y)-0.7;
 
+        }
+
+        if(gamepad1.right_bumper){
+            fLPower = fLPower * 0.3;
+            fRPower = fRPower * 0.3;
+            bLPower = bLPower * 0.3;
+            bRPower = bRPower * 0.3;
         }
 
         //Sets power of motor to set value

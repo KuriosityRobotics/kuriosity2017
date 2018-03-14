@@ -72,30 +72,28 @@ public class AriesRedBack extends LinearOpMode {
             sleep(1000);
             robot.moveRobot(0.7, -300);
             robot.moveTray(3);
-
-            robot.moveRobotInches(1,36);
-            robot.brakeMotors();
             robot.leftIntake.setPower(-1);
             robot.rightIntake.setPower(-1);
-            sleep(2000);
+            robot.moveRobotInches(0.5,36);
+            robot.brakeMotors();
             robot.finalTurn(45);
             robot.moveRobotInches(1,6);
             robot.brakeMotors();
-            robot.leftIntake.setPower(-1);
-            robot.rightIntake.setPower(-1);
-            sleep(2000);
             robot.moveRobotInches(0.75,-6);
             robot.brakeMotors();
             robot.finalTurn(90);
-            robot.moveRobotInches(0.75,-25);
+            robot.moveRobotInches(0.75,-21);
+
             robot.brakeMotors();
-            robot.finalTurn(75);
+            robot.finalTurn(85);
             robot.moveTray(78);
             robot.moveRobotInches(0.5,-10);
             robot.brakeMotors();
-            robot.moveRobotInches(0.5,10);
+            robot.moveRobotInches(0.5,4);
             robot.brakeMotors();
             robot.moveTray(3);
+            robot.leftIntake.setPower(0);
+            robot.rightIntake.setPower(0);
             sleep(1000000);
         }
     }
