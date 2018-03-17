@@ -165,8 +165,8 @@ public class AriesMainTeleop extends LinearOpMode
 
                 robot.trayPivot.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 robot.trayPivot.setPower(1);
-                robot.trayPivot.setTargetPosition(30);
-                sleep(1000);
+                robot.trayPivot.setTargetPosition(40);
+                sleep(1200);
                 robot.trayPivot.setTargetPosition(3);
 
             }
