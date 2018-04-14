@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+import org.firstinspires.ftc.teamcode.GlyphOpMode;
 
 
 /**
@@ -23,7 +24,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
 @Autonomous(name="Red: Back", group="Linear Opmode")
 //@Disabled
-public class AriesRedBack extends LinearOpMode {
+public class AriesRedBack extends LinearOpMode{
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -37,43 +38,17 @@ public class AriesRedBack extends LinearOpMode {
 
         robot.setMotorMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+        GlyphOpMode auto = new GlyphOpMode();
+
+
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
         robot.intializeIMU();
-
+        auto.init();
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            Pictograph pictograph = new Pictograph();
-
-            RelicRecoveryVuMark vuMark = pictograph.startInit(hardwareMap, 2000);
-            telemetry.addLine(vuMark.toString());
-            telemetry.update();
-
-            robot.jewelArm();
-
-            robot.moveRobotInches(0.4, 24);
-            robot.moveRobotInches(0.5, -4);
-            sleep(1000);
-            robot.goToCryptoBox(0.1, 0.2);
-
-            //Moves to right column
-            robot.moveRobotInches(0.25, 3.25);
-
-            //If not right, move to respective location
-            if(vuMark == RelicRecoveryVuMark.CENTER){
-                robot.moveRobotInches(0.25, 6.75);
-            }else if (vuMark == RelicRecoveryVuMark.LEFT) {
-                robot.moveRobotInches(0.25, 6.75 * 2);
-            }
-
-            robot.finalTurn(90, 7500);
-            robot.moveTray(78);
-            sleep(1000);
-            robot.moveRobot(0.7, -300);
-            robot.moveRobot(0.7, 100);
-            robot.moveTray(3);
-            sleep(1000000);
+            robot.setDrivePower(auto.glyphDetector.getChosenGlyphOffset()/300);
         }
     }
 }

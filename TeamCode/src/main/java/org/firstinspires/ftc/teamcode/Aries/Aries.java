@@ -63,15 +63,11 @@ public class Aries {
 
     //Tray motors
     public DcMotor trayPivot;
-    public Servo traySlide;
+    public DcMotor linearSlideMotor;
 
     //Jewel arm servos
     public Servo armServo;
     public Servo pivotServo;
-
-    public Servo relicPivot;
-    public Servo relicClaw;
-    public DcMotor relicSlide;
 
     //Jewel arm color sensors
     public ColorSensor ballColor;
@@ -83,14 +79,12 @@ public class Aries {
     //imu
     public BNO055IMU imu;
     public Orientation angles;
+    public Position position;
 
     //Inherited classes from Op Mode
     public Telemetry telemetry;
     public HardwareMap hardwareMap;
     public LinearOpMode linearOpMode;
-
-
-
 
     public Aries(HardwareMap hardwareMap, Telemetry telemetry,LinearOpMode linearOpMode){
 
@@ -120,22 +114,19 @@ public class Aries {
         leftIntake.setDirection(DcMotorSimple.Direction.REVERSE);
         rightIntake.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        //relic
-        relicPivot = hardwareMap.servo.get("relicPivot");
-        relicClaw = hardwareMap.servo.get("relicClaw");
-        relicSlide = hardwareMap.dcMotor.get("relicSlide");
+
 
         //Map tray motors
         trayPivot = hardwareMap.dcMotor.get("trayPivot");
-        traySlide = hardwareMap.servo.get("traySlide");
+        linearSlideMotor = hardwareMap.dcMotor.get("linearSlideMotor");
 
         //Set direction of intake motors
         trayPivot.setDirection(DcMotorSimple.Direction.REVERSE);
-//        linearSlideMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-//
-//        //Sets mode of tray motors
-//        linearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        linearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        linearSlideMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        //Sets mode of tray motors
+        linearSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        linearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
         //Map jewel arm servos
@@ -150,10 +141,6 @@ public class Aries {
 
         //Map cryptobox detector sensor
         distance = hardwareMap.get(DistanceSensor.class, "distance");
-
-
-        //Relic Arm Motors and servos
-
     }
 
 
@@ -226,6 +213,7 @@ public class Aries {
         this.setMotorMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         this.setMotorMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        position = imu.getPosition();
         angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         double startHeading = angles.firstAngle;
         double maxAngle = startHeading - targetHeading;
@@ -276,13 +264,11 @@ public class Aries {
     }
 
     public void moveTray(int targetPosition){
-
         trayPivot.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         trayPivot.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         trayPivot.setPower(1);
         trayPivot.setTargetPosition(targetPosition);
-        long startTime = SystemClock.elapsedRealtime();
-        while(trayPivot.isBusy() && linearOpMode.opModeIsActive() && (SystemClock.elapsedRealtime() - startTime) < 2000){
+        while(trayPivot.isBusy() && linearOpMode.opModeIsActive()){
 
         }
     }
@@ -391,4 +377,28 @@ public class Aries {
     }
 
     public boolean isCryptoBox(){ return !Double.isNaN(distance.getDistance(DistanceUnit.CM)); }
+
+    public void autoNav(double speed, double x_start, double y_start, double x_end, double y_end){
+        double distanceToTravel = 0;
+        distanceToTravel = Math.sqrt(((x_start-x_end)*(x_start-x_end))+((y_start-y_end)*(y_start-y_end)));
+        double oppositeSide = Math.abs(y_end-y_start);
+        double lengthB = distanceToTravel;
+        double adjacentSjde = Math.abs(x_end-x_start);
+        double angle = 0;
+        angle = Math.atan(oppositeSide/adjacentSjde);
+        this.setMotorMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        this.setMotorMode(DcMotor.RunMode.RUN_TO_POSITION);
+        telemetry.addData("angle",angle);
+        telemetry.addData("distance",distanceToTravel);
+        telemetry.update();
+        finalTurn(angle);
+
+        fLeft.setPower(speed);
+        fRight.setPower(speed);
+        bLeft.setPower(speed);
+        bRight.setPower(speed);
+
+        moveRobotInches(speed,distanceToTravel*12);
+
+    }
 }

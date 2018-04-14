@@ -11,7 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 
 
-@TeleOp(name="Main TeleOp", group="Linear Opmode")
+@TeleOp(name=" KURO Main TeleOp", group="Linear Opmode")
 //@Disabled
 public class MainTeleOp extends LinearOpMode
 {

@@ -21,7 +21,7 @@ import org.firstinspires.ftc.teamcode.Aries.Pictograph;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Blue: Front", group="Linear Opmode")
+@Autonomous(name=" KURO  Blue: Front", group="Linear Opmode")
 //@Disabled
 public class BlueFront extends LinearOpMode {
 
