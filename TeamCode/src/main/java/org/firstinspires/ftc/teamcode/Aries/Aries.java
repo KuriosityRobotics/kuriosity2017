@@ -56,18 +56,22 @@ public class Aries {
     public DcMotor fRight;
     public DcMotor bLeft;
     public DcMotor bRight;
+    public DcMotor relicSlide;
 
     //Intake Motors
     public DcMotor leftIntake;
     public DcMotor rightIntake;
 
     //Tray motors
-    public DcMotor trayPivot;
     public DcMotor linearSlideMotor;
 
     //Jewel arm servos
     public Servo armServo;
     public Servo pivotServo;
+    public Servo trayRight;
+    public Servo trayLeft;
+    public Servo relicClaw;
+    public Servo relicPivot;
 
     //Jewel arm color sensors
     public ColorSensor ballColor;
@@ -99,6 +103,8 @@ public class Aries {
         bLeft = hardwareMap.dcMotor.get("bLeft");
         bRight = hardwareMap.dcMotor.get("bRight");
 
+        relicSlide = hardwareMap.dcMotor.get("relicSlide");
+
         //Set direction of drive motors
         fLeft.setDirection(DcMotor.Direction.REVERSE);
         fRight.setDirection(DcMotor.Direction.FORWARD);
@@ -117,11 +123,10 @@ public class Aries {
 
 
         //Map tray motors
-        trayPivot = hardwareMap.dcMotor.get("trayPivot");
         linearSlideMotor = hardwareMap.dcMotor.get("linearSlideMotor");
 
         //Set direction of intake motors
-        trayPivot.setDirection(DcMotorSimple.Direction.REVERSE);
+//        trayPivot.setDirection(DcMotorSimple.Direction.REVERSE);
         linearSlideMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         //Sets mode of tray motors
@@ -132,6 +137,10 @@ public class Aries {
         //Map jewel arm servos
         armServo = hardwareMap.servo.get("armServo");
         pivotServo = hardwareMap.servo.get("pivotServo");
+        trayLeft = hardwareMap.servo.get("trayLeft");
+        trayRight = hardwareMap.servo.get("trayRight");
+        relicClaw = hardwareMap.servo.get("relicClaw");
+        relicPivot = hardwareMap.servo.get("relicPivot");
 
 
         //Map jewel arm sensors
@@ -263,15 +272,15 @@ public class Aries {
         brakeMotors();
     }
 
-    public void moveTray(int targetPosition){
-        trayPivot.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        trayPivot.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        trayPivot.setPower(1);
-        trayPivot.setTargetPosition(targetPosition);
-        while(trayPivot.isBusy() && linearOpMode.opModeIsActive()){
-
-        }
-    }
+//    public void moveTray(int targetPosition){
+//        trayPivot.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        trayPivot.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        trayPivot.setPower(1);
+//        trayPivot.setTargetPosition(targetPosition);
+//        while(trayPivot.isBusy() && linearOpMode.opModeIsActive()){
+//
+//        }
+//    }
 
     public void moveRobot(double speed, int targetPostition,long timeInMilli){
 

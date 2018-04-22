@@ -76,10 +76,10 @@ public class AriesBlueFront extends LinearOpMode {
             }
 
             robot.finalTurn(0, 7500);
-            robot.moveTray(76);
+//            robot.moveTray(76);
             robot.moveRobot(0.7, -300);
             robot.moveRobot(0.7, 110);
-            robot.moveTray(3);
+//            robot.moveTray(3);
             sleep(1000000);
         }
     }
