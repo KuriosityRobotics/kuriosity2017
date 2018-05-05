@@ -90,6 +90,10 @@ public class Aries {
     public HardwareMap hardwareMap;
     public LinearOpMode linearOpMode;
 
+    //Tray Sensors
+    public DistanceSensor glyphFrontSensor;
+    public DistanceSensor glyphBackSensor;
+
     public Aries(HardwareMap hardwareMap, Telemetry telemetry,LinearOpMode linearOpMode){
 
         this.telemetry = telemetry;
@@ -150,6 +154,10 @@ public class Aries {
 
         //Map cryptobox detector sensor
         distance = hardwareMap.get(DistanceSensor.class, "distance");
+
+        //Tray Sensors
+        glyphFrontSensor = hardwareMap.get(DistanceSensor.class, "glyphFrontSensor");
+        glyphBackSensor = hardwareMap.get(DistanceSensor.class, "glyphBackSensor");
     }
 
 

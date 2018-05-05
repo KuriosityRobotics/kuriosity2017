@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
 
@@ -21,15 +22,16 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Red: Back", group="Linear Opmode")
+@Autonomous(name="Red: Back Multiple", group="Linear Opmode")
 //@Disabled
-public class AriesRedBack extends LinearOpMode {
+public class AriesRedBackMultiple extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
 
     @Override
     public void runOpMode() throws InterruptedException{
+        int moveAmount = 0;
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
@@ -81,6 +83,15 @@ public class AriesRedBack extends LinearOpMode {
             robot.trayLeft.setPosition(0.88);
 
             sleep(1000000);
-        }
+            while (robot.glyphBackSensor.getDistance(DistanceUnit.CM) > 0) {
+                robot.leftIntake.setPower(1);
+                robot.rightIntake.setPower(1);
+                robot.moveRobotInches(1, 25);
+                moveAmount = robot.fLeft.getCurrentPosition();
+            }
+            robot.moveRobotInches(moveAmount, 1);
+            robot.trayRight.setPosition(0.725);
+            robot.trayLeft.setPosition(0.275);
+    }
     }
 }
