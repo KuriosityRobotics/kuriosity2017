@@ -218,10 +218,10 @@ public class AriesMainTeleop extends LinearOpMode
             // }
 
             if(gamepad2.y){
-                robot.relicPivot.setPosition(0.1);
+                robot.relicPivot.setPosition(0.4);
 
             }else if(gamepad2.b) {
-                robot.relicPivot.setPosition(0.65);
+                robot.relicPivot.setPosition(0.4575);
             }
 
             if(gamepad2.dpad_left){
@@ -236,11 +236,15 @@ public class AriesMainTeleop extends LinearOpMode
 
 
 
+
             telemetry.addData("Linear slide motor", robot.linearSlideMotor.getCurrentPosition());
             telemetry.addData("trayRight", robot.trayRight.getPosition());
             telemetry.addData("trayLeft", robot.trayLeft.getPosition());
             telemetry.addData("relicSlide",robot.relicSlide.getCurrentPosition());
             telemetry.addData("relicPivot", robot.relicPivot.getPosition());
+            telemetry.addData("relicPivot", robot.relicPivot.getPosition());
+            telemetry.addData("cryptservo",robot.cryptoServo.getPosition());
+
 //            telemetry.addData("Tray position", robot.trayPivot.getCurrentPosition());
             telemetry.update();
         }

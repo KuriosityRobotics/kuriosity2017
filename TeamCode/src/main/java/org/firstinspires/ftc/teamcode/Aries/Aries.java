@@ -72,6 +72,7 @@ public class Aries {
     public Servo trayLeft;
     public Servo relicClaw;
     public Servo relicPivot;
+    public Servo cryptoServo;
 
     //Jewel arm color sensors
     public ColorSensor ballColor;
@@ -79,6 +80,7 @@ public class Aries {
 
     //Cryptobox detector sensor
     public DistanceSensor distance;
+    public DistanceSensor glyphDistance;
 
     //imu
     public BNO055IMU imu;
@@ -141,6 +143,7 @@ public class Aries {
         trayRight = hardwareMap.servo.get("trayRight");
         relicClaw = hardwareMap.servo.get("relicClaw");
         relicPivot = hardwareMap.servo.get("relicPivot");
+        cryptoServo = hardwareMap.servo.get("cryptoServo");
 
 
         //Map jewel arm sensors
@@ -150,6 +153,7 @@ public class Aries {
 
         //Map cryptobox detector sensor
         distance = hardwareMap.get(DistanceSensor.class, "distance");
+        glyphDistance = hardwareMap.get(DistanceSensor.class, "glyphDistance");
     }
 
 
@@ -272,15 +276,10 @@ public class Aries {
         brakeMotors();
     }
 
-//    public void moveTray(int targetPosition){
-//        trayPivot.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        trayPivot.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        trayPivot.setPower(1);
-//        trayPivot.setTargetPosition(targetPosition);
-//        while(trayPivot.isBusy() && linearOpMode.opModeIsActive()){
-//
-//        }
-//    }
+
+
+
+
 
     public void moveRobot(double speed, int targetPostition,long timeInMilli){
 
@@ -325,6 +324,34 @@ public class Aries {
             return "blue";
         }
     }
+
+    public void meccanum(Aries robot, int targetPosition, double speed){
+        robot.setMotorMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.setMotorMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.fLeft.setPower(speed);
+        robot.bLeft.setPower(speed);
+        robot.fRight.setPower(speed);
+        robot.bRight.setPower(speed);
+
+        robot.fLeft.setTargetPosition(targetPosition);
+        robot.bLeft.setTargetPosition(-1*targetPosition);
+        robot.fRight.setTargetPosition(-1*targetPosition);
+        robot.bRight.setTargetPosition(targetPosition);
+
+        while(robot.fLeft.isBusy() &&robot.linearOpMode.opModeIsActive()){
+
+        }
+        robot.setDrivePower(0);
+
+    }
+
+
+
+
+
+
+
+
 
     public void goToCryptoBox(double power, double servoPosition){
         armServo.setPosition(servoPosition);
@@ -409,5 +436,130 @@ public class Aries {
 
         moveRobotInches(speed,distanceToTravel*12);
 
+    }
+
+    public void movetoCrypto(){
+        sleep(1000);
+        setMotorMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        fLeft.setPower(-0.7);
+        bLeft.setPower(0.7);
+        fRight.setPower(0.7);
+        bRight.setPower(-0.7);
+        while(distance.getDistance(DistanceUnit.CM)>9) {
+
+        }
+        setDrivePower(0);
+        cryptoServo.setPosition(0.5);
+    }
+
+    public void dumpTray(){
+        trayRight.setPosition(0.725);
+        trayLeft.setPosition(0.275);
+    }
+
+    public void multiplAutofinalTurn(double targetHeading,long timeInMilli){
+        targetHeading = Range.clip(targetHeading, -179, 179);
+
+        long startTime = SystemClock.elapsedRealtime();
+
+        this.setMotorMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        position = imu.getPosition();
+        angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        double startHeading = angles.firstAngle;
+        double maxAngle = startHeading - targetHeading;
+        maxAngle = Math.abs(maxAngle);
+
+        int sign = 0;
+        if(targetHeading > startHeading){
+            sign = 1;
+        }else{
+            sign = -1;
+        }
+        if(maxAngle == 0){
+            return;
+        }
+        while(linearOpMode.opModeIsActive()){
+            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+            double currentDeltatAngle = Math.abs(angles.firstAngle - startHeading);
+            double scaleFactor = currentDeltatAngle / maxAngle;
+            double absolutePower = 1-scaleFactor;
+
+            if(absolutePower< 0.01){
+                absolutePower = 0.01;
+            }
+            double power = absolutePower * sign;
+            if(scaleFactor > 1 || ((SystemClock.elapsedRealtime() - startTime) > timeInMilli)){
+                break;
+            }
+            fLeft.setPower(-power);
+            fRight.setPower(power);
+            bLeft.setPower(-power);
+            bRight.setPower(power);
+        }
+
+        setDrivePower(0);
+        this.setMotorMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
+    public void bringDownTray(){
+        trayRight.setPosition(0.12);
+        trayLeft.setPosition(0.88);
+    }
+
+    public void multiplyGlyphAuto(Aries robot, int maxDistance){
+        boolean ditched = false;
+        robot.setMotorMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        long startTIme = SystemClock.currentThreadTimeMillis();
+        while (Double.isNaN(robot.glyphDistance.getDistance(DistanceUnit.CM)) && robot.linearOpMode.opModeIsActive()) {
+            int currentFLeft = fLeft.getCurrentPosition();
+            robot.setMotorMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+            if(robot.fLeft.getCurrentPosition()>maxDistance){
+                ditched = true;
+                break;
+            }
+            robot.leftIntake.setPower(-0.7);
+            robot.rightIntake.setPower(-1);
+                robot.fLeft.setPower(0.2);
+                robot.bLeft.setPower(0.2);
+                robot.fRight.setPower(0.4);
+                robot.bRight.setPower(0.4);
+                sleep(200);
+                robot.fLeft.setPower(0.4);
+                robot.bLeft.setPower(0.4);
+                robot.fRight.setPower(0.2);
+                robot.bRight.setPower(0.2);
+                sleep(200);
+
+
+
+
+
+        }
+
+        robot.setMotorMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.setMotorMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.leftIntake.setPower(-1);
+        robot.rightIntake.setPower(-1);
+        sleep(250);
+        robot.leftIntake.setPower(1);
+        robot.rightIntake.setPower(1);
+        sleep(250);
+        robot.setDrivePower(0.5);
+
+        robot.fLeft.setTargetPosition(0);
+        robot.bLeft.setTargetPosition(0);
+        robot.fRight.setTargetPosition(0);
+        robot.bRight.setTargetPosition(0);
+        robot.leftIntake.setPower(-1);
+        robot.rightIntake.setPower(-1);
+
+
+        while(robot.fLeft.isBusy() &&robot.linearOpMode.opModeIsActive()){
+
+        }
+        robot.setDrivePower(0);
     }
 }
