@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
 
@@ -21,19 +22,18 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Red: Front", group="Linear Opmode")
+@Autonomous(name="Red: Back Multiple", group="Linear Opmode")
 //@Disabled
-public class AriesRedFront extends LinearOpMode {
+public class AriesRedBackMultiple extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
 
     @Override
     public void runOpMode() throws InterruptedException{
+        int moveAmount = 0;
         telemetry.addData("Status", "Initialized");
         telemetry.update();
-
-
 
         Aries robot = new Aries(hardwareMap,telemetry,this);
 
@@ -43,8 +43,7 @@ public class AriesRedFront extends LinearOpMode {
         waitForStart();
         runtime.reset();
         robot.intializeIMU();
-        int currentTurn = 0;
-        int distanceToLastCol = 0;
+
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             Pictograph pictograph = new Pictograph();
@@ -55,64 +54,44 @@ public class AriesRedFront extends LinearOpMode {
 
             robot.jewelArm();
 
-            robot.moveRobot(0.3, 900);
-            robot.moveRobot(0.25, 300);
-            robot.moveRobotInches(0.6, -9);
-            robot.moveRobotInches(0.4, 5.75);
-            robot.finalTurn(179);
+            robot.moveRobotInches(0.4, 24);
+            robot.moveRobotInches(0.5, -4);
+            sleep(1000);
+            robot.goToCryptoBox(0.1, 0.2);
 
-            robot.resetEncoders();
-            robot.meccanumWithWeirdReset(robot,307,0.5);
+            //Moves to right column
+            robot.moveRobotInches(0.25, 3.25);
 
-            //If not left, move to respective location
+            //If not right, move to respective location
             if(vuMark == RelicRecoveryVuMark.CENTER){
-                robot.meccanumWithWeirdReset(robot,346,0.5);
-                currentTurn = -1;
-
-                distanceToLastCol = 346;
+                robot.moveRobotInches(0.25, 6.75);
             }else if (vuMark == RelicRecoveryVuMark.LEFT) {
-                robot.meccanumWithWeirdReset(robot,346*2,0.5);
-            }else {
-
-                distanceToLastCol = 346*2;
+                robot.moveRobotInches(0.25, 6.75 * 2);
             }
 
-
+            robot.finalTurn(90, 7500);
+            //tray up
             robot.trayRight.setPosition(0.725);
-            robot.trayLeft.setPosition(0.225);
-            sleep(750);
-            robot.moveRobot(0.7, -200);
+            robot.trayLeft.setPosition(0.275);
+
+            sleep(1000);
+            robot.moveRobot(0.7, -300);
             robot.moveRobot(0.7, 100);
-            robot.bringDownTray();
-//            robot.meccanum(robot,distanceToLastCol,0.5);
 
+            //tray down
+            robot.trayRight.setPosition(0.12);
+            robot.trayLeft.setPosition(0.88);
 
-//            robot.finalTurn(150);
-//            robot.multiplyGlyphAuto(robot,2500,0.6);
-//            if(currentTurn!=0) {
-//                robot.finalTurn(currentTurn, 7500);
-//            }
-//
-//
-//            robot.finalTurn(179);
-//
-//            robot.trayRight.setPosition(0.725);
-//            robot.trayLeft.setPosition(0.225);
-//            sleep(750);
-//
-//            robot.moveRobot(0.7,-400);
-//
-//
-//            robot.moveRobot(0.7,300);
-//            robot.bringDownTray();
-//
-//            robot.finalTurn(179);
-//            robot.meccanum(robot,500,1);
-
-
-
-            //            robot.moveTray(3);
             sleep(1000000);
-        }
+            while (robot.glyphBackSensor.getDistance(DistanceUnit.CM) > 0) {
+                robot.leftIntake.setPower(1);
+                robot.rightIntake.setPower(1);
+                robot.moveRobotInches(1, 25);
+                moveAmount = robot.fLeft.getCurrentPosition();
+            }
+            robot.moveRobotInches(moveAmount, 1);
+            robot.trayRight.setPosition(0.725);
+            robot.trayLeft.setPosition(0.275);
+    }
     }
 }

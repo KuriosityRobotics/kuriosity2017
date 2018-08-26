@@ -44,9 +44,11 @@ public class AriesBlueFront extends LinearOpMode {
         waitForStart();
         runtime.reset();
         robot.intializeIMU();
-
+        int currentTurn = 0;
+        int distanceToLastCol = 0;
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
+
             Pictograph pictograph = new Pictograph();
 
             RelicRecoveryVuMark vuMark = pictograph.startInit(hardwareMap, 2000);
@@ -59,27 +61,61 @@ public class AriesBlueFront extends LinearOpMode {
             robot.moveRobot(0.25, -300);
             robot.moveRobotInches(0.6, 9);
             robot.moveRobotInches(0.4, -4.75);
-            robot.finalTurn(-90);
-            robot.moveRobotInches(0.4, 3);
-            sleep(1000);
-            robot.goToCryptoBox(-0.1, 0.35);
+
 
 
             //Moves to left column
-            robot.moveRobotInches(0.25, -3.25);
+            robot.resetEncoders();
+            robot.meccanumWithWeirdReset(robot,-307,0.5);
 
             //If not left, move to respective location
             if(vuMark == RelicRecoveryVuMark.CENTER){
-                robot.moveRobotInches(0.25, -6.75);
+                robot.meccanumWithWeirdReset(robot,-346,0.5);
+                currentTurn = -1;
+
+                distanceToLastCol = -346;
             }else if (vuMark == RelicRecoveryVuMark.RIGHT) {
-                robot.moveRobotInches(0.25, -6.75 * 2);
+                robot.meccanumWithWeirdReset(robot,-346*2,0.5);
+            }else {
+
+                distanceToLastCol = -346*2;
             }
 
-            robot.finalTurn(0, 7500);
-//            robot.moveTray(76);
-            robot.moveRobot(0.7, -300);
-            robot.moveRobot(0.7, 110);
-//            robot.moveTray(3);
+
+            robot.trayRight.setPosition(0.725);
+            robot.trayLeft.setPosition(0.225);
+            sleep(750);
+            robot.moveRobot(0.7, -200);
+            robot.moveRobot(0.7, 100);
+            robot.bringDownTray();
+            robot.meccanum(robot,distanceToLastCol,0.5);
+
+
+            robot.finalTurn(10);
+            robot.multiplyGlyphAuto(robot,2500,0.6);
+            if(currentTurn!=0) {
+                robot.finalTurn(currentTurn, 7500);
+            }
+
+
+            robot.finalTurn(0);
+
+            robot.trayRight.setPosition(0.725);
+            robot.trayLeft.setPosition(0.225);
+            sleep(750);
+
+            robot.moveRobot(0.7,-400);
+
+
+            robot.moveRobot(0.7,300);
+            robot.bringDownTray();
+
+            robot.finalTurn(0);
+            robot.meccanum(robot,500,1);
+
+
+
+            //            robot.moveTray(3);
             sleep(1000000);
         }
     }

@@ -73,6 +73,8 @@ public class Aries {
     public Servo relicClaw;
     public Servo relicPivot;
     public Servo cryptoServo;
+    public Servo leftTopStopper;
+    public Servo rightTopStopper;
 
     //Jewel arm color sensors
     public ColorSensor ballColor;
@@ -91,6 +93,10 @@ public class Aries {
     public Telemetry telemetry;
     public HardwareMap hardwareMap;
     public LinearOpMode linearOpMode;
+
+    //Tray Sensors
+    public DistanceSensor glyphFrontSensor;
+    public DistanceSensor glyphBackSensor;
 
     public Aries(HardwareMap hardwareMap, Telemetry telemetry,LinearOpMode linearOpMode){
 
@@ -143,7 +149,8 @@ public class Aries {
         trayRight = hardwareMap.servo.get("trayRight");
         relicClaw = hardwareMap.servo.get("relicClaw");
         relicPivot = hardwareMap.servo.get("relicPivot");
-        cryptoServo = hardwareMap.servo.get("cryptoServo");
+        leftTopStopper = hardwareMap.servo.get("leftTopStopper");
+        rightTopStopper = hardwareMap.servo.get("rightTopStopper");
 
 
         //Map jewel arm sensors
@@ -154,6 +161,9 @@ public class Aries {
         //Map cryptobox detector sensor
         distance = hardwareMap.get(DistanceSensor.class, "distance");
         glyphDistance = hardwareMap.get(DistanceSensor.class, "glyphDistance");
+
+        //Tray Sensors
+        glyphBackSensor = hardwareMap.get(DistanceSensor.class, "glyphBackSensor");
     }
 
 
@@ -345,6 +355,33 @@ public class Aries {
 
     }
 
+    public void meccanumWithWeirdReset(Aries robot, int targetPosition, double speed){
+        robot.fLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.bLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.bRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.fRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.setMotorMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.setMotorMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+
+        robot.fLeft.setPower(speed);
+        robot.bLeft.setPower(speed);
+        robot.fRight.setPower(speed);
+        robot.bRight.setPower(speed);
+
+        robot.fLeft.setTargetPosition(targetPosition);
+        robot.bLeft.setTargetPosition(-1*targetPosition);
+        robot.fRight.setTargetPosition(-1*targetPosition);
+        robot.bRight.setTargetPosition(targetPosition);
+        sleep(500);
+        while(robot.fLeft.isBusy() &&robot.linearOpMode.opModeIsActive()){
+
+        }
+        robot.setDrivePower(0);
+
+    }
+
 
 
 
@@ -399,7 +436,7 @@ public class Aries {
 
     public void goToCryptobox(double power, double servoPosition){
         this.armServo.setPosition(servoPosition);
-
+        sleep(500);
         //Start moving forward
         this.setMotorMode(DcMotor.RunMode.RUN_USING_ENCODER);
         setDrivePower(power);
@@ -412,7 +449,7 @@ public class Aries {
         this.armServo.setPosition(0);
     }
 
-    public boolean isCryptoBox(){ return !Double.isNaN(distance.getDistance(DistanceUnit.CM)); }
+    public boolean isCryptoBox(){ return !Double.isNaN(glyphBackSensor.getDistance(DistanceUnit.CM)); }
 
     public void autoNav(double speed, double x_start, double y_start, double x_end, double y_end){
         double distanceToTravel = 0;
@@ -505,37 +542,31 @@ public class Aries {
 
     public void bringDownTray(){
         trayRight.setPosition(0.12);
-        trayLeft.setPosition(0.88);
+        trayLeft.setPosition(0.7);
     }
 
-    public void multiplyGlyphAuto(Aries robot, int maxDistance){
-        boolean ditched = false;
+    public void multiplyGlyphAuto(Aries robot, int maxDistance,double powerBack){
+        robot.rightTopStopper.setPosition(0.2);
+        robot.leftTopStopper.setPosition(0.5);
         robot.setMotorMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        long startTIme = SystemClock.currentThreadTimeMillis();
         while (Double.isNaN(robot.glyphDistance.getDistance(DistanceUnit.CM)) && robot.linearOpMode.opModeIsActive()) {
-            int currentFLeft = fLeft.getCurrentPosition();
             robot.setMotorMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
             if(robot.fLeft.getCurrentPosition()>maxDistance){
-                ditched = true;
                 break;
             }
-            robot.leftIntake.setPower(-0.7);
+            robot.leftIntake.setPower(-0.8);
             robot.rightIntake.setPower(-1);
                 robot.fLeft.setPower(0.2);
                 robot.bLeft.setPower(0.2);
-                robot.fRight.setPower(0.4);
-                robot.bRight.setPower(0.4);
+                robot.fRight.setPower(0.7);
+                robot.bRight.setPower(0.7);
                 sleep(200);
-                robot.fLeft.setPower(0.4);
-                robot.bLeft.setPower(0.4);
+                robot.fLeft.setPower(0.7);
+                robot.bLeft.setPower(0.7);
                 robot.fRight.setPower(0.2);
                 robot.bRight.setPower(0.2);
                 sleep(200);
-
-
-
-
 
         }
 
@@ -547,7 +578,7 @@ public class Aries {
         robot.leftIntake.setPower(1);
         robot.rightIntake.setPower(1);
         sleep(250);
-        robot.setDrivePower(0.5);
+        robot.setDrivePower(powerBack);
 
         robot.fLeft.setTargetPosition(0);
         robot.bLeft.setTargetPosition(0);

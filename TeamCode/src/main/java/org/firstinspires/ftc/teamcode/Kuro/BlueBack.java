@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.teamcode.Aries.Pictograph;
-import org.firstinspires.ftc.teamcode.GlyphOpMode;
 
 
 /**
@@ -47,8 +46,6 @@ public class BlueBack extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             Pictograph pictograph = new Pictograph();
-            GlyphOpMode opMode = new GlyphOpMode();
-            opMode.init();
             RelicRecoveryVuMark vuMark = pictograph.startInit(hardwareMap, 2000);
             robot.closeClaws();
             robot.moveSlide(0.5, -850);

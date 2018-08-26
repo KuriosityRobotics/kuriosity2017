@@ -143,8 +143,9 @@ public class AriesMainTeleop extends LinearOpMode
 
             //Tray Operation
             if(gamepad2.dpad_up){
+
                 robot.trayRight.setPosition(0.28);
-                robot.trayLeft.setPosition(0.72);
+                robot.trayLeft.setPosition(0.575);
                 sleep(500);
                 robot.fLeft.setPower(0);
                 robot.bLeft.setPower(0);
@@ -163,15 +164,22 @@ public class AriesMainTeleop extends LinearOpMode
                 robot.bLeft.setPower(0);
                 robot.fRight.setPower(0);
                 robot.bRight.setPower(0);
-                sleep(500);
+                sleep(700);
                 robot.trayRight.setPosition(0.12);
-                robot.trayLeft.setPosition(0.88);
+                robot.trayLeft.setPosition(0.7);
+            }
 
+            if(gamepad2.right_bumper){
+                robot.rightTopStopper.setPosition(0.2);
+                robot.leftTopStopper.setPosition(0.5);
+            }else if(gamepad2.left_bumper){
+                robot.rightTopStopper.setPosition(0.55);
+                robot.leftTopStopper.setPosition(0.15);
             }
 
             if(gamepad2.x){
                 robot.trayRight.setPosition(0.725);
-                robot.trayLeft.setPosition(0.275);
+                robot.trayLeft.setPosition(0.225);
             }
 
             if(gamepad2.right_trigger>0){
@@ -196,17 +204,19 @@ public class AriesMainTeleop extends LinearOpMode
 
 
 
-
+            if(gamepad1.right_bumper){
+                robot.relicPivot.setPosition(1);
+            }
 
             if(gamepad1.a){
-                robot.relicClaw.setPosition(0.2);
+                robot.relicClaw.setPosition(0);
             }else if(gamepad1.x && gamepad1.right_bumper){
                 robot.relicClaw.setPosition(1);
             }else if(gamepad1.x){
-                robot.relicClaw.setPosition(1);
+                robot.relicClaw.setPosition(0.4);
                 sleep(500);
-                robot.relicSlide.setPower(-1);
-                sleep(750);
+//                robot.relicSlide.setPower(-1);
+//                sleep(750);
             }
             // double currentPosition = Math.abs(Math.abs(robot.relicSlide.getCurrentPosition())-origin);
             // if(currentPosition >100 && currentPosition <300 && !gamepad2.b && !gamepad1.right_bumper) {
@@ -218,10 +228,10 @@ public class AriesMainTeleop extends LinearOpMode
             // }
 
             if(gamepad2.y){
-                robot.relicPivot.setPosition(0.4);
+                robot.relicPivot.setPosition(0.675);
 
             }else if(gamepad2.b) {
-                robot.relicPivot.setPosition(0.4575);
+                robot.relicPivot.setPosition(0.325);
             }
 
             if(gamepad2.dpad_left){
@@ -243,7 +253,9 @@ public class AriesMainTeleop extends LinearOpMode
             telemetry.addData("relicSlide",robot.relicSlide.getCurrentPosition());
             telemetry.addData("relicPivot", robot.relicPivot.getPosition());
             telemetry.addData("relicPivot", robot.relicPivot.getPosition());
-            telemetry.addData("cryptservo",robot.cryptoServo.getPosition());
+            telemetry.addData("LeftTopStopper", robot.leftTopStopper.getPosition());
+            telemetry.addData("rightTopStopper", robot.rightTopStopper.getPosition());
+
 
 //            telemetry.addData("Tray position", robot.trayPivot.getCurrentPosition());
             telemetry.update();
