@@ -14,9 +14,9 @@ import org.opencv.core.Mat;
  */
 
 public abstract class OpenCVPipeline implements CvCameraViewListener2 {
-    static {
-        System.loadLibrary("opencv_java3");
-    }
+//    static {
+//        System.loadLibrary("opencv_java3");
+//    }
     private JavaCameraView cameraView;
     private Context context;
     private boolean initStarted = false;
