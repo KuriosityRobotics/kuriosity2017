@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.OpenCVTesting;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -22,7 +23,7 @@ import org.opencv.core.Mat;
 
 import java.util.*;
 
-@TeleOp(name="Distance Keeper", group="Linear Opmode")
+@Autonomous(name="Distance Keeper", group="Linear Opmode")
 public class DistanceKeeper extends LinearOpMode {
     public DcMotor fLeft;
     public DcMotor fRight;
@@ -38,17 +39,34 @@ public class DistanceKeeper extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        intializeIMU();
+        telemetry.addData("Status", "Initialized");
+        telemetry.update();
+//        fLeft = hardwareMap.dcMotor.get("fLeft");
+//        fRight = hardwareMap.dcMotor.get("fRight");
+//        bLeft = hardwareMap.dcMotor.get("bLeft");
+//        bRight = hardwareMap.dcMotor.get("bRight");
 
-        fLeft = hardwareMap.dcMotor.get("fLeft");
-        fRight = hardwareMap.dcMotor.get("fRight");
-        bLeft = hardwareMap.dcMotor.get("bLeft");
-        bRight = hardwareMap.dcMotor.get("bRight");
-
+        telemetry.addData("Status2", "Initialized");
+        telemetry.update();
         waitForStart();
         runtime.reset();
+        telemetry.addData("Status3", "Initialized");
+        telemetry.update();
+        intializeIMU();
+        telemetry.addData("Status4", "Initialized");
+        telemetry.update();
+        SquareDetect sqd = new SquareDetect();
+        telemetry.addData("Status5", "Initialized");
+        telemetry.update();
+        sqd.init(hardwareMap.appContext);
+        telemetry.addData("Status6", "Initialized");
+        telemetry.update();
+        sqd.enable();
+        telemetry.addData("Status7", "Initialized");
+        telemetry.update();
         while (opModeIsActive()){
             telemetry.addData("Dist", dist);
+            telemetry.update();
         }
     }
 
@@ -68,7 +86,7 @@ public class DistanceKeeper extends LinearOpMode {
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
     }
 
-    static class SquareDetect extends OpenCVPipeline{
+    class SquareDetect extends OpenCVPipeline{
         @Override
         public Mat processFrame(Mat rgba, Mat gray) {
             List<MatOfPoint> contours = new ArrayList<>();

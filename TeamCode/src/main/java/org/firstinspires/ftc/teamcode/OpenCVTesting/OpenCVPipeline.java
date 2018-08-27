@@ -48,7 +48,7 @@ public abstract class OpenCVPipeline implements CvCameraViewListener2 {
     //TODO: allow other JavaCameraViews to be used, with the stipulation that they must already be instantiated from a UI thread
 
     /**
-     * Attaches the underlying JavaCameraView to the screen and the camera using the set {@link ViewDisplay} to do so, essentially starting OpenCV processing.
+     * Attaches the underlying JavaCameraView to the screen and the camera using the set to do so, essentially starting OpenCV processing.
      * This function must be called after init().
      * @throws IllegalStateException if enable() is called before init()
      */

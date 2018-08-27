@@ -12,8 +12,6 @@
 apply from: '../build.common.gradle'
 dependencies {
     compile project(':openCVLibrary320')
-    compile project(':DogeCV')
 }
 android {
-    buildToolsVersion '27.0.3'
 }
